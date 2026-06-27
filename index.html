@@ -184,7 +184,7 @@
 
         .announcement-bar {
             background: #959191;
-            color: rgba(255,255,255,0.85);
+            color: rgba(255, 255, 255, 0.85);
             text-align: center;
             height: 40px;
             font-size: 0.65rem;
@@ -197,7 +197,7 @@
             z-index: 80;
             position: relative;
             box-sizing: border-box;
-            border-bottom: 1px solid rgba(255,255,255,0.08);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .sticky-header {
@@ -716,9 +716,10 @@
             height: 100%;
         }
 
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 18px 42px rgba(15, 15, 15, 0.1);
+        .product-card:hover,
+        .product-card.reveal.visible:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 42px rgba(15, 15, 15, 0.12);
         }
 
         .product-image {
@@ -893,6 +894,14 @@
             overflow: hidden;
             border-radius: 16px;
             min-height: 260px;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 10px 28px rgba(15, 15, 15, 0.06);
+        }
+
+        .collection-card:hover,
+        .collection-card.reveal.visible:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 18px 42px rgba(15, 15, 15, 0.12);
         }
 
         .collection-card img {
@@ -945,8 +954,8 @@
             overflow: hidden;
             white-space: nowrap;
             padding: 0;
-            border-top: 1px solid rgba(255,255,255,0.06);
-            border-bottom: 1px solid rgba(255,255,255,0.06);
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .marquee-track {
@@ -959,8 +968,13 @@
         }
 
         @keyframes marquee-scroll {
-            from { transform: translateX(0); }
-            to   { transform: translateX(-50%); }
+            from {
+                transform: translateX(0);
+            }
+
+            to {
+                transform: translateX(-50%);
+            }
         }
 
         .marquee-item {
@@ -972,7 +986,7 @@
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: 0.28em;
-            color: rgba(255,255,255,0.75);
+            color: rgba(255, 255, 255, 0.75);
             white-space: nowrap;
             flex-shrink: 0;
         }
@@ -981,15 +995,341 @@
             width: 5px;
             height: 5px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.3);
+            background: rgba(255, 255, 255, 0.3);
             flex-shrink: 0;
         }
 
-        /* --- TRUST BAR --- */
+        /* --- OUR STORY SECTION --- */
+        .story-section {
+            background: linear-gradient(135deg, #0d0d0d 0%, #171717 100%);
+            padding: 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-section::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), transparent 34%);
+            pointer-events: none;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1.02fr 0.98fr;
+            min-height: 560px;
+            align-items: stretch;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.24);
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 900px) {
+            .story-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .story-image {
+            position: relative;
+            overflow: hidden;
+            min-height: 440px;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .story-image::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.34) 100%);
+            pointer-events: none;
+        }
+
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+            position: absolute;
+            inset: 0;
+            transform: scale(1.05);
+        }
+
+        .story-image:hover img {
+            transform: scale(1.08);
+        }
+
+        .story-image-badge {
+            position: absolute;
+            left: 24px;
+            bottom: 24px;
+            z-index: 2;
+            padding: 10px 14px;
+            background: rgba(255, 255, 255, 0.14);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 999px;
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+        }
+
+        .story-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: clamp(40px, 6vw, 84px);
+            background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.01));
+            color: #fff;
+            gap: 18px;
+        }
+
+        .story-content .eyebrow {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        .story-title {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4.5vw, 3.6rem);
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            line-height: 1.0;
+            color: #fff;
+            margin: 0;
+        }
+
+        .story-text {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.72);
+            max-width: 500px;
+            margin: 0;
+        }
+
+        .story-highlights {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 4px;
+            max-width: 560px;
+        }
+
+        .story-highlight {
+            padding: 12px 14px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(10px);
+        }
+
+        .story-highlight strong {
+            display: block;
+            color: #fff;
+            font-size: 0.74rem;
+            letter-spacing: 0.2em;
+            margin-bottom: 4px;
+        }
+
+        .story-highlight span {
+            color: rgba(255, 255, 255, 0.68);
+            font-size: 0.84rem;
+            line-height: 1.4;
+        }
+
+        .story-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 8px;
+            padding: 14px 26px;
+            background: #fff;
+            color: #000;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            border-radius: 999px;
+            align-self: flex-start;
+            transition: background 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+            box-shadow: 0 12px 24px rgba(255, 255, 255, 0.12);
+        }
+
+        .story-btn:hover {
+            background: #e8e8e8;
+            transform: translateY(-2px);
+            box-shadow: 0 16px 30px rgba(255, 255, 255, 0.16);
+        }
+
+        @media (max-width: 700px) {
+            .story-highlights {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* --- REVEAL ANIMATIONS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.75s cubic-bezier(0.16,1,0.3,1), transform 0.75s cubic-bezier(0.16,1,0.3,1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-48px);
+            transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
+        }
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(48px);
+            transition: opacity 0.85s cubic-bezier(0.16,1,0.3,1), transform 0.85s cubic-bezier(0.16,1,0.3,1);
+        }
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        /* stagger delays */
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.22s; }
+        .delay-3 { transition-delay: 0.36s; }
+        .delay-4 { transition-delay: 0.52s; }
+
+        /* Story image zoom on reveal */
+        .story-image img {
+            transition: transform 1.1s cubic-bezier(0.16,1,0.3,1);
+            transform: scale(1.06);
+        }
+        .reveal-left.visible .story-image img,
+        .story-image.reveal-left.visible img {
+            transform: scale(1);
+        }
+
+        .promo-banner {
+            padding: 1rem 0 2rem;
+            margin-bottom: 2.5rem;
+            background: transparent;
+        }
+
+        .promo-grid {
+            display: grid;
+            gap: 1rem;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            align-items: stretch;
+        }
+
+        .promo-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            min-height: 220px;
+            padding: 2rem 2rem 3rem;
+            border-radius: 1rem;
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(15, 15, 15, 0.08);
+        }
+
+        .promo-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
+            pointer-events: none;
+        }
+
+        .promo-card--dark {
+            background: radial-gradient(circle at top left, #111, #171717);
+            color: #fff;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+        }
+
+        .promo-card--soft {
+            background: linear-gradient(180deg, #f8f8f6 0%, #ffffff 100%);
+            color: #111;
+            box-shadow: 0 20px 60px rgba(15, 15, 15, 0.08);
+        }
+
+        .promo-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.24em;
+            text-transform: uppercase;
+            margin: 0 0 0.75rem;
+            opacity: 0.8;
+        }
+
+        .promo-title {
+            font-size: clamp(1.45rem, 2vw, 2.2rem);
+            line-height: 1.1;
+            margin: 0 0 0.75rem;
+        }
+
+        .promo-copy {
+            margin: 0 0 1.5rem;
+            line-height: 1.7;
+            color: inherit;
+            opacity: 0.85;
+            max-width: 12rem;
+        }
+
+        .promo-card--dark .promo-copy {
+            opacity: 0.75;
+        }
+
+        .promo-action {
+            align-self: flex-start;
+            padding: 0.95rem 1.6rem;
+            border-radius: 999px;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            background: rgba(255, 255, 255, 0.95);
+            color: #111;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            z-index: 1;
+        }
+
+        .promo-card--dark .promo-action {
+            background: #fff;
+            color: #111;
+        }
+
+        .promo-card--soft .promo-action {
+            background: #111;
+            color: #fff;
+        }
+
+        .promo-action:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 14px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        @media (max-width: 900px) {
+            .promo-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
         .trust-bar {
             background: #0a0a0a;
-            border-top: 1px solid rgba(255,255,255,0.07);
-            border-bottom: 1px solid rgba(255,255,255,0.07);
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
         }
 
         .trust-inner {
@@ -1009,7 +1349,7 @@
             align-items: center;
             gap: 14px;
             padding: 22px 28px;
-            border-right: 1px solid rgba(255,255,255,0.07);
+            border-right: 1px solid rgba(255, 255, 255, 0.07);
         }
 
         .trust-item:last-child {
@@ -1020,11 +1360,13 @@
             .trust-item:nth-child(2) {
                 border-right: none;
             }
+
             .trust-item:nth-child(3) {
-                border-top: 1px solid rgba(255,255,255,0.07);
+                border-top: 1px solid rgba(255, 255, 255, 0.07);
             }
+
             .trust-item:nth-child(4) {
-                border-top: 1px solid rgba(255,255,255,0.07);
+                border-top: 1px solid rgba(255, 255, 255, 0.07);
                 border-right: none;
             }
         }
@@ -1046,7 +1388,7 @@
 
         .trust-sub {
             font-size: 0.7rem;
-            color: rgba(255,255,255,0.48);
+            color: rgba(255, 255, 255, 0.48);
             margin: 0;
         }
 
@@ -1246,6 +1588,95 @@
         @media (prefers-reduced-motion: reduce) {
             * {
                 transition: none !important;
+            }
+        }
+
+        .story-section {
+            background: #f6f2ee;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 0;
+            background: #f8f4ef;
+            border-radius: 0;
+            overflow: hidden;
+            box-shadow: var(--soft-shadow);
+            min-height: 300px;
+        }
+
+        .story-image {
+            min-height: 100%;
+            background: #d8d0c6;
+        }
+
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        .story-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 32px 28px;
+            background: #f8f4ef;
+        }
+
+        .story-title {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3vw, 3rem);
+            line-height: 1;
+            font-weight: 800;
+            letter-spacing: -0.05em;
+            margin: 12px 0 14px;
+            color: #111;
+        }
+
+        .story-text {
+            font-size: 0.98rem;
+            line-height: 1.7;
+            color: rgba(17, 17, 17, 0.72);
+            max-width: 360px;
+            margin: 0 0 18px;
+        }
+
+        .story-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 42px;
+            padding: 0 18px;
+            border-radius: 3px;
+            background: #000;
+            color: #fff;
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            width: fit-content;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .story-btn:hover {
+            opacity: 0.85;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 767px) {
+            .story-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .story-image {
+                min-height: 240px;
+            }
+
+            .story-content {
+                padding: 24px 20px;
             }
         }
     </style>
@@ -1488,6 +1919,42 @@
                 <div class="collection-grid" id="collectionGrid"></div>
             </div>
         </section>
+        <section class="section-space story-section" id="story">
+            <div class="page-shell">
+                <div class="story-grid">
+                    <div class="story-image reveal-left">
+                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80"
+                            alt="EKKVASTRA story" />
+                        <div class="story-image-badge">Since 2024</div>
+                    </div>
+
+                    <div class="story-content">
+                        <div class="eyebrow reveal-right delay-1">Our Story</div>
+                        <h2 class="story-title reveal-right delay-2">MORE THAN CLOTHING.</h2>
+                        <p class="story-text reveal-right delay-3">
+                            EKKVASTRA is built for the new generation. We blend sharp tailoring,
+                            cultural energy, and premium craftsmanship to create streetwear that feels
+                            bold, timeless, and unmistakably personal.
+                        </p>
+                        <div class="story-highlights reveal-right delay-3">
+                            <div class="story-highlight">
+                                <strong>01</strong>
+                                <span>Crafted with intention</span>
+                            </div>
+                            <div class="story-highlight">
+                                <strong>02</strong>
+                                <span>Premium fabrics &amp; finish</span>
+                            </div>
+                            <div class="story-highlight">
+                                <strong>03</strong>
+                                <span>Designed for everyday edge</span>
+                            </div>
+                        </div>
+                        <a href="#about" class="story-btn reveal-right delay-4">LEARN MORE</a>
+                    </div>
+                </div>
+            </div>
+        </section>
 
 
 
@@ -1504,12 +1971,33 @@
             </div>
         </section>
 
+        <section class="promo-banner section-space">
+            <div class="page-shell">
+                <div class="promo-grid reveal">
+                    <div class="promo-card promo-card--dark">
+                        <p class="promo-label">Limited Time Offer</p>
+                        <h3 class="promo-title">Flat 20% Off on Your First Order</h3>
+                        <p class="promo-copy">Use code <strong>FIRST20</strong> at checkout.</p>
+                        <a href="#shop" class="promo-action">Shop Now</a>
+                    </div>
+                    <div class="promo-card promo-card--soft">
+                        <p class="promo-label">Buy 2 Get 1 Free</p>
+                        <h3 class="promo-title">Add 3 items to cart &amp; get 1 free</h3>
+                        <p class="promo-copy">Stock up on favorites with this limited bundle offer.</p>
+                        <a href="#shop" class="promo-action">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
         <!-- Trust Bar -->
         <section class="trust-bar">
             <div class="trust-inner page-shell">
                 <div class="trust-item">
-                    <svg class="trust-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="8" r="4"/><path d="M6 20v-1a6 6 0 0 1 12 0v1"/>
+                    <svg class="trust-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
+                        stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="8" r="4" />
+                        <path d="M6 20v-1a6 6 0 0 1 12 0v1" />
                     </svg>
                     <div>
                         <p class="trust-label">Premium Quality</p>
@@ -1517,8 +2005,10 @@
                     </div>
                 </div>
                 <div class="trust-item">
-                    <svg class="trust-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/>
+                    <svg class="trust-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
+                        stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                        <polyline points="9 22 9 12 15 12 15 22" />
                     </svg>
                     <div>
                         <p class="trust-label">Easy Returns</p>
@@ -1526,8 +2016,10 @@
                     </div>
                 </div>
                 <div class="trust-item">
-                    <svg class="trust-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                    <svg class="trust-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
+                        stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                        <path d="M7 11V7a5 5 0 0 1 10 0v4" />
                     </svg>
                     <div>
                         <p class="trust-label">Secure Payment</p>
@@ -1535,8 +2027,12 @@
                     </div>
                 </div>
                 <div class="trust-item">
-                    <svg class="trust-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
-                        <rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/>
+                    <svg class="trust-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
+                        stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="1" y="3" width="15" height="13" />
+                        <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                        <circle cx="5.5" cy="18.5" r="2.5" />
+                        <circle cx="18.5" cy="18.5" r="2.5" />
                     </svg>
                     <div>
                         <p class="trust-label">Fast Delivery</p>
@@ -1804,20 +2300,71 @@
         );
 
         const header = document.getElementById("siteHeader");
-        const revealEls = document.querySelectorAll(".reveal");
+        const revealEls = document.querySelectorAll(".reveal, .reveal-left, .reveal-right");
 
         function onScrollHeader() {
             if (window.scrollY > 12) header.classList.add("scrolled");
             else header.classList.remove("scrolled");
         }
 
+        // Auto-tag elements for reveal animations
+        function setupReveal() {
+            // Hero image — fade in from right
+            const heroImg = document.querySelector(".hero-image");
+            if (heroImg) heroImg.classList.add("reveal-right");
+
+            // Section heads (already have .reveal from HTML) — just ensure them
+            document.querySelectorAll(".product-grid-head, .collection-head").forEach(el => {
+                if (!el.classList.contains("reveal")) el.classList.add("reveal");
+            });
+
+            // Product cards — stagger up
+            document.querySelectorAll("#newArrivalsGrid .product-card, #bestSellersGrid .product-card").forEach((el, i) => {
+                el.classList.add("reveal");
+                el.style.transitionDelay = (i * 0.07) + "s";
+            });
+
+            // Collection cards — stagger up
+            document.querySelectorAll("#collectionGrid .collection-card").forEach((el, i) => {
+                el.classList.add("reveal");
+                el.style.transitionDelay = (i * 0.1) + "s";
+            });
+
+            // Trust bar items — stagger up
+            document.querySelectorAll(".trust-item").forEach((el, i) => {
+                el.classList.add("reveal");
+                el.style.transitionDelay = (i * 0.1) + "s";
+            });
+
+            // Footer sections — fade up with stagger
+            document.querySelectorAll(".footer-grid > div").forEach((el, i) => {
+                el.classList.add("reveal");
+                el.style.transitionDelay = (i * 0.08) + "s";
+            });
+
+            // Footer bottom bar
+            const footerBottom = document.querySelector(".footer-bottom");
+            if (footerBottom) footerBottom.classList.add("reveal");
+
+            // Marquee strip — fade in
+            const marquee = document.querySelector(".marquee-strip");
+            if (marquee) marquee.classList.add("reveal");
+        }
+
+        // Run after grids are populated
+        setupReveal();
+
         const io = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
-                if (entry.isIntersecting) entry.target.classList.add("visible");
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    io.unobserve(entry.target);
+                }
             });
-        }, { threshold: 0.12 });
+        }, { threshold: 0.1 });
 
-        revealEls.forEach(el => io.observe(el));
+        // Observe all reveal elements (including newly tagged ones)
+        document.querySelectorAll(".reveal, .reveal-left, .reveal-right").forEach(el => io.observe(el));
 
         window.addEventListener("scroll", onScrollHeader);
         onScrollHeader();
