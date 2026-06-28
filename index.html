@@ -1237,12 +1237,47 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
-            min-height: 220px;
-            padding: 2rem 2rem 3rem;
+            min-height: 240px;
+            padding: 2.2rem 2.5rem 3.2rem;
             border-radius: 1rem;
             overflow: hidden;
             position: relative;
-            border: 1px solid rgba(15, 15, 15, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .promo-card > *:not(.promo-bg):not(.promo-overlay):not(.promo-overlay-split) {
+            position: relative;
+            z-index: 2;
+        }
+
+        .promo-bg {
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .promo-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .promo-card:hover .promo-bg img {
+            transform: scale(1.08);
+        }
+
+        .promo-overlay {
+            position: absolute;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .promo-card--dark .promo-overlay {
+            background: linear-gradient(135deg, rgba(17, 17, 17, 0.85) 0%, rgba(17, 17, 17, 0.6) 100%);
         }
 
         .promo-card::after {
@@ -1251,18 +1286,159 @@
             inset: 0;
             background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0));
             pointer-events: none;
+            z-index: 3;
         }
 
         .promo-card--dark {
-            background: radial-gradient(circle at top left, #111, #171717);
+            background: #0d0d0d;
             color: #fff;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.22);
         }
 
-        .promo-card--soft {
-            background: linear-gradient(180deg, #f8f8f6 0%, #ffffff 100%);
-            color: #111;
-            box-shadow: 0 20px 60px rgba(15, 15, 15, 0.08);
+        /* Centered Promo Layout */
+        .promo-card--centered {
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            background: #0a0a0a !important;
+        }
+
+        .promo-card--centered .promo-label {
+            font-size: 0.72rem;
+            color: rgba(255, 255, 255, 0.5);
+            letter-spacing: 0.22em;
+            margin: 0 0 0.6rem 0;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
+
+        .promo-title-large {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3.2vw, 2.7rem);
+            font-weight: 800;
+            letter-spacing: 0.05em;
+            color: #fff;
+            margin: 0 0 0.3rem 0;
+            line-height: 1;
+            text-transform: uppercase;
+        }
+
+        .promo-subtitle {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.16em;
+            color: rgba(255, 255, 255, 0.8);
+            margin: 0 0 1.6rem 0;
+            text-transform: uppercase;
+            line-height: 1.4;
+        }
+
+        .promo-code-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.8rem 2.2rem;
+            border: 1.5px solid rgba(255, 255, 255, 0.45);
+            color: #fff;
+            background: transparent;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            border-radius: 2px;
+            margin-bottom: 1.1rem;
+        }
+
+        .promo-code-btn:hover {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 255, 255, 0.15);
+        }
+
+        .promo-disclaimer {
+            font-size: 0.55rem;
+            color: rgba(255, 255, 255, 0.35);
+            letter-spacing: 0.1em;
+            margin: 0;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+
+        /* Split Promo Layout */
+        .promo-card--split {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            background: #0d0d0d !important;
+            padding: 2.2rem 3rem !important;
+        }
+
+        .promo-card--split .promo-bg {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 45%;
+            width: 55%;
+            z-index: 0;
+        }
+
+        .promo-overlay-split {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, #0d0d0d 0%, #0d0d0d 42%, rgba(13, 13, 13, 0.5) 72%, rgba(13, 13, 13, 0.1) 100%);
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .promo-split-content {
+            position: relative;
+            z-index: 2;
+            width: 48%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+
+        .promo-card--split .promo-title-large {
+            margin-bottom: 0.3rem;
+        }
+
+        .promo-card--split .promo-subtitle {
+            margin-bottom: 1.4rem;
+        }
+
+        .promo-card--split .promo-code-btn {
+            margin-bottom: 0;
+        }
+
+        @media (max-width: 767px) {
+            .promo-card--split {
+                flex-direction: column;
+                justify-content: center;
+                padding: 3rem 2rem !important;
+                text-align: center;
+            }
+
+            .promo-card--split .promo-bg {
+                left: 0;
+                width: 100%;
+                opacity: 0.45;
+            }
+
+            .promo-overlay-split {
+                background: linear-gradient(180deg, rgba(13, 13, 13, 0.88) 0%, rgba(13, 13, 13, 0.65) 100%);
+            }
+
+            .promo-split-content {
+                width: 100%;
+            }
         }
 
         .promo-label {
@@ -1318,6 +1494,66 @@
         .promo-action:hover {
             transform: translateY(-2px);
             box-shadow: 0 14px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .promo-card.reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .promo-card.reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .promo-card.reveal.visible:hover {
+            transform: translateY(-8px) scale(1.02);
+        }
+
+        .promo-card.reveal.visible.promo-card--dark:hover {
+            box-shadow: 0 32px 64px rgba(0, 0, 0, 0.28);
+        }
+
+        .promo-card.reveal.visible.promo-card--soft:hover {
+            box-shadow: 0 32px 64px rgba(15, 15, 15, 0.16);
+        }
+
+        .promo-action,
+        .btn-primary,
+        .btn-secondary,
+        .story-btn,
+        .icon-btn {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            pointer-events: none;
+            background: rgba(255, 255, 255, 0.5);
+            animation: ripple-effect 0.5s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+        }
+
+        .promo-card--dark .promo-action .ripple,
+        .btn-secondary .ripple,
+        .story-btn .ripple,
+        .icon-btn .ripple,
+        .promo-code-btn .ripple {
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        @keyframes ripple-effect {
+            from {
+                transform: scale(0);
+                opacity: 0.45;
+            }
+            to {
+                transform: scale(2.5);
+                opacity: 0;
+            }
         }
 
         @media (max-width: 900px) {
@@ -1401,13 +1637,13 @@
         }
 
         .footer-top {
-            padding: 56px 0;
+            padding: 40px 0;
         }
 
         .footer-grid {
             display: grid;
-            gap: 40px;
-            padding-bottom: 48px;
+            gap: 32px;
+            padding-bottom: 32px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
@@ -1696,37 +1932,8 @@
 
             <nav class="nav-links" aria-label="Primary">
                 <a href="#new-arrivals" class="active">New Arrivals</a>
-                <div class="nav-item-dropdown">
-                    <a href="#shop" class="dropdown-trigger">
-                        Shop
-                        <svg class="chevron-icon" viewBox="0 0 24 24" width="10" height="10" fill="none"
-                            stroke="currentColor" stroke-width="2.5">
-                            <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a href="#shop">All Products</a>
-                        <a href="#shop">Hoodies</a>
-                        <a href="#shop">T-Shirts</a>
-                        <a href="#shop">Bottoms</a>
-                        <a href="#shop">Accessories</a>
-                    </div>
-                </div>
-                <div class="nav-item-dropdown">
-                    <a href="#collections" class="dropdown-trigger">
-                        Collections
-                        <svg class="chevron-icon" viewBox="0 0 24 24" width="10" height="10" fill="none"
-                            stroke="currentColor" stroke-width="2.5">
-                            <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                    </a>
-                    <div class="dropdown-menu">
-                        <a href="#collections">Oversized</a>
-                        <a href="#collections">Graphic Tees</a>
-                        <a href="#collections">Essentials</a>
-                        <a href="#collections">Summer Drop</a>
-                    </div>
-                </div>
+                <a href="shop.html">Shop</a>
+                <a href="#collections">Collections</a>
                 <a href="#best-sellers">Best Sellers</a>
                 <a href="#about">About Us</a>
             </nav>
@@ -1795,7 +2002,7 @@
 
                 <div class="drawer-links">
                     <a href="#new-arrivals">New Arrivals</a>
-                    <a href="#shop">Shop</a>
+                    <a href="shop.html">Shop</a>
                     <a href="#collections">Collections</a>
                     <a href="#best-sellers">Best Sellers</a>
                     <a href="#about">About Us</a>
@@ -1845,7 +2052,7 @@
                     <p class="copy" id="heroText">Quiet luxury streetwear designed to feel sharp and effortless.</p>
 
                     <div class="hero-actions">
-                        <a href="#shop" class="btn-primary">Shop Now</a>
+                        <a href="shop.html" class="btn-primary">Shop Now</a>
                         <a href="#collections" class="btn-secondary">Explore Collection</a>
                     </div>
 
@@ -1904,7 +2111,7 @@
                         <div class="eyebrow">New Arrivals</div>
                         <h2 class="title-md" style="margin-top:12px;">New Arrivals</h2>
                     </div>
-                    <a href="#shop" class="btn-secondary">View All</a>
+                    <a href="shop.html" class="btn-secondary">View All</a>
                 </div>
                 <div class="product-grid" id="newArrivalsGrid"></div>
             </div>
@@ -1965,7 +2172,7 @@
                         <div class="eyebrow">Best Sellers</div>
                         <h2 class="title-md" style="margin-top:12px;">Best Sellers</h2>
                     </div>
-                    <a href="#shop" class="btn-secondary">View All</a>
+                    <a href="shop.html" class="btn-secondary">View All</a>
                 </div>
                 <div class="product-grid" id="bestSellersGrid"></div>
             </div>
@@ -1974,17 +2181,27 @@
         <section class="promo-banner section-space">
             <div class="page-shell">
                 <div class="promo-grid reveal">
-                    <div class="promo-card promo-card--dark">
+                    <div class="promo-card promo-card--dark promo-card--centered reveal delay-1">
+                        <div class="promo-bg">
+                            <img src="ekkvastra_front_print_tee.png" alt="EKKVASTRA Front Print Tee" loading="lazy" />
+                        </div>
+                        <div class="promo-overlay"></div>
                         <p class="promo-label">Limited Time Offer</p>
-                        <h3 class="promo-title">Flat 20% Off on Your First Order</h3>
-                        <p class="promo-copy">Use code <strong>FIRST20</strong> at checkout.</p>
-                        <a href="#shop" class="promo-action">Shop Now</a>
+                        <h2 class="promo-title-large">FLAT 20% OFF</h2>
+                        <p class="promo-subtitle">ON YOUR FIRST ORDER</p>
+                        <a href="shop.html" class="promo-action promo-code-btn">USE CODE: FIRST20</a>
+                        <p class="promo-disclaimer">*T&C Apply</p>
                     </div>
-                    <div class="promo-card promo-card--soft">
-                        <p class="promo-label">Buy 2 Get 1 Free</p>
-                        <h3 class="promo-title">Add 3 items to cart &amp; get 1 free</h3>
-                        <p class="promo-copy">Stock up on favorites with this limited bundle offer.</p>
-                        <a href="#shop" class="promo-action">Shop Now</a>
+                    <div class="promo-card promo-card--dark promo-card--split reveal delay-2">
+                        <div class="promo-bg">
+                            <img src="ekkvastra_back_print_tee.png" alt="EKKVASTRA Back Print Tee" loading="lazy" />
+                        </div>
+                        <div class="promo-overlay-split"></div>
+                        <div class="promo-split-content">
+                            <h2 class="promo-title-large">BUY 2 GET 1 FREE</h2>
+                            <p class="promo-subtitle">ADD 3 ITEMS TO CART<br>&amp; GET 1 FREE</p>
+                            <a href="shop.html" class="promo-action promo-code-btn">SHOP NOW</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -2238,7 +2455,7 @@
                             <div class="small">Collection</div>
                             <h3>${col.title}</h3>
                         </div>
-                        <a href="#shop" class="btn-secondary" style="border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.12);color:#fff;min-height:40px;height:40px;padding:0 16px;font-size:.8rem;line-height:1;width:100%;">Shop Now</a>
+                        <a href="shop.html" class="btn-secondary" style="border-color:rgba(255,255,255,.2);background:rgba(255,255,255,.12);color:#fff;min-height:40px;height:40px;padding:0 16px;font-size:.8rem;line-height:1;width:100%;">Shop Now</a>
                     </div>
                 </article>
             `;
@@ -2298,6 +2515,25 @@
                 mobileDrawer.setAttribute("aria-hidden", "true");
             })
         );
+
+        function createRipple(event) {
+            const target = event.currentTarget;
+            const rect = target.getBoundingClientRect();
+            const size = Math.max(rect.width, rect.height) * 1.2;
+            const ripple = document.createElement("span");
+            const x = event.clientX - rect.left - size / 2;
+            const y = event.clientY - rect.top - size / 2;
+            ripple.className = "ripple";
+            ripple.style.width = ripple.style.height = `${size}px`;
+            ripple.style.left = `${x}px`;
+            ripple.style.top = `${y}px`;
+            target.appendChild(ripple);
+            ripple.addEventListener("animationend", () => ripple.remove());
+        }
+
+        document.querySelectorAll(".promo-action, .btn-primary, .btn-secondary, .story-btn, .icon-btn").forEach((button) => {
+            button.addEventListener("click", createRipple);
+        });
 
         const header = document.getElementById("siteHeader");
         const revealEls = document.querySelectorAll(".reveal, .reveal-left, .reveal-right");
