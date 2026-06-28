@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wishlist | EKKVASTRA | Premium Streetwear</title>
+    <meta name="description" content="Your saved favourites — EKKVASTRA wishlist." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+        :root {
+            --bg: #0a0a0a;
+            --surface: #121212;
+            --border: #222;
+            --text: #f0f0f0;
+            --muted: #888;
+            --accent: #fff;
+            --red: #e53935;
+        }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+        }
+
+        /* ── ANNOUNCEMENT BAR ── */
+        .announcement-bar {
+            background: #111;
+            color: #ccc;
+            text-align: center;
+            font-size: 0.72rem;
+            letter-spacing: 0.14em;
+            padding: 9px 16px;
+            font-weight: 500;
+        }
+
+        /* ── HEADER ── */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(10,10,10,0.92);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            transition: box-shadow 0.3s;
+        }
+        .sticky-header.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.4); }
+        .header-inner {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+        .logo { text-decoration: none; display: flex; align-items: center; gap: 10px; }
+        .logo-text { font-size: 1.15rem; font-weight: 900; letter-spacing: 0.18em; color: #fff; }
+        .nav-links { display: flex; gap: 28px; margin-left: auto; }
+        .nav-links a {
+            text-decoration: none; font-size: 0.82rem; font-weight: 500;
+            color: #aaa; letter-spacing: 0.06em; transition: color 0.2s;
+        }
+        .nav-links a:hover, .nav-links a.active { color: #fff; }
+        .nav-actions { display: flex; align-items: center; gap: 4px; }
+        .icon-btn {
+            background: none; border: none; cursor: pointer;
+            padding: 8px; border-radius: 8px;
+            color: #aaa; transition: color 0.2s, background 0.2s;
+            display: flex; align-items: center; justify-content: center;
+            position: relative;
+        }
+        .icon-btn:hover { color: #fff; background: rgba(255,255,255,0.06); }
+        .cart-icon-wrap { position: relative; display: flex; align-items: center; }
+        .cart-badge {
+            position: absolute; top: -6px; right: -6px;
+            background: #fff; color: #000;
+            font-size: 0.55rem; font-weight: 800;
+            width: 16px; height: 16px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .wishlist-badge {
+            position: absolute; top: -6px; right: -6px;
+            background: var(--red); color: #fff;
+            font-size: 0.55rem; font-weight: 800;
+            min-width: 16px; height: 16px; border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            padding: 0 3px;
+        }
+        .mobile-menu-btn { display: none; }
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .mobile-menu-btn { display: flex; }
+        }
+
+        /* ── MOBILE DRAWER ── */
+        .mobile-drawer {
+            display: none; position: fixed; inset: 0; z-index: 200;
+            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+        }
+        .mobile-drawer.open { display: flex; }
+        .drawer-panel {
+            background: #111; width: min(320px, 90vw); height: 100%;
+            padding: 24px; display: flex; flex-direction: column; gap: 24px;
+            animation: slideIn 0.3s ease;
+        }
+        @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+        .drawer-top { display: flex; justify-content: space-between; align-items: center; }
+        .drawer-nav { display: flex; flex-direction: column; gap: 4px; }
+        .drawer-nav a {
+            text-decoration: none; color: #ccc; font-size: 1rem;
+            font-weight: 600; padding: 10px 0; border-bottom: 1px solid #222;
+        }
+        .drawer-nav a:hover { color: #fff; }
+
+        /* ── PAGE CONTENT ── */
+        .page-wrapper { max-width: 1400px; margin: 0 auto; padding: 40px 24px 80px; }
+
+        /* ── BREADCRUMB ── */
+        .breadcrumb {
+            display: flex; gap: 8px; align-items: center;
+            font-size: 0.78rem; color: var(--muted);
+            margin-bottom: 32px;
+        }
+        .breadcrumb a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
+        .breadcrumb a:hover { color: var(--text); }
+        .breadcrumb span { color: var(--text); font-weight: 600; }
+
+        /* ── HEADING ── */
+        .wishlist-header {
+            display: flex; align-items: baseline; gap: 12px;
+            margin-bottom: 36px;
+        }
+        .wishlist-header h1 {
+            font-size: clamp(1.6rem, 4vw, 2.4rem);
+            font-weight: 900; letter-spacing: -0.02em; color: #fff;
+        }
+        .wishlist-count-label {
+            font-size: 0.85rem; color: var(--muted); font-weight: 500;
+        }
+
+        /* ── PRODUCT GRID ── */
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        @media (max-width: 1100px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px)  { .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+        @media (max-width: 480px)  { .product-grid { grid-template-columns: 1fr; } }
+
+        /* ── CARD ── */
+        .product-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+        }
+        .product-image {
+            position: relative; overflow: hidden;
+            aspect-ratio: 3/4; background: #1a1a1a;
+        }
+        .product-image img {
+            position: absolute; inset: 0; width: 100%; height: 100%;
+            object-fit: cover; transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .product-image .hover-img { opacity: 0; }
+        .product-card:hover .default-img { opacity: 0; transform: scale(1.04); }
+        .product-card:hover .hover-img { opacity: 1; transform: scale(1.04); }
+
+        .remove-btn {
+            position: absolute; top: 12px; right: 12px;
+            width: 34px; height: 34px; border-radius: 50%;
+            border: 0; background: rgba(229,57,53,0.15);
+            display: grid; place-items: center; z-index: 2;
+            cursor: pointer; color: var(--red);
+            transition: transform 0.15s ease, background 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .remove-btn:hover { transform: scale(1.12); background: rgba(229,57,53,0.3); }
+        .remove-btn svg { pointer-events: none; }
+
+        .product-info { padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 6px; }
+        .product-category { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
+        .product-name { font-size: 0.9rem; font-weight: 700; color: #e8e8e8; line-height: 1.3; }
+        .product-price { font-size: 1rem; font-weight: 800; color: #fff; }
+
+        .add-to-bag {
+            width: 100%; margin-top: 8px; padding: 10px;
+            background: #fff; color: #000;
+            border: none; border-radius: 8px;
+            font-size: 0.78rem; font-weight: 800;
+            letter-spacing: 0.08em; cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+        }
+        .add-to-bag:hover { background: #e8e8e8; transform: translateY(-1px); }
+
+        /* ── EMPTY STATE ── */
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center; padding: 80px 24px;
+            display: flex; flex-direction: column; align-items: center; gap: 20px;
+        }
+        .empty-icon {
+            width: 72px; height: 72px; border-radius: 50%;
+            background: #1a1a1a; border: 1px solid #333;
+            display: flex; align-items: center; justify-content: center;
+            color: #555;
+        }
+        .empty-state h2 { font-size: 1.4rem; font-weight: 800; color: #e0e0e0; }
+        .empty-state p { color: var(--muted); font-size: 0.9rem; max-width: 340px; line-height: 1.6; }
+        .btn-shop {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: #fff; color: #000;
+            padding: 13px 28px; border-radius: 999px;
+            font-size: 0.82rem; font-weight: 800; letter-spacing: 0.08em;
+            text-decoration: none; transition: background 0.2s, transform 0.15s;
+        }
+        .btn-shop:hover { background: #e8e8e8; transform: translateY(-2px); }
+
+        /* ── REVEAL ANIMATIONS ── */
+        .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">FREE SHIPPING ON ORDERS ABOVE ₹999 &nbsp;|&nbsp; USE CODE: EKKDROP10 FOR 10% OFF</div>
+
+    <!-- Sticky Header -->
+    <header class="sticky-header" id="siteHeader">
+        <div class="header-inner">
+            <a href="index.html" class="logo" aria-label="EKKVASTRA home">
+                <span class="logo-text">EKKVASTRA</span>
+            </a>
+
+            <nav class="nav-links" aria-label="Primary">
+                <a href="index.html#new-arrivals">New Arrivals</a>
+                <a href="shop.html">Shop</a>
+                <a href="index.html#collections">Collections</a>
+                <a href="index.html#best-sellers">Best Sellers</a>
+                <a href="index.html#about">About Us</a>
+            </nav>
+
+            <div class="nav-actions">
+                <button class="icon-btn" aria-label="Search">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="M20 20l-3.5-3.5" stroke-linecap="round"></path>
+                    </svg>
+                </button>
+                <button class="icon-btn" aria-label="Account">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M20 21a8 8 0 0 0-16 0" stroke-linecap="round"></path>
+                        <circle cx="12" cy="8" r="4"></circle>
+                    </svg>
+                </button>
+                <a href="wishlist.html" class="icon-btn" aria-label="Wishlist" style="color:#e53935;">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="#e53935" stroke="#e53935" stroke-width="1.8">
+                        <path d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                    <span class="wishlist-badge" id="navWishlistBadge" style="display:none;">0</span>
+                </a>
+                <button class="icon-btn" aria-label="Shopping Bag">
+                    <div class="cart-icon-wrap">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M6 7h12l-1 13H7L6 7z" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M9 7a3 3 0 0 1 6 0" stroke-linecap="round"></path>
+                        </svg>
+                        <span class="cart-badge">2</span>
+                    </div>
+                </button>
+            </div>
+
+            <button class="icon-btn mobile-menu-btn" id="menuBtn" aria-label="Open menu">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+        <div class="drawer-panel">
+            <div class="drawer-top">
+                <span class="logo-text" style="color:#fff;">EKKVASTRA</span>
+                <button class="icon-btn" id="closeBtn" aria-label="Close menu" style="color:#fff;">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"></path>
+                    </svg>
+                </button>
+            </div>
+            <nav class="drawer-nav">
+                <a href="index.html#new-arrivals">New Arrivals</a>
+                <a href="shop.html">Shop</a>
+                <a href="index.html#collections">Collections</a>
+                <a href="index.html#best-sellers">Best Sellers</a>
+                <a href="index.html#about">About Us</a>
+                <a href="wishlist.html" style="color:#e53935;">❤ Wishlist</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="page-wrapper">
+        <!-- Breadcrumb -->
+        <nav class="breadcrumb" aria-label="Breadcrumb">
+            <a href="index.html">Home</a>
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+            <span>Wishlist</span>
+        </nav>
+
+        <!-- Header -->
+        <div class="wishlist-header">
+            <h1>My Wishlist</h1>
+            <span class="wishlist-count-label" id="wishlistCountLabel">0 items</span>
+        </div>
+
+        <!-- Grid -->
+        <div class="product-grid" id="wishlistGrid">
+            <!-- populated by JS -->
+        </div>
+    </main>
+
+    <script>
+        const STORAGE_KEY = 'ekkvastra_wishlist';
+
+        function getWishlist() {
+            try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
+            catch { return []; }
+        }
+
+        function saveWishlist(items) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+        }
+
+        function removeItem(id) {
+            let items = getWishlist().filter(p => p.id !== id);
+            saveWishlist(items);
+            renderGrid();
+            updateNavBadge();
+        }
+
+        function updateNavBadge() {
+            const items = getWishlist();
+            const badge = document.getElementById('navWishlistBadge');
+            if (items.length > 0) {
+                badge.textContent = items.length;
+                badge.style.display = 'flex';
+            } else {
+                badge.style.display = 'none';
+            }
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('wishlistGrid');
+            const items = getWishlist();
+            const label = document.getElementById('wishlistCountLabel');
+            label.textContent = items.length === 1 ? '1 item' : `${items.length} items`;
+
+            if (items.length === 0) {
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5">
+                                <path d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
+                        <h2>Your wishlist is empty</h2>
+                        <p>Browse our collections and tap the ❤ icon on any product to save it here.</p>
+                        <a href="shop.html" class="btn-shop">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+                            Shop Now
+                        </a>
+                    </div>`;
+                return;
+            }
+
+            grid.innerHTML = items.map((p, i) => `
+                <article class="product-card reveal" style="transition-delay:${i * 0.06}s;">
+                    <div class="product-image">
+                        <img class="default-img" src="${p.image}" alt="${p.name}" loading="lazy" />
+                        <img class="hover-img" src="${p.hoverImage || p.image}" alt="${p.name}" loading="lazy" />
+                        <button class="remove-btn" onclick="removeItem('${p.id}')" aria-label="Remove from wishlist" title="Remove">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2">
+                                <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="product-info">
+                        <div class="product-category">${p.category || ''}</div>
+                        <div class="product-name">${p.name}</div>
+                        <div class="product-price">₹${p.price}</div>
+                        <button class="add-to-bag" onclick="addToBag('${p.id}')">ADD TO BAG</button>
+                    </div>
+                </article>
+            `).join('');
+
+            // Animate cards
+            requestAnimationFrame(() => {
+                const io = new IntersectionObserver(entries => {
+                    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+                }, { threshold: 0.1 });
+                document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+            });
+        }
+
+        function addToBag(id) {
+            const badge = document.querySelector('.cart-badge');
+            if (badge) badge.textContent = parseInt(badge.textContent || 0) + 1;
+            const item = getWishlist().find(p => p.id === id);
+            if (item) alert(`"${item.name}" added to bag!`);
+        }
+
+        // Mobile menu
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileDrawer = document.getElementById('mobileDrawer');
+        const closeBtn = document.getElementById('closeBtn');
+        const header = document.getElementById('siteHeader');
+
+        menuBtn.addEventListener('click', () => { mobileDrawer.classList.add('open'); });
+        closeBtn.addEventListener('click', () => { mobileDrawer.classList.remove('open'); });
+        mobileDrawer.addEventListener('click', e => { if (e.target === mobileDrawer) mobileDrawer.classList.remove('open'); });
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 12);
+        });
+
+        // Init
+        renderGrid();
+        updateNavBadge();
+    </script>
+</body>
+</html>

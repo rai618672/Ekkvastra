@@ -396,6 +396,32 @@
             border-color: rgba(255, 255, 255, 0.3);
         }
 
+        /* Wishlist nav link */
+        .nav-wishlist-btn {
+            position: relative;
+            text-decoration: none;
+        }
+        .nav-wishlist-badge {
+            display: none;
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #e53935;
+            color: #fff;
+            font-size: 0.5rem;
+            font-weight: 800;
+            min-width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            padding: 0 3px;
+            line-height: 1;
+        }
+        .nav-wishlist-badge.visible {
+            display: flex;
+        }
+
         .cart-icon-wrap {
             position: relative;
         }
@@ -1139,7 +1165,7 @@
         .product-image {
             position: relative;
             overflow: hidden;
-            height: 320px;
+            height: 220px;
             background: #161616;
         }
 
@@ -1170,35 +1196,51 @@
             position: absolute;
             top: 14px;
             right: 14px;
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
             border: 0;
-            background: rgba(18, 18, 18, 0.7);
+            background: rgba(18, 18, 18, 0.75);
             backdrop-filter: blur(8px);
             -webkit-backdrop-filter: blur(8px);
             display: grid;
             place-items: center;
             z-index: 2;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            transition: transform 0.3s ease, background 0.3s ease, color 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.15s ease, background 0.2s ease, color 0.2s ease;
             color: #fff;
         }
 
         .wishlist:hover {
-            transform: scale(1.1);
+            transform: scale(1.12);
             background: #fff;
             color: #000;
         }
 
+        .wishlist svg {
+            transition: fill 0.2s, stroke 0.2s;
+            pointer-events: none;
+        }
+
         .wishlist.active {
-            color: #d11a2a;
+            background: rgba(229, 57, 53, 0.15);
+            color: #e53935;
         }
 
         .wishlist.active svg {
-            fill: #d11a2a;
-            stroke: #d11a2a;
+            fill: #e53935;
+            stroke: #e53935;
+        }
+
+        @keyframes wishlist-pop {
+            0%   { transform: scale(1); }
+            40%  { transform: scale(1.35); }
+            70%  { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+        .wishlist.pop {
+            animation: wishlist-pop 0.35s ease forwards;
         }
 
         .badge {
@@ -1217,12 +1259,29 @@
         }
 
         .product-info {
-            padding: 18px;
+            padding: 12px 14px 14px;
             display: flex;
             flex-direction: column;
-            gap: 12px;
+            gap: 6px;
             flex-grow: 1;
             position: relative;
+        }
+
+        /* pushes sizes + colors + add-cart to the bottom */
+        .card-top-section {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .card-bottom-section {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-top: 6px;
+            border-top: 1px solid rgba(255,255,255,0.06);
+            margin-top: 2px;
         }
 
         .product-top {
@@ -1233,19 +1292,19 @@
         }
 
         .product-category {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             color: var(--muted);
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-bottom: 4px;
+            margin-bottom: 2px;
         }
 
         .product-name {
             margin: 0;
-            font-size: 0.95rem;
+            font-size: 0.82rem;
             font-weight: 700;
-            line-height: 1.3;
+            line-height: 1.25;
             letter-spacing: -0.01em;
             color: var(--ink);
         }
@@ -1257,8 +1316,8 @@
         }
 
         .product-price {
-            font-size: 1.05rem;
-            font-weight: 850;
+            font-size: 0.88rem;
+            font-weight: 800;
             white-space: nowrap;
             color: var(--ink);
         }
@@ -1290,18 +1349,18 @@
             gap: 6px;
             flex-wrap: wrap;
             align-items: center;
-            margin-top: 4px;
+            margin-top: 0;
         }
 
         .size {
-            min-width: 26px;
-            height: 26px;
-            border-radius: 6px;
+            min-width: 22px;
+            height: 22px;
+            border-radius: 5px;
             border: 1px solid var(--border);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.65rem;
+            font-size: 0.6rem;
             font-weight: 700;
             color: var(--muted);
             background: var(--panel-soft);
@@ -1312,7 +1371,7 @@
             gap: 8px;
             flex-wrap: wrap;
             align-items: center;
-            margin-top: 4px;
+            margin-top: 0;
         }
 
         .color {
@@ -1324,23 +1383,21 @@
         }
 
         .add-cart {
-            position: absolute;
-            right: 18px;
-            bottom: 18px;
+            align-self: flex-end;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            width: 40px;
-            height: 40px;
+            width: 32px;
+            height: 32px;
             border-radius: 50%;
             border: 1.5px solid var(--border);
             background: #121212;
             color: #fff;
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
         }
 
         .add-cart:hover {
@@ -1725,14 +1782,15 @@
                         <circle cx="12" cy="8" r="4"></circle>
                     </svg>
                 </button>
-                <button class="icon-btn" aria-label="Wishlist">
+                <a href="wishlist.html" class="icon-btn nav-wishlist-btn" aria-label="Wishlist" id="navWishlistBtn">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
                         stroke-width="1.8">
                         <path
                             d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z"
                             stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg>
-                </button>
+                    <span id="navWishlistBadge" class="nav-wishlist-badge">0</span>
+                </a>
                 <button class="icon-btn" aria-label="Shopping Bag">
                     <div class="cart-icon-wrap">
                         <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
@@ -2614,36 +2672,79 @@
                     <div class="product-image">
                         <img class="default-img" src="${p.image}" alt="${p.name}" loading="lazy" />
                         <img class="hover-img" src="${p.hoverImage}" alt="${p.name} alternate" loading="lazy" />
-                        <button class="wishlist" aria-label="Add to Wishlist" onclick="toggleWishlist(event, this)">
+                        <button class="wishlist" aria-label="Add to Wishlist" onclick="toggleWishlist(event, this)" data-product="${encodeURIComponent(JSON.stringify({ id: String(p.id), name: p.name, category: p.category, price: p.price.toLocaleString('en-IN'), image: p.image, hoverImage: p.hoverImage }))}">
                             ${heartIcon(16)}
                         </button>
                         ${p.badge ? `<span class="badge">${p.badge}</span>` : ""}
                         ${!p.inStock ? `<span class="badge" style="background:#8b0000;">Sold Out</span>` : ""}
                     </div>
                     <div class="product-info">
-                        <div>
-                            <div class="product-category">${p.category}</div>
-                            <h3 class="product-name">${p.name}</h3>
-                        </div>
-                        <div class="product-top">
-                            ${starsHtml}
-                            <div class="product-pricing-wrap">
-                                <div class="product-price">₹${p.price.toLocaleString("en-IN")}</div>
-                                ${p.oldPrice ? `<div class="old-price">₹${p.oldPrice.toLocaleString("en-IN")}</div>` : ""}
+                        <div class="card-top-section">
+                            <div>
+                                <div class="product-category">${p.category}</div>
+                                <h3 class="product-name">${p.name}</h3>
+                            </div>
+                            <div class="product-top">
+                                ${starsHtml}
+                                <div class="product-pricing-wrap">
+                                    <div class="product-price">₹${p.price.toLocaleString("en-IN")}</div>
+                                    ${p.oldPrice ? `<div class="old-price">₹${p.oldPrice.toLocaleString("en-IN")}</div>` : ""}
+                                </div>
                             </div>
                         </div>
-                        <div class="sizes">${p.sizes.map(s => `<span class="size">${s}</span>`).join("")}</div>
-                        <div class="colors">${p.colors.map(c => `<span class="color" style="background:${c}"></span>`).join("")}</div>
-                        <button class="add-cart" aria-label="Quick Add" onclick="quickAddCart(event, ${p.id})">+</button>
+                        <div class="card-bottom-section">
+                            <div class="sizes">${p.sizes.map(s => `<span class="size">${s}</span>`).join("")}</div>
+                            <div class="colors">${p.colors.map(c => `<span class="color" style="background:${c}"></span>`).join("")}</div>
+                            <button class="add-cart" aria-label="Quick Add" onclick="quickAddCart(event, ${p.id})">+</button>
+                        </div>
                     </div>
                 </article>
             `;
+        }
+
+        // ── WISHLIST localStorage helpers ──
+        const WL_KEY = 'ekkvastra_wishlist';
+        function getWishlist() { try { return JSON.parse(localStorage.getItem(WL_KEY)) || []; } catch { return []; } }
+        function saveWishlist(items) { localStorage.setItem(WL_KEY, JSON.stringify(items)); }
+        function updateWishlistBadge() {
+            const items = getWishlist();
+            const badge = document.getElementById('navWishlistBadge');
+            if (!badge) return;
+            badge.textContent = items.length;
+            badge.classList.toggle('visible', items.length > 0);
+        }
+        function restoreWishlistStates() {
+            const ids = getWishlist().map(p => String(p.id));
+            document.querySelectorAll('.wishlist[data-product]').forEach(btn => {
+                try {
+                    const p = JSON.parse(decodeURIComponent(btn.dataset.product));
+                    if (ids.includes(String(p.id))) btn.classList.add('active');
+                } catch {}
+            });
         }
 
         // Toggle wishlist heart fill
         function toggleWishlist(e, btn) {
             e.stopPropagation();
             btn.classList.toggle('active');
+            // Persist to localStorage
+            try {
+                const p = JSON.parse(decodeURIComponent(btn.dataset.product));
+                let wl = getWishlist();
+                const idx = wl.findIndex(item => String(item.id) === String(p.id));
+                if (btn.classList.contains('active')) {
+                    if (idx === -1) wl.push(p);
+                } else {
+                    if (idx !== -1) wl.splice(idx, 1);
+                }
+                saveWishlist(wl);
+                updateWishlistBadge();
+            } catch {}
+            // Pop bounce animation
+            btn.classList.remove('pop');
+            void btn.offsetWidth; // force reflow to restart animation
+            btn.classList.add('pop');
+            btn.addEventListener('animationend', () => btn.classList.remove('pop'), { once: true });
         }
 
         // Quick add action handler
@@ -2982,6 +3083,10 @@
 
             // Run initial filters and display
             applyFiltersAndSort();
+
+            // Restore wishlist state from localStorage
+            restoreWishlistStates();
+            updateWishlistBadge();
 
             // Setup ripple events
             document.querySelectorAll(".shop-hero-btn, .reset-filters-btn, .load-more-btn, .icon-btn, .btn-secondary").forEach((button) => {
