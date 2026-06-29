@@ -1,0 +1,1090 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EKKVASTRA - Authentic Streetwear | About Us</title>
+    <meta name="description" content="Discover the story, brand values, and culture behind EKKVASTRA. Redefining premium, raw streetwear.">
+    
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="search-overlay.css" />
+
+    <style>
+        /* --- DESIGN SYSTEM TOKENS --- */
+        :root {
+            --bg: #000000;
+            --panel: #0d0d0d;
+            --panel-light: #161616;
+            --border: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.2);
+            --ink: #ffffff;
+            --ink-muted: rgba(255, 255, 255, 0.6);
+            --ink-subtle: rgba(255, 255, 255, 0.35);
+            --accent: #ffffff;
+            --font-main: "Inter", sans-serif;
+            --font-display: "Poppins", sans-serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: var(--font-main);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--ink);
+            overflow-x: hidden;
+        }
+
+        /* --- UTILITIES & LAYOUT --- */
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* --- ANNOUNCEMENT BAR --- */
+        .announcement-bar {
+            background: var(--ink);
+            color: var(--bg);
+            text-align: center;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.2em;
+            padding: 10px 0;
+            text-transform: uppercase;
+        }
+
+        /* --- HEADER & NAVIGATION --- */
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+        .sticky-header.scrolled {
+            padding: 8px 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+        }
+        .header-inner {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 72px;
+        }
+        .logo {
+            text-decoration: none;
+            color: var(--ink);
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 900;
+            letter-spacing: 0.22em;
+        }
+        .nav-links {
+            display: none;
+            gap: 32px;
+        }
+        @media (min-width: 1024px) {
+            .nav-links { display: flex; }
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--ink-muted);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            transition: color 0.25s ease;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--ink);
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .icon-btn {
+            background: transparent;
+            border: none;
+            color: var(--ink);
+            cursor: pointer;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            position: relative;
+            transition: all 0.25s ease;
+            border: 1px solid transparent;
+        }
+        .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--border-hover);
+        }
+
+        /* --- HERO --- */
+        .about-hero {
+            padding: 100px 0 60px;
+            text-align: center;
+        }
+        .about-hero h1 {
+            font-family: var(--font-display);
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
+        .about-hero p {
+            color: var(--ink-muted);
+            font-size: clamp(1rem, 2.5vw, 1.25rem);
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+
+        /* --- STORY SECTION --- */
+        .story-block {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 48px;
+            padding: 60px 0 80px;
+            align-items: center;
+        }
+        @media (min-width: 1024px) {
+            .story-block {
+                grid-template-columns: 1fr 1.1fr;
+            }
+        }
+        .story-img-wrap {
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            background: var(--panel);
+            position: relative;
+            aspect-ratio: 4/5;
+        }
+        .story-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0.85;
+            transition: transform 0.6s ease;
+        }
+        .story-img-wrap:hover img {
+            transform: scale(1.04);
+        }
+        .story-text-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+        .story-text-wrap .eyebrow {
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.2em;
+            color: var(--ink-muted);
+            text-transform: uppercase;
+        }
+        .story-text-wrap h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 2.8rem);
+            font-weight: 900;
+            line-height: 1.2;
+            letter-spacing: -0.01em;
+        }
+        .story-text-wrap p {
+            color: var(--ink-muted);
+            line-height: 1.7;
+            font-size: 0.98rem;
+        }
+
+        /* --- STATS GRID --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            padding: 40px 0 80px;
+        }
+        @media (min-width: 768px) {
+            .stats-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        .stat-card {
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 32px 24px;
+            background: var(--panel);
+            text-align: center;
+        }
+        .stat-number {
+            font-family: var(--font-display);
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            color: var(--ink);
+            margin-bottom: 8px;
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.15em;
+            color: var(--ink-muted);
+            text-transform: uppercase;
+        }
+
+        /* --- VALUES SECTION --- */
+        .values-section {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+        }
+        .values-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .values-header h2 {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: -0.01em;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+        .values-header p {
+            color: var(--ink-muted);
+            font-size: 0.95rem;
+        }
+        .values-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+        @media (min-width: 768px) {
+            .values-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        .value-card {
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 40px 32px;
+            background: var(--panel);
+            transition: all 0.3s ease;
+        }
+        .value-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-4px);
+        }
+        .value-icon {
+            width: 52px;
+            height: 52px;
+            border-radius: 12px;
+            background: var(--panel-light);
+            border: 1px solid var(--border);
+            display: grid;
+            place-items: center;
+            color: var(--ink);
+            margin-bottom: 24px;
+        }
+        .value-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 800;
+            letter-spacing: 0.02em;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+        .value-card p {
+            color: var(--ink-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* --- CTA CARD --- */
+        .about-cta-section {
+            padding: 40px 0 100px;
+        }
+        .cta-card {
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 80px 32px;
+            background: radial-gradient(circle at top right, #111111, #000000);
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 28px;
+        }
+        .cta-card h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 3rem);
+            font-weight: 900;
+            letter-spacing: -0.01em;
+            text-transform: uppercase;
+        }
+        .cta-card p {
+            color: var(--ink-muted);
+            font-size: 1rem;
+            max-width: 500px;
+            line-height: 1.6;
+        }
+        .cta-btn {
+            background: var(--ink);
+            color: var(--bg);
+            border: 1px solid var(--ink);
+            padding: 18px 44px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 0.18em;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-transform: uppercase;
+            text-decoration: none;
+        }
+        .cta-btn:hover {
+            background: transparent;
+            color: var(--ink);
+        }
+
+        /* --- FOOTER --- */
+        .footer {
+            border-top: 1px solid var(--border);
+            padding: 60px 0 40px;
+            background: var(--panel);
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (min-width: 1280px) {
+            .footer-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+        .footer-brand h2 {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 900;
+            letter-spacing: 0.22em;
+            margin-bottom: 16px;
+        }
+        .footer-brand p {
+            color: var(--ink-muted);
+            font-size: 0.8rem;
+            line-height: 1.6;
+        }
+        .footer-col h3 {
+            font-family: var(--font-display);
+            font-size: 0.8rem;
+            font-weight: 800;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin-bottom: 24px;
+        }
+        .footer-links {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .footer-links a {
+            text-decoration: none;
+            color: var(--ink-muted);
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+        .footer-links a:hover {
+            color: var(--ink);
+        }
+        .newsletter-form {
+            display: flex;
+            gap: 8px;
+            margin-top: 16px;
+        }
+        .newsletter-input {
+            flex: 1;
+            background: var(--panel-light);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--ink);
+            padding: 10px 14px;
+            font-size: 0.8rem;
+            outline: none;
+        }
+        .newsletter-input:focus {
+            border-color: var(--ink);
+        }
+        .newsletter-btn {
+            background: var(--ink);
+            color: var(--bg);
+            border: 1px solid var(--ink);
+            padding: 0 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            transition: all 0.2s ease;
+        }
+        .newsletter-btn:hover {
+            background: transparent;
+            color: var(--ink);
+        }
+        .footer-bottom {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+            flex-wrap: wrap;
+            gap: 20px;
+            color: var(--ink-subtle);
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+        .footer-bottom a {
+            color: var(--ink-subtle);
+            text-decoration: none;
+            margin-left: 20px;
+        }
+        .footer-bottom a:hover {
+            color: var(--ink);
+        }
+        /* --- TOAST NOTIFICATIONS --- */
+        .toast-container {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            pointer-events: none;
+        }
+        .toast {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            color: var(--ink);
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: auto;
+        }
+        .toast.show {
+            transform: translateX(0);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        FREE SHIPPING ON ORDERS OVER ₹1499 | EASY 14-DAY RETURNS | COD AVAILABLE
+    </div>
+
+    <!-- Sticky Header -->
+    <header class="sticky-header" id="siteHeader">
+        <div class="container">
+            <div class="header-inner">
+                <a href="index.html" class="logo" aria-label="EKKVASTRA home">EKKVASTRA</a>
+                
+                <nav class="nav-links">
+                    <a href="index.html#new-arrivals">New Arrivals</a>
+                    <a href="shop.html">Shop</a>
+                    <a href="index.html#collections">Collections</a>
+                    <a href="CONTACT.html">Contact Us</a>
+                    <a href="ABOUT.html" class="active">About Us</a>
+                </nav>
+
+                <div class="nav-actions">
+                    <button class="icon-btn" aria-label="Search">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <circle cx="11" cy="11" r="7"></circle>
+                            <path d="M20 20l-3.5-3.5" stroke-linecap="round"></path>
+                        </svg>
+                    </button>
+                    <a href="LOGIN.html" class="icon-btn" aria-label="Account">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M20 21a8 8 0 0 0-16 0" stroke-linecap="round"></path>
+                            <circle cx="12" cy="8" r="4"></circle>
+                        </svg>
+                    </a>
+                    <a href="wishlist.html" class="icon-btn" aria-label="Wishlist">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z" stroke-linecap="round" stroke-linejoin="round"></path>
+                        </svg>
+                    </a>
+                    <a href="cart.html" class="icon-btn" aria-label="Shopping Bag">
+                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M6 7h12l-1 13H7L6 7z" stroke-linecap="round" stroke-linejoin="round"></path>
+                            <path d="M9 7a3 3 0 0 1 6 0" stroke-linecap="round"></path>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+        <!-- Hero Section -->
+        <section class="about-hero">
+            <h1>ABOUT US</h1>
+            <p>EKKVASTRA is an independent streetwear design studio engineering premium, raw, oversized garments crafted for modern subcultures.</p>
+        </section>
+
+        <!-- Our Origin Section -->
+        <section class="story-block">
+            <div class="story-img-wrap">
+                <img src="ekkvastra_back_print_tee.png" alt="Ekkvastra Back Print Tee">
+            </div>
+            <div class="story-text-wrap">
+                <span class="eyebrow">OUR ORIGIN</span>
+                <h2>ESTABLISHED IN BENGALURU, 2024</h2>
+                <p>EKKVASTRA was born out of a frustration with flimsy, fast-fashion basics. We wanted structured garments that hold their shape. Heavyweight fabrics that feel substantial. Fits that drape perfectly, with sizing optimized for drop-shoulder aesthetics.</p>
+                <p>Every piece we create is designed from scratch in our local studio, built from custom heavyweight cotton blends, pre-shrunk, and custom-dyed. We represent a commitment to slow, deliberate drops over mass production.</p>
+            </div>
+        </section>
+
+        <!-- Premium Stats -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number">50K+</div>
+                <div class="stat-label">Units Shipped</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">100%</div>
+                <div class="stat-label">Premium Cotton</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">400 GSM</div>
+                <div class="stat-label">Maximum Weight</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number">15+</div>
+                <div class="stat-label">Exclusive Drops</div>
+            </div>
+        </section>
+
+        <!-- Brand Values -->
+        <section class="values-section">
+            <div class="values-header">
+                <h2>CORE BRAND VALUES</h2>
+                <p>The rules we live by when designing streetwear culture.</p>
+            </div>
+
+            <div class="values-grid">
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                    </div>
+                    <h3>QUALITY FIRST</h3>
+                    <p>We source only high-grade, long-staple cotton fibers. Our hoodies use 380-400 GSM fleece, and our tees use 240 GSM combed cotton. Built to endure.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    </div>
+                    <h3>UNISEX CUTS</h3>
+                    <p>Designed with versatile, drop-shoulder silhouettes. Relaxed chests, boxy crops, and broad armholes engineered to look spectacular on all body types.</p>
+                </div>
+
+                <div class="value-card">
+                    <div class="value-icon">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
+                    </div>
+                    <h3>CULTURE DRIVEN</h3>
+                    <p>Every print, seam detail, and graphic tells a story. Inspired by hip-hop, skate culture, and raw concrete cityscapes.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA drop section -->
+        <section class="about-cta-section">
+            <div class="cta-card">
+                <h2>CRAFTED FOR THE CULTURE</h2>
+                <p>Join the drop roster today and browse our current limited collection before it sells out.</p>
+                <a href="shop.html" class="cta-btn">BROWSE SHOP</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h2>EKKVASTRA</h2>
+                    <p>Premium, raw streetwear engineered for comfortable, oversized fits and clean aesthetics.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>SHOP</h3>
+                    <ul class="footer-links">
+                        <li><a href="shop.html">New Arrivals</a></li>
+                        <li><a href="shop.html">Hoodies</a></li>
+                        <li><a href="shop.html">Cargo Pants</a></li>
+                        <li><a href="shop.html">Oversized Tees</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>ABOUT</h3>
+                    <ul class="footer-links">
+                        <li><a href="ABOUT.html">Our Story</a></li>
+                        <li><a href="CONTACT.html">Contact Us</a></li>
+                        <li><a href="#press">Press Kit</a></li>
+                        <li><a href="#careers">Careers</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>POLICIES</h3>
+                    <ul class="footer-links">
+                        <li><a href="#shipping">Shipping & Delivery</a></li>
+                        <li><a href="#returns">14-Day Returns</a></li>
+                        <li><a href="#terms">Terms of Service</a></li>
+                        <li><a href="#privacy">Privacy Policy</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h3>NEWSLETTER</h3>
+                    <p style="color:var(--ink-muted);font-size:0.8rem;line-height:1.5;">Subscribe for updates on exclusive drops, restocks, and secret coupon codes.</p>
+                    <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Subscribed successfully!'); this.reset();">
+                        <input class="newsletter-input" type="email" placeholder="Your email address" required>
+                        <button class="newsletter-btn" type="submit">JOIN</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <span>&copy; 2026 EKKVASTRA. All rights reserved.</span>
+                <div>
+                    <a href="#privacy">Privacy</a>
+                    <a href="#terms">Terms</a>
+                    <a href="#cookies">Cookies</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Search Overlay -->
+    <script src="products.js"></script>
+    <script>
+        function showToast(message, type = 'success') {
+            let container = document.getElementById('toastContainer');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toastContainer';
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            const icon = type === 'success' 
+                ? `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="color:#4caf50;"><polyline points="20 6 9 17 4 12"/></svg>`
+                : `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="color:#f44336;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+            toast.innerHTML = `${icon}<span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 50);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+
+        // Header scroll behavior
+        const header = document.getElementById('siteHeader');
+        function onScroll() {
+            if (window.scrollY > 12) header.classList.add('scrolled');
+            else header.classList.remove('scrolled');
+        }
+        window.addEventListener('scroll', onScroll);
+        onScroll();
+
+        // ── MAGNIFICENT SEARCH OVERLAY ENGINE ──
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchOpenBtns = document.querySelectorAll('button[aria-label="Search"]');
+            const searchOverlay = document.getElementById('searchOverlay');
+            const closeSearchBtn = document.getElementById('closeSearchBtn');
+            const searchInput = document.getElementById('searchInput');
+
+            if (searchOpenBtns && searchOverlay && closeSearchBtn) {
+                searchOpenBtns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        searchOverlay.classList.add('open');
+                        searchOverlay.setAttribute('aria-hidden', 'false');
+                        document.body.style.overflow = 'hidden'; // prevent bg scroll
+                        setTimeout(() => searchInput?.focus(), 100);
+                    });
+                });
+
+                closeSearchBtn.addEventListener('click', () => {
+                    searchOverlay.classList.remove('open');
+                    searchOverlay.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = ''; // restore bg scroll
+                });
+
+                // ESC key to close search overlay
+                window.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && searchOverlay.classList.contains('open')) {
+                        searchOverlay.classList.remove('open');
+                        searchOverlay.setAttribute('aria-hidden', 'true');
+                        document.body.style.overflow = '';
+                    }
+                });
+
+                // Setup wishlist togglers inside search suggestions
+                const bindSearchWishlistHandlers = () => {
+                    searchOverlay.querySelectorAll('.suggested-wishlist').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            btn.classList.toggle('active');
+                        });
+                    });
+                };
+                bindSearchWishlistHandlers();
+
+                // Recent searches remove action
+                searchOverlay.querySelectorAll('.remove-recent').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        btn.closest('li').remove();
+                    });
+                });
+
+                // Clicking recent search items or chips puts text in input
+                const fillSearch = (text) => {
+                    if (searchInput) {
+                        searchInput.value = text;
+                        // Trigger input event to filter products instantly
+                        searchInput.dispatchEvent(new Event('input'));
+                        searchInput.focus();
+                    }
+                };
+
+                searchOverlay.querySelectorAll('.recent-searches-list li span, .search-chip').forEach(el => {
+                    el.addEventListener('click', () => fillSearch(el.textContent.trim()));
+                });
+
+                // Helper to render product card inside search results
+                function renderSearchSuggestedProduct(p) {
+                    return `
+                        <div class="suggested-card">
+                            <div class="suggested-img-wrap">
+                                <img src="${p.image}" alt="${p.name}">
+                                <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                            </div>
+                            <div class="suggested-info">
+                                <h3>${p.name.toUpperCase()}</h3>
+                                <div class="suggested-price">₹${p.price.toLocaleString('en-IN')}</div>
+                                <div class="suggested-colors">
+                                    ${p.colors.map((c, idx) => `<span class="color-dot ${idx === 0 ? 'active' : ''}" style="background:${c}"></span>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Dynamic input filtering logic
+                const suggestedGrid = searchOverlay.querySelector('.suggested-products-grid');
+                const originalSuggestionsHTML = suggestedGrid ? suggestedGrid.innerHTML : '';
+
+                if (searchInput && suggestedGrid) {
+                    searchInput.addEventListener('input', () => {
+                        const query = searchInput.value.trim().toLowerCase();
+                        if (!query) {
+                            suggestedGrid.innerHTML = originalSuggestionsHTML;
+                            bindSearchWishlistHandlers();
+                            return;
+                        }
+
+                        const matches = EKKVASTRA_PRODUCTS.filter(p => 
+                            p.name.toLowerCase().includes(query) || 
+                            p.category.toLowerCase().includes(query)
+                        );
+
+                        if (matches.length === 0) {
+                            suggestedGrid.innerHTML = `
+                                <div style="grid-column: 1 / -1; padding: 40px 0; text-align: center; color: rgba(255,255,255,0.4); font-size: 0.9rem; font-weight: 500;">
+                                    <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto 12px; display: block; opacity: 0.6;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                    No products matching "${searchInput.value}" found
+                                </div>
+                            `;
+                        } else {
+                            suggestedGrid.innerHTML = matches.slice(0, 6).map(renderSearchSuggestedProduct).join('');
+                            bindSearchWishlistHandlers();
+                        }
+                    });
+                }
+            }
+        });
+    </script>
+
+    <!-- Search Overlay Modal -->
+    <div id="searchOverlay" class="search-overlay" aria-hidden="true">
+        <div class="search-overlay-inner">
+            <!-- Top Announcement Bar -->
+            <div class="search-announcement">
+                <div>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2" ry="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                    <span>FREE SHIPPING ON ORDERS ABOVE ₹1499</span>
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                    <span>EASY 14-DAY RETURNS</span>
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                    <span>COD AVAILABLE</span>
+                </div>
+            </div>
+
+            <!-- Search Header -->
+            <div class="search-header">
+                <span class="search-logo">EKKVASTRA</span>
+                <button class="search-close-btn" id="closeSearchBtn" aria-label="Close search">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="search-body">
+                <!-- Search Input Wrapper -->
+                <div class="search-input-wrapper">
+                    <svg class="search-input-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search for products, categories..." autofocus>
+                </div>
+
+                <!-- Quick Info Row -->
+                <div class="search-quick-info">
+                    <div class="popular-searches-col">
+                        <span class="search-section-title">POPULAR SEARCHES</span>
+                        <div class="search-chips">
+                            <button class="search-chip">Oversized Tee</button>
+                            <button class="search-chip">Hoodie</button>
+                            <button class="search-chip">Cargo Pants</button>
+                            <button class="search-chip">Black Tee</button>
+                            <button class="search-chip">Jacket</button>
+                        </div>
+                    </div>
+                    <div class="trending-col">
+                        <span class="search-section-title">TRENDING NOW <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:2px;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+                        <div class="trending-links">
+                            <a href="shop.html">New Arrivals</a>
+                            <a href="shop.html">Best Sellers</a>
+                            <a href="shop.html">Graphic Tees</a>
+                            <a href="shop.html">Essentials</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Split Layout -->
+                <div class="search-results-layout">
+                    <!-- Recent Searches -->
+                    <div class="recent-searches-col">
+                        <div class="recent-header">
+                            <span class="search-section-title">
+                                RECENT SEARCHES
+                                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:4px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                            </span>
+                        </div>
+                        <ul class="recent-searches-list" id="recentSearchesList">
+                            <li><span>oversized tee</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
+                            <li><span>cargo pants</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
+                            <li><span>hoodie</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
+                            <li><span>black t shirt</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
+                        </ul>
+                    </div>
+
+                    <!-- Suggested Products -->
+                    <div class="suggested-products-col">
+                        <div class="suggested-header">
+                            <span class="search-section-title">SUGGESTED FOR YOU</span>
+                            <a href="shop.html" class="search-view-all">VIEW ALL <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:4px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                        
+                        <div class="suggested-products-grid">
+                            <!-- Card 1 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_front_print_tee.png" alt="OVERSIZED TEE">
+                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>OVERSIZED TEE - NOIR</h3>
+                                    <div class="suggested-price">₹1,199</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#ffffff;"></span>
+                                        <span class="color-dot" style="background:#777777;"></span>
+                                        <span class="color-dot" style="background:#222222;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_hoodie.png" alt="SIGNATURE HOODIE">
+                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>SIGNATURE HOODIE - BLACK</h3>
+                                    <div class="suggested-price">₹1,799</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#ffffff;"></span>
+                                        <span class="color-dot" style="background:#777777;"></span>
+                                        <span class="color-dot" style="background:#222222;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_cargo.png" alt="CARGO PANTS">
+                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>CARGO PANTS - BLACK</h3>
+                                    <div class="suggested-price">₹1,699</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#ffffff;"></span>
+                                        <span class="color-dot" style="background:#777777;"></span>
+                                        <span class="color-dot" style="background:#222222;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 4 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_back_print_tee.png" alt="MINIMAL TEE">
+                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>MINIMAL TEE - SAND</h3>
+                                    <div class="suggested-price">₹1,099</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#ffffff;"></span>
+                                        <span class="color-dot" style="background:#777777;"></span>
+                                        <span class="color-dot" style="background:#222222;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 5 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_front_print_tee.png" alt="GRAPHIC TEE">
+                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>GRAPHIC TEE - ABSTRACT</h3>
+                                    <div class="suggested-price">₹1,299</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#ffffff;"></span>
+                                        <span class="color-dot" style="background:#777777;"></span>
+                                        <span class="color-dot" style="background:#222222;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 6 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_hoodie.png" alt="ESSENTIAL HOODIE">
+                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>ESSENTIAL HOODIE - FOREST</h3>
+                                    <div class="suggested-price">₹1,899</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#ffffff;"></span>
+                                        <span class="color-dot" style="background:#777777;"></span>
+                                        <span class="color-dot" style="background:#222222;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- bottom helper card -->
+                <div class="search-contact-card">
+                    <div class="search-icon-box">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                    <div class="search-contact-text">
+                        <h4>CAN'T FIND WHAT YOU'RE LOOKING FOR?</h4>
+                        <p>Our team is here to help you find the perfect fit.</p>
+                    </div>
+                    <a href="CONTACT.html" class="search-contact-btn">CONTACT US <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:4px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                </div>
+            </div>
+
+            <!-- Search Footer -->
+            <div class="search-footer">
+                <span class="search-footer-logo">EKKVASTRA</span>
+                <div class="search-footer-links">
+                    <a href="shop.html">SHOP</a>
+                    <a href="index.html#collections">COLLECTIONS</a>
+                    <a href="ABOUT.html">ABOUT</a>
+                    <a href="CONTACT.html">CONTACT</a>
+                </div>
+                <div class="search-footer-social">
+                    <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+                    <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></a>
+                    <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg></a>
+                    <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22a9 9 0 0 1-1.91-8.3A7.5 7.5 0 0 1 12 4.5a8.38 8.38 0 0 1 9 9 7.26 7.26 0 0 1-4.25 6.66c-1.12.5-2.24-.29-2.24-1.5v-1a5.83 5.83 0 0 0 .5-3.5c-.32-1.5-1.5-2.5-3-2.5a2.5 2.5 0 0 0-2.5 2.5 6 6 0 0 0 1 3.5c.34.5.21 1.5-.5 2S8.5 17 8 16c-.5-1-1-3-1-5a7 7 0 0 1 7-7 7.5 7.5 0 0 1 7.5 7.5c0 2.5-1.5 5-4.5 5a2 2 0 0 1-2-2"/></svg></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

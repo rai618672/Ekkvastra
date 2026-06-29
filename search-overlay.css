@@ -1,0 +1,428 @@
+/* --- SEARCH OVERLAY STYLES --- */
+#searchOverlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    background: #000000;
+    color: #ffffff;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.35s ease;
+    overflow-y: auto;
+    font-family: "Inter", sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+#searchOverlay.open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.search-overlay-inner {
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 24px 60px;
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+/* Search Announcement Bar */
+.search-announcement {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    padding: 16px 0;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
+    color: rgba(255, 255, 255, 0.65);
+    text-transform: uppercase;
+}
+.search-announcement div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+@media (max-width: 768px) {
+    .search-announcement {
+        flex-direction: column;
+        gap: 12px;
+        align-items: flex-start;
+    }
+}
+
+/* Search Header */
+.search-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.search-logo {
+    font-family: "Poppins", "Inter", sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: 0.22em;
+}
+
+.search-close-btn {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    transition: all 0.25s ease;
+}
+.search-close-btn:hover {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+}
+
+/* Search Input */
+.search-input-wrapper {
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.35);
+    padding-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.search-input-icon {
+    color: rgba(255, 255, 255, 0.7);
+    flex-shrink: 0;
+}
+.search-input {
+    width: 100%;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: clamp(1.5rem, 3.5vw, 2.8rem);
+    font-family: "Poppins", "Inter", sans-serif;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    outline: none;
+}
+.search-input::placeholder {
+    color: rgba(255, 255, 255, 0.25);
+}
+
+/* Section Title */
+.search-section-title {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.22em;
+    color: rgba(255, 255, 255, 0.5);
+    display: block;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+}
+
+/* Chips and Links Row */
+.search-quick-info {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 32px;
+}
+@media (min-width: 768px) {
+    .search-quick-info {
+        grid-template-columns: 1.2fr 0.8fr;
+    }
+}
+.search-chips {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+.search-chip {
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-size: 0.74rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.25s ease;
+}
+.search-chip:hover {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+}
+.trending-links {
+    display: flex;
+    gap: 16px 24px;
+    flex-wrap: wrap;
+}
+.trending-links a {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #fff;
+    transition: opacity 0.2s;
+}
+.trending-links a:hover {
+    opacity: 0.7;
+}
+
+/* Search Split Layout */
+.search-results-layout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 48px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 32px;
+}
+@media (min-width: 1024px) {
+    .search-results-layout {
+        grid-template-columns: 0.35fr 1.65fr;
+    }
+}
+
+/* Recent Searches Col */
+.recent-searches-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+.recent-searches-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    padding: 14px 0;
+    font-size: 0.95rem;
+    color: #ffffff;
+    font-weight: 600;
+    transition: color 0.2s;
+}
+.recent-searches-list li span {
+    cursor: pointer;
+}
+.recent-searches-list li span:hover {
+    color: rgba(255, 255, 255, 0.7);
+}
+.recent-searches-list li .remove-recent {
+    border: none;
+    background: transparent;
+    color: rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: color 0.2s;
+}
+.recent-searches-list li .remove-recent:hover {
+    color: #fff;
+}
+
+/* Suggested Products Col */
+.suggested-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+.search-view-all {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: 0.12em;
+}
+
+.suggested-products-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+@media (min-width: 640px) {
+    .suggested-products-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media (min-width: 1280px) {
+    .suggested-products-grid {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+.suggested-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.suggested-img-wrap {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 3/4;
+    background: #111;
+}
+.suggested-img-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+.suggested-card:hover .suggested-img-wrap img {
+    transform: scale(1.05);
+}
+.suggested-wishlist {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(13, 13, 13, 0.8);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.suggested-wishlist:hover {
+    background: #fff;
+    color: #000;
+}
+.suggested-wishlist.active {
+    background: rgba(229, 57, 53, 0.15);
+    border-color: #e53935;
+    color: #e53935;
+}
+.suggested-wishlist.active svg {
+    fill: currentColor;
+}
+.suggested-info h3 {
+    font-size: 0.68rem;
+    font-weight: 800;
+    margin: 0 0 4px 0;
+    letter-spacing: 0.02em;
+    color: #fff;
+    text-transform: uppercase;
+}
+.suggested-price {
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.65);
+}
+.suggested-colors {
+    display: flex;
+    gap: 4px;
+    margin-top: 6px;
+}
+.color-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    cursor: pointer;
+}
+.color-dot.active {
+    box-shadow: 0 0 0 1px #fff;
+}
+
+/* Contact helper card */
+.search-contact-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px;
+    background: rgba(255, 255, 255, 0.02);
+    flex-wrap: wrap;
+    margin-top: 32px;
+}
+.search-icon-box {
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+}
+.search-contact-text {
+    flex: 1;
+    min-width: 200px;
+}
+.search-contact-text h4 {
+    font-size: 0.85rem;
+    font-weight: 800;
+    margin: 0 0 6px;
+    letter-spacing: 0.05em;
+    color: #fff;
+}
+.search-contact-text p {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.58);
+    margin: 0;
+}
+.search-contact-btn {
+    padding: 12px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    transition: all 0.25s ease;
+}
+.search-contact-btn:hover {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+}
+
+/* Search Footer */
+.search-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    padding-top: 32px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+.search-footer-logo {
+    font-family: "Poppins", "Inter", sans-serif;
+    font-size: 1.15rem;
+    font-weight: 900;
+    letter-spacing: 0.2em;
+}
+.search-footer-links {
+    display: flex;
+    gap: 24px;
+}
+.search-footer-links a {
+    font-size: 0.72rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: rgba(255, 255, 255, 0.65);
+    transition: color 0.2s;
+}
+.search-footer-links a:hover {
+    color: #fff;
+}
+.search-footer-social {
+    display: flex;
+    gap: 16px;
+}
+.search-footer-social a {
+    color: rgba(255, 255, 255, 0.58);
+    transition: color 0.2s;
+}
+.search-footer-social a:hover {
+    color: #fff;
+}

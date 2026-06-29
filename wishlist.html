@@ -3,110 +3,308 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Wishlist | EKKVASTRA | Premium Streetwear</title>
-    <meta name="description" content="Your saved favourites — EKKVASTRA wishlist." />
+    <title>My Wishlist | EKKVASTRA | Premium Streetwear</title>
+    <meta name="description" content="Manage your Ekkvastra saved favorites. Premium streetwear designed to fit you." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;950&display=swap" rel="stylesheet" />
     <style>
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         :root {
-            --bg: #0a0a0a;
+            --bg: #0d0d0d;
             --surface: #121212;
-            --border: #222;
-            --text: #f0f0f0;
-            --muted: #888;
-            --accent: #fff;
+            --border: rgba(255, 255, 255, 0.08);
+            --text: #ffffff;
+            --muted: #888888;
+            --accent: #ffffff;
             --red: #e53935;
+            --max: 1400px;
         }
-        html { scroll-behavior: smooth; }
+        
+        .page-shell {
+            width: 100%;
+            max-width: var(--max);
+            margin: 0 auto;
+            padding: 0 16px;
+        }
+
+        @media (min-width: 640px) {
+            .page-shell {
+                padding: 0 24px;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .page-shell {
+                padding: 0 40px;
+            }
+        }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
             color: var(--text);
             min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            -webkit-font-smoothing: antialiased;
         }
 
         /* ── ANNOUNCEMENT BAR ── */
         .announcement-bar {
-            background: #111;
-            color: #ccc;
+            background: #959191;
+            color: rgba(255, 255, 255, 0.85);
             text-align: center;
-            font-size: 0.72rem;
-            letter-spacing: 0.14em;
-            padding: 9px 16px;
-            font-weight: 500;
-        }
-
-        /* ── HEADER ── */
-        .sticky-header {
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            background: rgba(10,10,10,0.92);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-bottom: 1px solid var(--border);
-            transition: box-shadow 0.3s;
-        }
-        .sticky-header.scrolled { box-shadow: 0 2px 24px rgba(0,0,0,0.4); }
-        .header-inner {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 24px;
-            height: 64px;
+            height: 40px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
             display: flex;
             align-items: center;
-            gap: 32px;
+            justify-content: center;
+            gap: 40px;
+            z-index: 80;
+            position: relative;
+            box-sizing: border-box;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
-        .logo { text-decoration: none; display: flex; align-items: center; gap: 10px; }
-        .logo-text { font-size: 1.15rem; font-weight: 900; letter-spacing: 0.18em; color: #fff; }
-        .nav-links { display: flex; gap: 28px; margin-left: auto; }
+        .announcement-bar span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .announcement-bar span::before {
+            content: "•";
+            color: #ffffff;
+        }
+        .announcement-bar span:first-child::before {
+            display: none;
+        }
+
+        /* ── STICKY HEADER ── */
+        .sticky-header {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            right: 0;
+            z-index: 70;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid transparent;
+            transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sticky-header.scrolled {
+            position: fixed;
+            top: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .header-inner {
+            max-width: var(--max);
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            min-height: 80px;
+            padding: 0 24px;
+            transition: min-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sticky-header.scrolled .header-inner {
+            min-height: 72px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: opacity 0.25s ease;
+            text-decoration: none;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 950;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        .nav-links {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex: 1;
+            padding: 0 8px;
+        }
+
+        @media (min-width: 1024px) {
+            .nav-links {
+                display: flex;
+            }
+        }
+
         .nav-links a {
-            text-decoration: none; font-size: 0.82rem; font-weight: 500;
-            color: #aaa; letter-spacing: 0.06em; transition: color 0.2s;
+            position: relative;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            padding: 10px 12px;
+            color: rgba(255, 255, 255, 0.9);
+            transition: color 0.35s ease, opacity 0.25s ease;
+            text-decoration: none;
         }
-        .nav-links a:hover, .nav-links a.active { color: #fff; }
-        .nav-actions { display: flex; align-items: center; gap: 4px; }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            bottom: 6px;
+            height: 1.5px;
+            background: currentColor;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            transform: scaleX(1);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #fff;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-actions .icon-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            overflow: visible !important;
+        }
+
+        .nav-actions .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
         .icon-btn {
-            background: none; border: none; cursor: pointer;
-            padding: 8px; border-radius: 8px;
-            color: #aaa; transition: color 0.2s, background 0.2s;
-            display: flex; align-items: center; justify-content: center;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1.5px solid transparent;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
             position: relative;
         }
-        .icon-btn:hover { color: #fff; background: rgba(255,255,255,0.06); }
-        .cart-icon-wrap { position: relative; display: flex; align-items: center; }
+
         .cart-badge {
-            position: absolute; top: -6px; right: -6px;
-            background: #fff; color: #000;
-            font-size: 0.55rem; font-weight: 800;
-            width: 16px; height: 16px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            background: #fff;
+            color: #000;
+            font-size: 0.58rem;
+            font-weight: 800;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+            border: 1.5px solid #000;
+            z-index: 10;
         }
-        .wishlist-badge {
-            position: absolute; top: -6px; right: -6px;
-            background: var(--red); color: #fff;
-            font-size: 0.55rem; font-weight: 800;
-            min-width: 16px; height: 16px; border-radius: 50%;
-            display: flex; align-items: center; justify-content: center;
-            padding: 0 3px;
+
+        .nav-wishlist-btn {
+            position: relative;
+            text-decoration: none;
+            color: #fff;
         }
-        .mobile-menu-btn { display: none; }
-        @media (max-width: 768px) {
-            .nav-links { display: none; }
-            .mobile-menu-btn { display: flex; }
+
+        .nav-wishlist-badge {
+            display: none;
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            background: #e53935;
+            color: #fff;
+            font-size: 0.58rem;
+            font-weight: 800;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+            border: 1.5px solid #000;
+            z-index: 10;
+        }
+
+        .nav-wishlist-badge.visible {
+            display: flex;
+        }
+
+        .mobile-menu-btn {
+            display: flex;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+        @media (min-width: 1024px) {
+            .mobile-menu-btn {
+                display: none;
+            }
         }
 
         /* ── MOBILE DRAWER ── */
         .mobile-drawer {
-            display: none; position: fixed; inset: 0; z-index: 200;
-            background: rgba(0,0,0,0.6); backdrop-filter: blur(4px);
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
         }
         .mobile-drawer.open { display: flex; }
         .drawer-panel {
             background: #111; width: min(320px, 90vw); height: 100%;
             padding: 24px; display: flex; flex-direction: column; gap: 24px;
-            animation: slideIn 0.3s ease;
+            animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
         }
         @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
         .drawer-top { display: flex; justify-content: space-between; align-items: center; }
@@ -117,125 +315,879 @@
         }
         .drawer-nav a:hover { color: #fff; }
 
-        /* ── PAGE CONTENT ── */
-        .page-wrapper { max-width: 1400px; margin: 0 auto; padding: 40px 24px 80px; }
+        /* ── MAIN CONTENT ── */
+        .page-wrapper {
+            max-width: var(--max);
+            width: 100%;
+            margin: 120px auto 0;
+            padding: 40px 24px 80px;
+            flex-grow: 1;
+        }
 
         /* ── BREADCRUMB ── */
         .breadcrumb {
-            display: flex; gap: 8px; align-items: center;
-            font-size: 0.78rem; color: var(--muted);
-            margin-bottom: 32px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--muted);
+            margin-bottom: 24px;
         }
         .breadcrumb a { color: var(--muted); text-decoration: none; transition: color 0.2s; }
         .breadcrumb a:hover { color: var(--text); }
-        .breadcrumb span { color: var(--text); font-weight: 600; }
+        .breadcrumb span { color: var(--text); font-weight: 500; }
 
-        /* ── HEADING ── */
-        .wishlist-header {
-            display: flex; align-items: baseline; gap: 12px;
-            margin-bottom: 36px;
+        /* ── WISHLIST HEADER ── */
+        .wishlist-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 32px;
         }
-        .wishlist-header h1 {
-            font-size: clamp(1.6rem, 4vw, 2.4rem);
-            font-weight: 900; letter-spacing: -0.02em; color: #fff;
+        .header-title-section h1 {
+            font-size: clamp(1.8rem, 4vw, 2.4rem);
+            font-weight: 950;
+            letter-spacing: -0.01em;
+            color: #fff;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            text-transform: uppercase;
         }
-        .wishlist-count-label {
-            font-size: 0.85rem; color: var(--muted); font-weight: 500;
+        .header-title-section h1 svg {
+            margin-top: 4px;
+        }
+        .wishlist-meta-text {
+            font-size: 0.72rem;
+            color: var(--muted);
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            margin-top: 6px;
+            text-transform: uppercase;
+        }
+        .wishlist-subtext {
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-top: 8px;
+            font-weight: 500;
+        }
+        .wishlist-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .btn-outline {
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+            text-transform: uppercase;
+        }
+        .btn-outline:hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+        .btn-solid {
+            background: #fff;
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 20px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.15s;
+            text-transform: uppercase;
+        }
+        .btn-solid:hover {
+            background: #e8e8e8;
+            transform: translateY(-1px);
         }
 
         /* ── PRODUCT GRID ── */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
+            gap: 24px;
+            margin-bottom: 80px;
         }
-        @media (max-width: 1100px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
-        @media (max-width: 768px)  { .product-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; } }
+        @media (max-width: 1200px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
+        @media (max-width: 768px)  { .product-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
         @media (max-width: 480px)  { .product-grid { grid-template-columns: 1fr; } }
 
-        /* ── CARD ── */
+        /* ── PRODUCT CARD ── */
         .product-card {
             background: var(--surface);
             border: 1px solid var(--border);
             border-radius: 16px;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transform-style: preserve-3d;
+            perspective: 1000px;
+            transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
         }
         .product-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         }
+        .product-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0) 30%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+            pointer-events: none;
+            z-index: 5;
+        }
+        .product-card.detail-triggering {
+            pointer-events: none;
+            animation: liftup-rotate-anim 0.85s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+            z-index: 999;
+        }
+        .product-card.detail-triggering::after {
+            transform: translateX(100%);
+            transition: transform 0.85s ease;
+        }
+        @keyframes liftup-rotate-anim {
+            0% {
+                transform: translateY(0) rotateX(0deg) rotateY(0deg) scale(1);
+                box-shadow: 0 10px 28px rgba(15, 15, 15, 0.06);
+            }
+            35% {
+                transform: translateY(-20px) rotateX(0deg) rotateY(0deg) scale(1.04);
+                box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+                opacity: 1;
+            }
+            75% {
+                transform: translateY(-22px) rotateX(12deg) rotateY(20deg) scale(1.02);
+                box-shadow: 0 40px 80px rgba(0, 0, 0, 0.45);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-24px) rotateX(12deg) rotateY(20deg) scale(0.95);
+                box-shadow: 0 45px 90px rgba(0, 0, 0, 0.5);
+                opacity: 0;
+            }
+        }
+
+        .details-modal-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            padding: 20px;
+        }
+
+        .details-modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .details-modal-container {
+            background: #121212;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 24px;
+            width: min(880px, 100%);
+            max-height: min(700px, 90vh);
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.8);
+            transform: scale(0.92) translateY(20px);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: row;
+        }
+
+        @media (max-width: 768px) {
+            .details-modal-container {
+                flex-direction: column;
+                max-height: 92vh;
+                overflow-y: auto;
+            }
+        }
+
+        .details-modal-overlay.open .details-modal-container {
+            transform: scale(1) translateY(0);
+        }
+
+        .details-close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.05);
+            color: #fff;
+            font-size: 1.1rem;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.2s;
+            z-index: 10;
+        }
+
+        .details-close-btn:hover {
+            background: #fff;
+            color: #000;
+            transform: rotate(90deg);
+        }
+
+        .details-media {
+            flex: 1.1;
+            position: relative;
+            background: #1a1a1a;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            min-height: 380px;
+        }
+
+        .details-media img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .details-media:hover img {
+            transform: scale(1.05);
+        }
+
+        .details-info {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            overflow-y: auto;
+        }
+
+        @media (max-width: 520px) {
+            .details-info {
+                padding: 24px;
+            }
+        }
+
+        .details-price-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .details-oldprice {
+            color: #888;
+            text-decoration: line-through;
+            font-size: 0.94rem;
+        }
+
+        .details-desc {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.8;
+            font-size: 0.95rem;
+            max-width: 100%;
+        }
+
+        .details-btn-add {
+            background: #fff;
+            color: #000;
+            border: none;
+            border-radius: 999px;
+            padding: 16px 24px;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .details-btn-add:hover {
+            background: #f2f2f2;
+        }
+
+        .details-options-title {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            color: rgba(255,255,255,0.75);
+            text-transform: uppercase;
+        }
+
+        .details-size-chips,
+        .details-color-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .details-size-chip,
+        .details-color-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 42px;
+            min-height: 42px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.12);
+            color: #fff;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .details-size-chip.selected,
+        .details-color-chip.selected {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        .details-color-chip {
+            width: 42px;
+            height: 42px;
+            padding: 0;
+        }
+
+        .details-color-chip:hover,
+        .details-size-chip:hover {
+            transform: translateY(-1px);
+        }
+
         .product-image {
-            position: relative; overflow: hidden;
-            aspect-ratio: 3/4; background: #1a1a1a;
+            position: relative;
+            overflow: hidden;
+            aspect-ratio: 3/4;
+            background: #161616;
         }
         .product-image img {
-            position: absolute; inset: 0; width: 100%; height: 100%;
-            object-fit: cover; transition: opacity 0.4s ease, transform 0.4s ease;
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
         .product-image .hover-img { opacity: 0; }
         .product-card:hover .default-img { opacity: 0; transform: scale(1.04); }
         .product-card:hover .hover-img { opacity: 1; transform: scale(1.04); }
 
-        .remove-btn {
-            position: absolute; top: 12px; right: 12px;
-            width: 34px; height: 34px; border-radius: 50%;
-            border: 0; background: rgba(229,57,53,0.15);
-            display: grid; place-items: center; z-index: 2;
-            cursor: pointer; color: var(--red);
-            transition: transform 0.15s ease, background 0.2s;
+        /* Quick close remove button */
+        .card-close-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 0;
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: grid;
+            place-items: center;
+            z-index: 10;
+            cursor: pointer;
+            color: #fff;
+            transition: transform 0.2s, background 0.2s, color 0.2s;
             box-shadow: 0 4px 10px rgba(0,0,0,0.3);
         }
-        .remove-btn:hover { transform: scale(1.12); background: rgba(229,57,53,0.3); }
-        .remove-btn svg { pointer-events: none; }
-
-        .product-info { padding: 14px 14px 16px; display: flex; flex-direction: column; gap: 6px; }
-        .product-category { font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
-        .product-name { font-size: 0.9rem; font-weight: 700; color: #e8e8e8; line-height: 1.3; }
-        .product-price { font-size: 1rem; font-weight: 800; color: #fff; }
-
-        .add-to-bag {
-            width: 100%; margin-top: 8px; padding: 10px;
-            background: #fff; color: #000;
-            border: none; border-radius: 8px;
-            font-size: 0.78rem; font-weight: 800;
-            letter-spacing: 0.08em; cursor: pointer;
-            transition: background 0.2s, transform 0.15s;
+        .card-close-btn:hover {
+            transform: scale(1.1);
+            background: #fff;
+            color: #000;
         }
-        .add-to-bag:hover { background: #e8e8e8; transform: translateY(-1px); }
+
+        /* Recommendation Heart Icon */
+        .card-wishlist-btn {
+            position: absolute;
+            top: 14px;
+            right: 14px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 0;
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: grid;
+            place-items: center;
+            z-index: 10;
+            cursor: pointer;
+            color: #fff;
+            transition: transform 0.2s, background 0.2s, color 0.2s;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        .card-wishlist-btn:hover {
+            transform: scale(1.1);
+            background: #fff;
+            color: #000;
+        }
+        .card-wishlist-btn.active {
+            background: rgba(229, 57, 53, 0.15);
+            color: #e53935;
+        }
+        .card-wishlist-btn svg {
+            transition: fill 0.2s, stroke 0.2s;
+            pointer-events: none;
+        }
+        .card-wishlist-btn.active svg {
+            fill: #e53935;
+            stroke: #e53935;
+        }
+
+        /* Hover Quick Add overlay button */
+        .quick-add-overlay {
+            position: absolute;
+            left: 50%;
+            bottom: 14px;
+            transform: translateX(-50%) translateY(10px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 5;
+            width: calc(100% - 28px);
+        }
+        .product-card:hover .quick-add-overlay {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+            pointer-events: auto;
+        }
+        .btn-quick-add {
+            width: 100%;
+            background: rgba(18, 18, 18, 0.85);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 99px;
+            color: #fff;
+            padding: 10px 14px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: background 0.2s, border-color 0.2s;
+        }
+        .btn-quick-add:hover {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        /* Product details info layout */
+        .product-info {
+            padding: 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex-grow: 1;
+        }
+        .product-title-wrap {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .product-name {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #fff;
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+            line-height: 1.3;
+        }
+        .product-price {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        /* Swatches and Size Pill row */
+        .product-attributes-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 4px;
+        }
+        .color-swatches {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+        .swatch {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.5);
+        }
+        .size-pill {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 4px;
+            color: #ccc;
+            font-size: 0.65rem;
+            font-weight: 700;
+            min-width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0 5px;
+        }
+
+        /* Stock Indicator */
+        .stock-status {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.68rem;
+            font-weight: 600;
+            color: #a8a8a8;
+            margin-top: 2px;
+        }
+        .stock-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+        }
+        .stock-dot.in-stock { background: #4caf50; }
+        .stock-dot.out-of-stock { background: #e53935; }
+
+        /* Card bottom move to bag outline button */
+        .btn-move-bag {
+            width: 100%;
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            padding: 11px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: auto;
+            text-transform: uppercase;
+        }
+        .btn-move-bag:hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* ── SECTION HEADER ── */
+        .section-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            border-top: 1px solid var(--border);
+            padding-top: 40px;
+        }
+        .section-title {
+            font-size: 1.15rem;
+            font-weight: 900;
+            letter-spacing: 0.08em;
+            color: #fff;
+            text-transform: uppercase;
+        }
+        .section-link {
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            color: #fff;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: opacity 0.2s;
+            text-transform: uppercase;
+        }
+        .section-link:hover {
+            opacity: 0.8;
+        }
+
+        /* ── TRUST BAR ── */
+        .trust-bar {
+            background: #0a0a0a;
+            border-top: 1px solid rgba(255, 255, 255, 0.07);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            margin-top: 40px;
+        }
+
+        .trust-inner {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 0;
+        }
+
+        @media (max-width: 767px) {
+            .trust-inner {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 22px 28px;
+            border-right: 1px solid rgba(255, 255, 255, 0.07);
+        }
+
+        .trust-item:last-child {
+            border-right: none;
+        }
+
+        @media (max-width: 767px) {
+            .trust-item:nth-child(2) {
+                border-right: none;
+            }
+
+            .trust-item:nth-child(3) {
+                border-top: 1px solid rgba(255, 255, 255, 0.07);
+            }
+
+            .trust-item:nth-child(4) {
+                border-top: 1px solid rgba(255, 255, 255, 0.07);
+                border-right: none;
+            }
+        }
+
+        .trust-icon {
+            color: #fff;
+            opacity: 0.9;
+            flex-shrink: 0;
+        }
+
+        .trust-label {
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: #fff;
+            margin: 0 0 2px 0;
+        }
+
+        .trust-sub {
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.48);
+            margin: 0;
+        }
+
+        /* ── FOOTER ── */
+        .footer {
+            background: #000;
+            color: #fff;
+            border-top: 1px solid var(--border);
+        }
+
+        .footer-top {
+            padding: 48px 0 24px;
+        }
+
+        .footer-grid {
+            display: grid;
+            gap: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        @media (min-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (min-width: 1280px) {
+            .footer-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        .footer-heading {
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.24em;
+            color: rgba(255, 255, 255, 0.75);
+            margin: 0;
+        }
+
+        .footer-links {
+            margin-top: 20px;
+            display: grid;
+            gap: 12px;
+        }
+
+        .footer-links a,
+        .footer-bottom a {
+            color: rgba(255, 255, 255, 0.64);
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        
+        .footer-links a:hover,
+        .footer-bottom a:hover {
+            color: #fff;
+        }
+
+        .newsletter {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
+        }
+
+        .newsletter input {
+            min-height: 48px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            padding: 0 20px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            outline: none;
+        }
+        .newsletter input:focus {
+            border-color: rgba(255,255,255,0.4);
+        }
+
+        .footer-bottom {
+            padding: 16px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+            font-size: 0.92rem;
+            color: rgba(255, 255, 255, 0.58);
+        }
+
+        @media (min-width: 1024px) {
+            .footer-bottom {
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
+        }
+
+        .payment-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 10px 16px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            color: rgba(255, 255, 255, 0.78);
+            background: rgba(255, 255, 255, 0.04);
+        }
 
         /* ── EMPTY STATE ── */
         .empty-state {
             grid-column: 1 / -1;
-            text-align: center; padding: 80px 24px;
-            display: flex; flex-direction: column; align-items: center; gap: 20px;
+            text-align: center;
+            padding: 80px 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
         }
         .empty-icon {
-            width: 72px; height: 72px; border-radius: 50%;
-            background: #1a1a1a; border: 1px solid #333;
-            display: flex; align-items: center; justify-content: center;
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: #555;
         }
         .empty-state h2 { font-size: 1.4rem; font-weight: 800; color: #e0e0e0; }
         .empty-state p { color: var(--muted); font-size: 0.9rem; max-width: 340px; line-height: 1.6; }
-        .btn-shop {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: #fff; color: #000;
-            padding: 13px 28px; border-radius: 999px;
-            font-size: 0.82rem; font-weight: 800; letter-spacing: 0.08em;
-            text-decoration: none; transition: background 0.2s, transform 0.15s;
+        /* --- TOAST NOTIFICATIONS --- */
+        .toast-container {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            pointer-events: none;
         }
-        .btn-shop:hover { background: #e8e8e8; transform: translateY(-2px); }
-
-        /* ── REVEAL ANIMATIONS ── */
-        .reveal { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
-        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .toast {
+            background: #0d0d0d;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transform: translateX(120%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: auto;
+        }
+        .toast.show {
+            transform: translateX(0);
+        }
     </style>
+    <link rel="stylesheet" href="search-overlay.css" />
 </head>
 <body>
 
     <!-- Announcement Bar -->
-    <div class="announcement-bar">FREE SHIPPING ON ORDERS ABOVE ₹999 &nbsp;|&nbsp; USE CODE: EKKDROP10 FOR 10% OFF</div>
+    <div class="announcement-bar">
+        <span>FREE SHIPPING ON ORDERS ABOVE ₹1499</span>
+        <span>EASY 14-DAY RETURNS</span>
+        <span>COD AVAILABLE</span>
+    </div>
 
     <!-- Sticky Header -->
     <header class="sticky-header" id="siteHeader">
@@ -248,8 +1200,8 @@
                 <a href="index.html#new-arrivals">New Arrivals</a>
                 <a href="shop.html">Shop</a>
                 <a href="index.html#collections">Collections</a>
-                <a href="index.html#best-sellers">Best Sellers</a>
-                <a href="index.html#about">About Us</a>
+                <a href="CONTACT.html">Contact Us</a>
+                <a href="ABOUT.html">About Us</a>
             </nav>
 
             <div class="nav-actions">
@@ -259,27 +1211,25 @@
                         <path d="M20 20l-3.5-3.5" stroke-linecap="round"></path>
                     </svg>
                 </button>
-                <button class="icon-btn" aria-label="Account">
+                <a href="LOGIN.html" class="icon-btn" aria-label="Account">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M20 21a8 8 0 0 0-16 0" stroke-linecap="round"></path>
                         <circle cx="12" cy="8" r="4"></circle>
                     </svg>
-                </button>
-                <a href="wishlist.html" class="icon-btn" aria-label="Wishlist" style="color:#e53935;">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="#e53935" stroke="#e53935" stroke-width="1.8">
+                </a>
+                <a href="wishlist.html" class="icon-btn nav-wishlist-btn" aria-label="Wishlist" id="navWishlistBtn">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg>
-                    <span class="wishlist-badge" id="navWishlistBadge" style="display:none;">0</span>
+                    <span id="navWishlistBadge" class="nav-wishlist-badge">0</span>
                 </a>
-                <button class="icon-btn" aria-label="Shopping Bag">
-                    <div class="cart-icon-wrap">
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
-                            <path d="M6 7h12l-1 13H7L6 7z" stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path d="M9 7a3 3 0 0 1 6 0" stroke-linecap="round"></path>
-                        </svg>
-                        <span class="cart-badge">2</span>
-                    </div>
-                </button>
+                <a href="cart.html" class="icon-btn" aria-label="Shopping Bag">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M6 7h12l-1 13H7L6 7z" stroke-linecap="round" stroke-linejoin="round"></path>
+                        <path d="M9 7a3 3 0 0 1 6 0" stroke-linecap="round"></path>
+                    </svg>
+                    <span class="cart-badge">2</span>
+                </a>
             </div>
 
             <button class="icon-btn mobile-menu-btn" id="menuBtn" aria-label="Open menu">
@@ -305,8 +1255,8 @@
                 <a href="index.html#new-arrivals">New Arrivals</a>
                 <a href="shop.html">Shop</a>
                 <a href="index.html#collections">Collections</a>
-                <a href="index.html#best-sellers">Best Sellers</a>
-                <a href="index.html#about">About Us</a>
+                <a href="CONTACT.html">Contact Us</a>
+                <a href="ABOUT.html">About Us</a>
                 <a href="wishlist.html" style="color:#e53935;">❤ Wishlist</a>
             </nav>
         </div>
@@ -322,23 +1272,250 @@
         </nav>
 
         <!-- Header -->
-        <div class="wishlist-header">
-            <h1>My Wishlist</h1>
-            <span class="wishlist-count-label" id="wishlistCountLabel">0 items</span>
+        <div class="wishlist-header-row">
+            <div class="header-title-section">
+                <h1>My Wishlist <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z" stroke-linecap="round" stroke-linejoin="round"/></svg></h1>
+                <div class="wishlist-meta-text" id="wishlistCountLabel">0 Items</div>
+                <div class="wishlist-subtext">Looks like you have great taste.</div>
+            </div>
+            <div class="wishlist-actions">
+                <button class="btn-outline" onclick="shareWishlist()">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
+                    Share Wishlist
+                </button>
+                <button class="btn-solid" onclick="moveAllToBag()">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+                    Move All to Bag
+                </button>
+            </div>
         </div>
 
-        <!-- Grid -->
+        <!-- Wishlist Grid -->
         <div class="product-grid" id="wishlistGrid">
-            <!-- populated by JS -->
+            <!-- Populated by JS -->
         </div>
+
+        <!-- Recommendations Section -->
+        <div class="section-header-row">
+            <h2 class="section-title">You May Also Like</h2>
+            <a href="shop.html" class="section-link">
+                View All
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+        
+        <!-- Recommendations Grid -->
+        <div class="product-grid" id="recommendationsGrid">
+            <!-- Populated by JS -->
+        </div>
+
     </main>
 
+    <!-- Trust Bar -->
+    <section class="trust-bar">
+        <div class="trust-inner page-shell">
+            <div class="trust-item">
+                <svg class="trust-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
+                    stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M6 20v-1a6 6 0 0 1 12 0v1" />
+                </svg>
+                <div>
+                    <p class="trust-label">Premium Quality</p>
+                    <p class="trust-sub">Finest Fabrics</p>
+                </div>
+            </div>
+            <div class="trust-item">
+                <svg class="trust-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
+                    stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+                    <polyline points="9 22 9 12 15 12 15 22" />
+                </svg>
+                <div>
+                    <p class="trust-label">Easy Returns</p>
+                    <p class="trust-sub">14 Days Return</p>
+                </div>
+            </div>
+            <div class="trust-item">
+                <svg class="trust-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
+                    stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+                </svg>
+                <div>
+                    <p class="trust-label">Secure Payment</p>
+                    <p class="trust-sub">100% Safe &amp; Secure</p>
+                </div>
+            </div>
+            <div class="trust-item">
+                <svg class="trust-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"
+                    stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="1" y="3" width="15" height="13" />
+                    <polygon points="16 8 20 8 23 11 23 16 16 16 16 8" />
+                    <circle cx="5.5" cy="18.5" r="2.5" />
+                    <circle cx="18.5" cy="18.5" r="2.5" />
+                </svg>
+                <div>
+                    <p class="trust-label">Fast Delivery</p>
+                    <p class="trust-sub">Pan India Delivery</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer" id="about">
+        <div class="page-shell footer-top">
+            <div class="footer-grid reveal">
+                <div>
+                    <a href="#" class="logo" aria-label="EKKVASTRA home">
+                        <div class="logo-mark" style="background:#fff;color:#000;border-color:#fff;">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
+                                stroke-width="1.8">
+                                <path d="M6 6h12l-3 12H9L6 6z" stroke-linecap="round" stroke-linejoin="round"></path>
+                            </svg>
+                        </div>
+                        <span class="logo-text" style="color:#fff;">EKKVASTRA</span>
+                    </a>
+                    <p
+                        style="max-width:320px;margin-top:20px;color:rgba(255,255,255,.65);line-height:1.75;font-size:.95rem;">
+                        Premium Streetwear. Built Different.
+                    </p>
+                </div>
+
+                <div>
+                    <h3 class="footer-heading">Shop</h3>
+                    <div class="footer-links">
+                        <a href="shop.html">New Arrivals</a>
+                        <a href="shop.html">All Products</a>
+                        <a href="shop.html?category=hoodies">Hoodies</a>
+                        <a href="shop.html?category=t-shirts">T-Shirts</a>
+                        <a href="shop.html?category=bottoms">Bottoms</a>
+                        <a href="shop.html?category=accessories">Accessories</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="footer-heading">Collections</h3>
+                    <div class="footer-links">
+                        <a href="index.html#collections">Oversized</a>
+                        <a href="index.html#collections">Graphic Tees</a>
+                        <a href="index.html#collections">Essentials</a>
+                        <a href="index.html#collections">Hoodies</a>
+                        <a href="index.html#collections">Summer Collection</a>
+                        <a href="index.html#collections">Winter Collection</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="footer-heading">Customer Care</h3>
+                    <div class="footer-links">
+                        <a href="CONTACT.html">Contact Us</a>
+                        <a href="#">Track Order</a>
+                        <a href="#">Shipping & Delivery</a>
+                        <a href="#">Returns & Exchanges</a>
+                        <a href="#">FAQs</a>
+                        <a href="#">Size Guide</a>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="footer-heading">Newsletter</h3>
+                    <p style="margin-top:20px;color:rgba(255,255,255,.65);line-height:1.75;font-size:.95rem;">
+                        Subscribe for exclusive offers, early access and more.
+                    </p>
+                    <form class="newsletter" onsubmit="event.preventDefault(); showToast('Subscribed to Ekkvastra updates!'); this.reset();">
+                        <label class="sr-only" for="email">Email</label>
+                        <div style="display:flex;gap:8px;">
+                            <input id="email" type="email" placeholder="Enter your email" required style="flex:1;min-width:0;" aria-label="Email address" />
+                            <button type="submit" class="btn-secondary"
+                                style="background:#fff;color:#000;min-width:48px;padding:0 18px;border:none;border-radius:999px;cursor:pointer;">→</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="footer-bottom reveal" style="margin-top:24px;">
+                <div style="display:flex;flex-wrap:wrap;gap:20px;">
+                    <a href="#" style="color:rgba(255,255,255,.58);">Privacy Policy</a>
+                    <a href="#" style="color:rgba(255,255,255,.58);">Terms of Service</a>
+                    <a href="#" style="color:rgba(255,255,255,.58);">Refund Policy</a>
+                </div>
+
+                <div style="display:flex;flex-wrap:wrap;gap:12px;">
+                    <span class="payment-pill">Amex</span>
+                    <span class="payment-pill">Apple Pay</span>
+                    <span class="payment-pill">Mastercard</span>
+                    <span class="payment-pill">PayPal</span>
+                    <span class="payment-pill">Visa</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="products.js"></script>
     <script>
         const STORAGE_KEY = 'ekkvastra_wishlist';
 
+        // 6 Default streetwear products shown in mockup
+        // 6 Default streetwear products shown in mockup
+        const DEFAULT_WISHLIST = [
+            { id: "wl-1", name: "OVERSIZED TEE - NOIR", price: 1199, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#111111", "#888888", "#e9e4dd"], sizes: ["S", "M", "L", "XL", "XXL"], defaultSize: "M", inStock: true },
+            { id: "wl-2", name: "SIGNATURE HOODIE - BLACK", price: 1799, image: "ekkvastra_hoodie.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#111111", "#5c4033"], sizes: ["S", "M", "L", "XL"], defaultSize: "L", inStock: true },
+            { id: "wl-3", name: "GRAPHIC TEE - ABSTRACT", price: 1299, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#111111", "#ffffff", "#888888"], sizes: ["S", "M", "L", "XL", "XXL"], defaultSize: "M", inStock: true },
+            { id: "wl-4", name: "CARGO PANTS - ASH GREY", price: 1699, image: "ekkvastra_cargo.png", hoverImage: "ekkvastra_front_print_tee.png", colors: ["#888888", "#ffffff"], sizes: ["30", "32", "34", "36"], defaultSize: "32", inStock: true },
+            { id: "wl-5", name: "MINIMAL TEE - SAND", price: 1099, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#d2b48c", "#8b5a2b", "#888888"], sizes: ["S", "M", "L", "XL"], defaultSize: "M", inStock: true },
+            { id: "wl-6", name: "ZIP HOODIE - CHARCOAL", price: 1799, image: "ekkvastra_hoodie.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#333333", "#d2b48c"], sizes: ["S", "M", "L", "XL"], defaultSize: "L", inStock: true }
+        ];
+
+        // Recommendations products list matching "YOU MAY ALSO LIKE"
+        const RECOMMENDATIONS = [
+            { id: "rec-1", name: "GRAPHIC TEE - SKETCH", price: 1299, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#ffffff", "#111111"], sizes: ["S", "M", "L", "XL"], defaultSize: "M", inStock: true },
+            { id: "rec-2", name: "JOGGERS - GREY MELANGE", price: 1499, image: "ekkvastra_cargo.png", hoverImage: "ekkvastra_front_print_tee.png", colors: ["#c0c0c0", "#8a8a8a", "#5c4033"], sizes: ["30", "32", "34"], defaultSize: "32", inStock: true },
+            { id: "rec-3", name: "OVERSIZED HOODIE - GREY", price: 1799, image: "ekkvastra_hoodie.png", hoverImage: "ekkvastra_front_print_tee.png", colors: ["#888888", "#ffffff"], sizes: ["S", "M", "L", "XL"], defaultSize: "L", inStock: true },
+            { id: "rec-4", name: "OVERSIZED TEE - GRAPHITE", price: 1199, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#333333", "#555555", "#888888"], sizes: ["S", "M", "L", "XL"], defaultSize: "M", inStock: true },
+            { id: "rec-5", name: "GRAPHIC TEE - TYPO", price: 1299, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#ffffff", "#111111"], sizes: ["S", "M", "L", "XL"], defaultSize: "M", inStock: true },
+            { id: "rec-6", name: "CARGO PANTS - BLACK", price: 1699, image: "ekkvastra_cargo.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#111111", "#ffffff"], sizes: ["30", "32", "34", "36"], defaultSize: "32", inStock: true }
+        ];
+
         function getWishlist() {
-            try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || []; }
-            catch { return []; }
+            try {
+                const data = localStorage.getItem(STORAGE_KEY);
+                let items = [];
+                if (!data) {
+                    // Populate initial mock items to align visual results immediately
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(DEFAULT_WISHLIST));
+                    items = DEFAULT_WISHLIST;
+                } else {
+                    items = JSON.parse(data);
+                }
+
+                // Force local image and property replacements for legacy items
+                items.forEach(p => {
+                    if (!p.colors) {
+                        p.colors = ["#111111", "#888888", "#e9e4dd"];
+                    }
+                    if (!p.sizes) {
+                        p.sizes = ["S", "M", "L", "XL"];
+                        p.defaultSize = "M";
+                    }
+                    if (typeof p.inStock === 'undefined') {
+                        p.inStock = true;
+                    }
+                    if (p.image && p.image.startsWith('http')) {
+                        if (p.name.toLowerCase().includes('hoodie')) p.image = 'ekkvastra_hoodie.png';
+                        else if (p.name.toLowerCase().includes('cargo') || p.name.toLowerCase().includes('pants')) p.image = 'ekkvastra_cargo.png';
+                        else p.image = 'ekkvastra_front_print_tee.png';
+                    }
+                    if (p.hoverImage && p.hoverImage.startsWith('http')) {
+                        p.hoverImage = 'ekkvastra_back_print_tee.png';
+                    }
+                });
+
+                return items;
+            }
+            catch {
+                return DEFAULT_WISHLIST;
+            }
         }
 
         function saveWishlist(items) {
@@ -352,22 +1529,249 @@
             updateNavBadge();
         }
 
+        function toggleWishlistItem(id, buttonEl) {
+            let items = getWishlist();
+            const exists = items.some(p => p.id === id);
+
+            if (exists) {
+                items = items.filter(p => p.id !== id);
+                buttonEl.classList.remove('active');
+            } else {
+                const item = RECOMMENDATIONS.find(p => p.id === id);
+                if (item) {
+                    items.push(item);
+                    buttonEl.classList.add('active');
+                }
+            }
+
+            saveWishlist(items);
+            renderGrid();
+            updateNavBadge();
+        }
+
         function updateNavBadge() {
             const items = getWishlist();
             const badge = document.getElementById('navWishlistBadge');
-            if (items.length > 0) {
+            if (badge) {
                 badge.textContent = items.length;
-                badge.style.display = 'flex';
-            } else {
-                badge.style.display = 'none';
+                badge.classList.toggle('visible', items.length > 0);
             }
+        }
+
+        function showToast(message, type = 'success') {
+            let container = document.getElementById('toastContainer');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toastContainer';
+                container.className = 'toast-container';
+                document.body.appendChild(container);
+            }
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            const icon = type === 'success' 
+                ? `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="color:#4caf50;"><polyline points="20 6 9 17 4 12"/></svg>`
+                : `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" style="color:#f44336;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+            toast.innerHTML = `${icon}<span>${message}</span>`;
+            container.appendChild(toast);
+            setTimeout(() => toast.classList.add('show'), 50);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 3500);
+        }
+
+        const CART_KEY = 'ekkvastra_cart';
+        function getCart() { try { return JSON.parse(localStorage.getItem(CART_KEY)) || []; } catch { return []; } }
+        function saveCart(items) { localStorage.setItem(CART_KEY, JSON.stringify(items)); }
+        function addToCart(product) {
+            const cart = getCart();
+            const size = product.size || (product.sizes && product.sizes.length > 0 ? product.sizes[0] : 'M');
+            const color = product.color || (product.colors && product.colors.length > 0 ? product.colors[0] : 'Black');
+            const existing = cart.find(item => String(item.id) === String(product.id) && item.size === size && item.color === color);
+            if (existing) {
+                existing.quantity += 1;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    category: product.category || '',
+                    fit: product.fit || '',
+                    price: product.price || 0,
+                    image: product.image || '',
+                    size,
+                    color,
+                    quantity: 1
+                });
+            }
+            saveCart(cart);
+            updateCartBadgeCount();
+        }
+        function updateCartBadgeCount() {
+            const badge = document.querySelector('.cart-badge');
+            if (!badge) return;
+            const count = getCart().reduce((sum, item) => sum + (item.quantity || 0), 0);
+            badge.textContent = count;
+        }
+
+        function triggerProductDetails(card) {
+            const raw = card.getAttribute('data-product');
+            if (!raw) return;
+            const product = JSON.parse(decodeURIComponent(raw));
+            card.classList.add('detail-triggering');
+            setTimeout(() => {
+                card.classList.remove('detail-triggering');
+                showDetailModal(product);
+            }, 850);
+        }
+
+        function showDetailModal(product) {
+            let modal = document.getElementById('productDetailsModal');
+            if (!modal) {
+                modal = document.createElement('div');
+                modal.id = 'productDetailsModal';
+                modal.className = 'details-modal-overlay';
+                document.body.appendChild(modal);
+            }
+
+            const formattedPrice = typeof product.price === 'number' ? product.price.toLocaleString('en-IN') : product.price;
+            const formattedOldPrice = product.oldPrice ? (typeof product.oldPrice === 'number' ? product.oldPrice.toLocaleString('en-IN') : product.oldPrice) : null;
+            const oldPriceHtml = formattedOldPrice ? `<span class="details-oldprice">₹${formattedOldPrice}</span>` : '';
+            const sizesHtml = product.sizes && product.sizes.length > 0 ? `
+                <div>
+                    <div class="details-options-title">Select Size</div>
+                    <div class="details-size-chips">
+                        ${product.sizes.map((s, idx) => `<span class="details-size-chip ${idx === 0 ? 'selected' : ''}" onclick="selectModalSize(this, '${s}')">${s}</span>`).join('')}
+                    </div>
+                </div>` : '';
+            const colorsHtml = product.colors && product.colors.length > 0 ? `
+                <div>
+                    <div class="details-options-title">Select Color</div>
+                    <div class="details-color-chips">
+                        ${product.colors.map((c, idx) => `<span class="details-color-chip ${idx === 0 ? 'selected' : ''}" style="background:${c}" onclick="selectModalColor(this, '${c}')" title="${c}"></span>`).join('')}
+                    </div>
+                </div>` : '';
+            const ratingHtml = product.rating ? `
+                <div style="display:flex;align-items:center;gap:6px;color:#f5a623;font-size:0.85rem;">
+                    <span>${"★".repeat(product.rating.stars)}${"☆".repeat(5 - product.rating.stars)}</span>
+                    <span style="color:#888;font-size:0.75rem;">(${product.rating.count} reviews)</span>
+                </div>` : '';
+            const fitHtml = product.fit ? `<span style="background:rgba(255,255,255,0.06);padding:4px 8px;border-radius:4px;font-size:0.68rem;color:#ccc;font-weight:600;">${product.fit} Fit</span>` : '';
+            const description = product.description || `Elevate your streetwear rotation with this premium ${product.category ? product.category.toLowerCase().replace(/s$/, '') : 'piece'} from EKKVASTRA. Carefully designed with drop shoulder seams, a boxy silhouette, and constructed from 380GSM custom-milled heavyweight combed cotton to provide an exceptional drape, unparalleled durability, and long-lasting soft comfort.`;
+
+            modal.innerHTML = `
+                <div class="details-modal-container">
+                    <button class="details-close-btn" onclick="closeDetailModal()" aria-label="Close details">&times;</button>
+                    <div class="details-media">
+                        <img id="modalProductImage" src="${product.image}" alt="${product.name}" />
+                    </div>
+                    <div class="details-info">
+                        <div>
+                            <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                                <span class="details-brand">Ekkvastra</span>
+                                ${fitHtml}
+                            </div>
+                            <h2 class="details-title">${product.name}</h2>
+                        </div>
+                        ${ratingHtml}
+                        <div class="details-price-row">
+                            <span class="details-price">₹${formattedPrice}</span>
+                            ${oldPriceHtml}
+                        </div>
+                        <p class="details-desc">${description}</p>
+                        ${sizesHtml}
+                        ${colorsHtml}
+                        <button class="details-btn-add" onclick="addModalItemToBag('${product.id}', '${product.name.replace(/'/g, "\\'")}', '${formattedPrice}')">ADD TO BAG</button>
+                    </div>
+                </div>`;
+
+            setTimeout(() => modal.classList.add('open'), 10);
+            modal.onclick = function(e) {
+                if (e.target === modal) closeDetailModal();
+            };
+        }
+
+        function closeDetailModal() {
+            const modal = document.getElementById('productDetailsModal');
+            if (modal) modal.classList.remove('open');
+        }
+
+        function selectModalSize(el, size) {
+            const chips = el.parentElement.querySelectorAll('.details-size-chip');
+            chips.forEach(chip => chip.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        function selectModalColor(el, color) {
+            const chips = el.parentElement.querySelectorAll('.details-color-chip');
+            chips.forEach(chip => chip.classList.remove('selected'));
+            el.classList.add('selected');
+        }
+
+        function addModalItemToBag(id, name, price) {
+            const product = getWishlist().find(x => String(x.id) === String(id)) || RECOMMENDATIONS.find(x => String(x.id) === String(id));
+            if (product) {
+                const modal = document.getElementById('productDetailsModal');
+                const selectedSize = modal ? modal.querySelector('.details-size-chip.selected')?.textContent : null;
+                const selectedColorChip = modal ? modal.querySelector('.details-color-chip.selected') : null;
+                const selectedColor = selectedColorChip ? selectedColorChip.getAttribute('title') || selectedColorChip.style.background : null;
+                const cartProduct = {
+                    ...product,
+                    size: selectedSize || (product.sizes && product.sizes.length ? product.sizes[0] : 'M'),
+                    color: selectedColor || (product.colors && product.colors.length ? product.colors[0] : 'Black')
+                };
+                addToCart(cartProduct);
+                showToast(`"${product.name}" has been added to your shopping bag.`);
+            } else {
+                showToast(`"${name}" has been added to your shopping bag.`);
+            }
+            closeDetailModal();
+        }
+
+        document.addEventListener('click', function(e) {
+            const card = e.target.closest('.product-card');
+            if (!card) return;
+            if (e.target.closest('button') || e.target.closest('a')) return;
+            e.preventDefault();
+            triggerProductDetails(card);
+        });
+
+        function moveItemToBag(id) {
+            const items = getWishlist();
+            const item = items.find(p => p.id === id) || RECOMMENDATIONS.find(p => p.id === id);
+            if (item) {
+                addToCart(item);
+                showToast(`"${item.name}" added to bag!`);
+                // If it was in the wishlist, remove it
+                if (items.some(p => p.id === id)) {
+                    removeItem(id);
+                }
+            }
+        }
+
+        function moveAllToBag() {
+            const items = getWishlist();
+            if (items.length === 0) {
+                showToast("Your wishlist is empty!", "error");
+                return;
+            }
+
+            items.forEach(item => addToCart(item));
+            saveWishlist([]);
+            renderGrid();
+            updateNavBadge();
+            showToast(`All ${items.length} items moved to bag!`);
+        }
+
+        function shareWishlist() {
+            showToast("Wishlist sharing link copied to clipboard!");
         }
 
         function renderGrid() {
             const grid = document.getElementById('wishlistGrid');
             const items = getWishlist();
             const label = document.getElementById('wishlistCountLabel');
-            label.textContent = items.length === 1 ? '1 item' : `${items.length} items`;
+            
+            label.textContent = items.length === 1 ? '1 Item' : `${items.length} Items`;
 
             if (items.length === 0) {
                 grid.innerHTML = `
@@ -378,9 +1782,8 @@
                             </svg>
                         </div>
                         <h2>Your wishlist is empty</h2>
-                        <p>Browse our collections and tap the ❤ icon on any product to save it here.</p>
-                        <a href="shop.html" class="btn-shop">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+                        <p>Browse our collections and add items back to your wishlist.</p>
+                        <a href="shop.html" class="btn-solid" style="margin-top: 10px;">
                             Shop Now
                         </a>
                     </div>`;
@@ -388,57 +1791,469 @@
             }
 
             grid.innerHTML = items.map((p, i) => `
-                <article class="product-card reveal" style="transition-delay:${i * 0.06}s;">
+                <article class="product-card reveal" data-product="${encodeURIComponent(JSON.stringify(p))}" style="transition-delay:${i * 0.05}s;">
                     <div class="product-image">
                         <img class="default-img" src="${p.image}" alt="${p.name}" loading="lazy" />
                         <img class="hover-img" src="${p.hoverImage || p.image}" alt="${p.name}" loading="lazy" />
-                        <button class="remove-btn" onclick="removeItem('${p.id}')" aria-label="Remove from wishlist" title="Remove">
-                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.2">
+                        <button class="card-close-btn" onclick="removeItem('${p.id}')" aria-label="Remove from wishlist" title="Remove">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"/>
                             </svg>
                         </button>
+                        <div class="quick-add-overlay">
+                            <button class="btn-quick-add" onclick="moveItemToBag('${p.id}')">
+                                <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+                                Quick Add
+                            </button>
+                        </div>
                     </div>
                     <div class="product-info">
-                        <div class="product-category">${p.category || ''}</div>
-                        <div class="product-name">${p.name}</div>
-                        <div class="product-price">₹${p.price}</div>
-                        <button class="add-to-bag" onclick="addToBag('${p.id}')">ADD TO BAG</button>
+                        <div class="product-title-wrap">
+                            <h3 class="product-name">${p.name}</h3>
+                            <div class="product-price">₹${p.price.toLocaleString("en-IN")}</div>
+                        </div>
+                        <div class="product-attributes-row">
+                            <div class="color-swatches">
+                                ${(p.colors || ["#111111"]).map(c => `<span class="swatch" style="background:${c}"></span>`).join('')}
+                            </div>
+                            <span class="size-pill">${p.defaultSize || (p.sizes && p.sizes.length > 0 ? p.sizes[0] : 'M')}</span>
+                        </div>
+                        <div class="stock-status">
+                            <span class="stock-dot ${p.inStock ? 'in-stock' : 'out-of-stock'}"></span>
+                            ${p.inStock ? 'In Stock' : 'Sold Out'}
+                        </div>
+                        <button class="btn-move-bag" onclick="moveItemToBag('${p.id}')">
+                            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+                            Move to Bag
+                        </button>
                     </div>
                 </article>
             `).join('');
 
-            // Animate cards
+            // Trigger animations
             requestAnimationFrame(() => {
                 const io = new IntersectionObserver(entries => {
                     entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
-                }, { threshold: 0.1 });
+                }, { threshold: 0.05 });
                 document.querySelectorAll('.reveal').forEach(el => io.observe(el));
             });
         }
 
-        function addToBag(id) {
-            const badge = document.querySelector('.cart-badge');
-            if (badge) badge.textContent = parseInt(badge.textContent || 0) + 1;
-            const item = getWishlist().find(p => p.id === id);
-            if (item) alert(`"${item.name}" added to bag!`);
+        function renderRecommendations() {
+            const grid = document.getElementById('recommendationsGrid');
+            const wl = getWishlist();
+            
+            grid.innerHTML = RECOMMENDATIONS.map((p, i) => {
+                const wishlisted = wl.some(item => item.id === p.id);
+                return `
+                    <article class="product-card reveal" data-product="${encodeURIComponent(JSON.stringify(p))}" style="transition-delay:${(i + 4) * 0.05}s;">
+                        <div class="product-image">
+                            <img class="default-img" src="${p.image}" alt="${p.name}" loading="lazy" />
+                            <img class="hover-img" src="${p.hoverImage || p.image}" alt="${p.name}" loading="lazy" />
+                            <button class="card-wishlist-btn ${wishlisted ? 'active' : ''}" onclick="toggleWishlistItem('${p.id}', this)" aria-label="Toggle Wishlist">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8">
+                                    <path d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z" stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </button>
+                            <div class="quick-add-overlay">
+                                <button class="btn-quick-add" onclick="moveItemToBag('${p.id}')">
+                                    <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+                                    Quick Add
+                                </button>
+                            </div>
+                        </div>
+                        <div class="product-info">
+                            <div class="product-title-wrap">
+                                <h3 class="product-name">${p.name}</h3>
+                                <div class="product-price">₹${p.price.toLocaleString("en-IN")}</div>
+                            </div>
+                            <div class="product-attributes-row">
+                                <div class="color-swatches">
+                                    ${(p.colors || ["#111111"]).map(c => `<span class="swatch" style="background:${c}"></span>`).join('')}
+                                </div>
+                                <span class="size-pill">${p.defaultSize || (p.sizes && p.sizes.length > 0 ? p.sizes[0] : 'M')}</span>
+                            </div>
+                            <div class="stock-status">
+                                <span class="stock-dot ${p.inStock ? 'in-stock' : 'out-of-stock'}"></span>
+                                ${p.inStock ? 'In Stock' : 'Sold Out'}
+                            </div>
+                            <button class="btn-move-bag" onclick="moveItemToBag('${p.id}')">
+                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 7h12l-1 13H7L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+                                Move to Bag
+                            </button>
+                        </div>
+                    </article>
+                `;
+            }).join('');
         }
 
-        // Mobile menu
+        // Header Scrolled styling
+        const header = document.getElementById('siteHeader');
+        window.addEventListener('scroll', () => {
+            header.classList.toggle('scrolled', window.scrollY > 20);
+        });
+
+        // Mobile drawer toggles
         const menuBtn = document.getElementById('menuBtn');
         const mobileDrawer = document.getElementById('mobileDrawer');
         const closeBtn = document.getElementById('closeBtn');
-        const header = document.getElementById('siteHeader');
 
         menuBtn.addEventListener('click', () => { mobileDrawer.classList.add('open'); });
         closeBtn.addEventListener('click', () => { mobileDrawer.classList.remove('open'); });
         mobileDrawer.addEventListener('click', e => { if (e.target === mobileDrawer) mobileDrawer.classList.remove('open'); });
-        window.addEventListener('scroll', () => {
-            header.classList.toggle('scrolled', window.scrollY > 12);
-        });
 
-        // Init
+        // Initialize Page
         renderGrid();
+        renderRecommendations();
         updateNavBadge();
+        updateCartBadgeCount();
+
+        // ── MAGNIFICENT SEARCH OVERLAY ENGINE ──
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchOpenBtns = document.querySelectorAll('button[aria-label="Search"]');
+            const searchOverlay = document.getElementById('searchOverlay');
+            const closeSearchBtn = document.getElementById('closeSearchBtn');
+            const searchInput = document.getElementById('searchInput');
+
+            if (searchOpenBtns && searchOverlay && closeSearchBtn) {
+                searchOpenBtns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        searchOverlay.classList.add('open');
+                        searchOverlay.setAttribute('aria-hidden', 'false');
+                        document.body.style.overflow = 'hidden'; // prevent bg scroll
+                        setTimeout(() => searchInput?.focus(), 100);
+                    });
+                });
+
+                closeSearchBtn.addEventListener('click', () => {
+                    searchOverlay.classList.remove('open');
+                    searchOverlay.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = ''; // restore bg scroll
+                });
+
+                // ESC key to close search overlay
+                window.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && searchOverlay.classList.contains('open')) {
+                        searchOverlay.classList.remove('open');
+                        searchOverlay.setAttribute('aria-hidden', 'true');
+                        document.body.style.overflow = '';
+                    }
+                });
+
+                // Setup wishlist togglers inside search suggestions
+                const bindSearchWishlistHandlers = () => {
+                    searchOverlay.querySelectorAll('.suggested-wishlist').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            btn.classList.toggle('active');
+                        });
+                    });
+                };
+                bindSearchWishlistHandlers();
+
+                // Recent searches remove action
+                searchOverlay.querySelectorAll('.remove-recent').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        btn.closest('li').remove();
+                    });
+                });
+
+                // Clicking recent search items or chips puts text in input
+                const fillSearch = (text) => {
+                    if (searchInput) {
+                        searchInput.value = text;
+                        // Trigger input event to filter products instantly
+                        searchInput.dispatchEvent(new Event('input'));
+                        searchInput.focus();
+                    }
+                };
+
+                searchOverlay.querySelectorAll('.recent-searches-list li span, .search-chip').forEach(el => {
+                    el.addEventListener('click', () => fillSearch(el.textContent.trim()));
+                });
+
+                // Helper to render product card inside search results
+                function renderSearchSuggestedProduct(p) {
+                    return `
+                        <div class="suggested-card">
+                            <div class="suggested-img-wrap">
+                                <img src="${p.image}" alt="${p.name}">
+                                <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                            </div>
+                            <div class="suggested-info">
+                                <h3>${p.name.toUpperCase()}</h3>
+                                <div class="suggested-price">₹${p.price.toLocaleString('en-IN')}</div>
+                                <div class="suggested-colors">
+                                    ${p.colors.map((c, idx) => `<span class="color-dot ${idx === 0 ? 'active' : ''}" style="background:${c}"></span>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                // Dynamic input filtering logic
+                const suggestedGrid = searchOverlay.querySelector('.suggested-products-grid');
+                const originalSuggestionsHTML = suggestedGrid ? suggestedGrid.innerHTML : '';
+
+                if (searchInput && suggestedGrid) {
+                    searchInput.addEventListener('input', () => {
+                        const query = searchInput.value.trim().toLowerCase();
+                        if (!query) {
+                            suggestedGrid.innerHTML = originalSuggestionsHTML;
+                            bindSearchWishlistHandlers();
+                            return;
+                        }
+
+                        const matches = EKKVASTRA_PRODUCTS.filter(p => 
+                            p.name.toLowerCase().includes(query) || 
+                            p.category.toLowerCase().includes(query)
+                        );
+
+                        if (matches.length === 0) {
+                            suggestedGrid.innerHTML = `
+                                <div style="grid-column: 1 / -1; padding: 40px 0; text-align: center; color: rgba(255,255,255,0.4); font-size: 0.9rem; font-weight: 500;">
+                                    <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto 12px; display: block; opacity: 0.6;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                    No products matching "${searchInput.value}" found
+                                </div>
+                            `;
+                        } else {
+                            suggestedGrid.innerHTML = matches.slice(0, 6).map(renderSearchSuggestedProduct).join('');
+                            bindSearchWishlistHandlers();
+                        }
+                    });
+                }
+            }
+        });
     </script>
+
+    <!-- Search Overlay Modal -->
+    <div id="searchOverlay" class="search-overlay" aria-hidden="true">
+        <div class="search-overlay-inner">
+            <!-- Top Announcement Bar -->
+            <div class="search-announcement">
+                <div>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2" ry="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                    <span>FREE SHIPPING ON ORDERS ABOVE ₹1499</span>
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                    <span>EASY 14-DAY RETURNS</span>
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                    <span>COD AVAILABLE</span>
+                </div>
+            </div>
+
+            <!-- Search Header -->
+            <div class="search-header">
+                <span class="search-logo">EKKVASTRA</span>
+                <button class="search-close-btn" id="closeSearchBtn" aria-label="Close search">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="search-body">
+                <!-- Search Input Wrapper -->
+                <div class="search-input-wrapper">
+                    <svg class="search-input-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search for products, categories..." autofocus>
+                </div>
+
+                <!-- Quick Info Row -->
+                <div class="search-quick-info">
+                    <div class="popular-searches-col">
+                        <span class="search-section-title">POPULAR SEARCHES</span>
+                        <div class="search-chips">
+                            <button class="search-chip">Oversized Tee</button>
+                            <button class="search-chip">Hoodie</button>
+                            <button class="search-chip">Cargo Pants</button>
+                            <button class="search-chip">Black Tee</button>
+                            <button class="search-chip">Jacket</button>
+                        </div>
+                    </div>
+                    <div class="trending-col">
+                        <span class="search-section-title">TRENDING NOW <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:2px;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+                        <div class="trending-links">
+                            <a href="shop.html">New Arrivals</a>
+                            <a href="shop.html">Best Sellers</a>
+                            <a href="shop.html">Graphic Tees</a>
+                            <a href="shop.html">Essentials</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Split Layout -->
+                <div class="search-results-layout">
+                    <!-- Recent Searches -->
+                    <div class="recent-searches-col">
+                        <div class="recent-header">
+                            <span class="search-section-title">
+                                RECENT SEARCHES
+                                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:4px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                            </span>
+                        </div>
+                        <ul class="recent-searches-list" id="recentSearchesList">
+                            <li><span>oversized tee</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
+                            <li><span>cargo pants</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
+                            <li><span>hoodie</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
+                            <li><span>black t shirt</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
+                        </ul>
+                    </div>
+
+                    <!-- Suggested Products -->
+                    <div class="suggested-products-col">
+                        <div class="suggested-header">
+                            <span class="search-section-title">SUGGESTED FOR YOU</span>
+                            <a href="shop.html" class="search-view-all">VIEW ALL <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:4px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                        
+                        <div class="suggested-products-grid">
+                            <!-- Card 1 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_front_print_tee.png" alt="OVERSIZED TEE">
+                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>OVERSIZED TEE - NOIR</h3>
+                                    <div class="suggested-price">₹1,199</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#ffffff;"></span>
+                                        <span class="color-dot" style="background:#777777;"></span>
+                                        <span class="color-dot" style="background:#222222;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_hoodie.png" alt="SIGNATURE HOODIE">
+                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>SIGNATURE HOODIE - BLACK</h3>
+                                    <div class="suggested-price">₹1,799</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#ffffff;"></span>
+                                        <span class="color-dot" style="background:#777777;"></span>
+                                        <span class="color-dot" style="background:#222222;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_cargo.png" alt="CARGO PANTS">
+                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>CARGO PANTS - BLACK</h3>
+                                    <div class="suggested-price">₹1,699</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#ffffff;"></span>
+                                        <span class="color-dot" style="background:#777777;"></span>
+                                        <span class="color-dot" style="background:#222222;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 4 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_back_print_tee.png" alt="MINIMAL TEE">
+                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>MINIMAL TEE - SAND</h3>
+                                    <div class="suggested-price">₹1,099</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#ffffff;"></span>
+                                        <span class="color-dot" style="background:#777777;"></span>
+                                        <span class="color-dot" style="background:#222222;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 5 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_front_print_tee.png" alt="GRAPHIC TEE">
+                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>GRAPHIC TEE - ABSTRACT</h3>
+                                    <div class="suggested-price">₹1,299</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#ffffff;"></span>
+                                        <span class="color-dot" style="background:#777777;"></span>
+                                        <span class="color-dot" style="background:#222222;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 6 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_hoodie.png" alt="ESSENTIAL HOODIE">
+                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>ESSENTIAL HOODIE - FOREST</h3>
+                                    <div class="suggested-price">₹1,899</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#ffffff;"></span>
+                                        <span class="color-dot" style="background:#777777;"></span>
+                                        <span class="color-dot" style="background:#222222;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- bottom helper card -->
+                <div class="search-contact-card">
+                    <div class="search-icon-box">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                    <div class="search-contact-text">
+                        <h4>CAN'T FIND WHAT YOU'RE LOOKING FOR?</h4>
+                        <p>Our team is here to help you find the perfect fit.</p>
+                    </div>
+                    <a href="CONTACT.html" class="search-contact-btn">CONTACT US <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:4px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                </div>
+            </div>
+
+            <!-- Search Footer -->
+            <div class="search-footer">
+                <span class="search-footer-logo">EKKVASTRA</span>
+                <div class="search-footer-links">
+                    <a href="shop.html">SHOP</a>
+                    <a href="index.html#collections">COLLECTIONS</a>
+                    <a href="ABOUT.html">ABOUT</a>
+                    <a href="#help">HELP</a>
+                </div>
+                <div class="search-footer-social">
+                    <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+                    <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></a>
+                    <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg></a>
+                    <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22a9 9 0 0 1-1.91-8.3A7.5 7.5 0 0 1 12 4.5a8.38 8.38 0 0 1 9 9 7.26 7.26 0 0 1-4.25 6.66c-1.12.5-2.24-.29-2.24-1.5v-1a5.83 5.83 0 0 0 .5-3.5c-.32-1.5-1.5-2.5-3-2.5a2.5 2.5 0 0 0-2.5 2.5 6 6 0 0 0 1 3.5c.34.5.21 1.5-.5 2S8.5 17 8 16c-.5-1-1-3-1-5a7 7 0 0 1 7-7 7.5 7.5 0 0 1 7.5 7.5c0 2.5-1.5 5-4.5 5a2 2 0 0 1-2-2"/></svg></a>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
