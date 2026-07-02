@@ -62,8 +62,8 @@
 
         /* ── ANNOUNCEMENT BAR ── */
         .announcement-bar {
-            background: #111;
-            color: rgba(255, 255, 255, 0.85);
+            background: #ffffff;
+            color: #000000;
             text-align: center;
             height: 40px;
             font-size: 0.65rem;
@@ -1179,15 +1179,27 @@
             gap: 10px;
         }
 
-        .details-size-chip,
-        .details-color-chip {
+        .details-size-chip {
             display: inline-flex;
             align-items: center;
             justify-content: center;
             min-width: 42px;
             min-height: 42px;
-            border-radius: 999px;
+            border-radius: 8px;
             border: 1px solid rgba(255,255,255,0.12);
+            color: #fff;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
+        }
+
+        .details-color-chip {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 42px;
+            height: 42px;
+            border-radius: 999px;
+            border: 1px solid rgba(255,255,255,0.35);
             color: #fff;
             cursor: pointer;
             transition: transform 0.2s ease, background 0.2s ease, border-color 0.2s ease;
@@ -1198,12 +1210,6 @@
             background: #fff;
             color: #000;
             border-color: #fff;
-        }
-
-        .details-color-chip {
-            width: 42px;
-            height: 42px;
-            padding: 0;
         }
 
         .details-color-chip:hover,
@@ -1477,6 +1483,99 @@
         .toast.show {
             transform: translateX(0);
         }
+
+        .size-variants-select {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+        }
+        .size-variant-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #bbb;
+            font-size: 0.65rem;
+            font-weight: 600;
+            width: 22px;
+            height: 22px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding: 0;
+        }
+        .size-variant-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #fff;
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+        .size-variant-btn.active {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+            font-weight: 700;
+        }
+
+        /* Move to Bag / Add to Cart Button Style */
+        .btn-move-bag {
+            margin-top: auto;
+            width: 100%;
+            padding: 10px;
+            background: #fff;
+            color: #000;
+            border: 1px solid #fff;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+        }
+        .btn-move-bag:hover {
+            background: transparent;
+            color: #fff;
+            border-color: #fff;
+        }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #ffffff;
+            color: #000000;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            background: #000000;
+            color: #ffffff;
+            border-color: #ffffff;
+            transform: translateY(-3px);
+        }
     </style>
     <link rel="stylesheet" href="search-overlay.css" />
 </head>
@@ -1523,9 +1622,10 @@
                     <span id="navWishlistBadge" class="nav-wishlist-badge">0</span>
                 </a>
                 <a href="cart.html" class="icon-btn" aria-label="Shopping Bag">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <path d="M6 7h12l-1 13H7L6 7z" stroke-linecap="round" stroke-linejoin="round"></path>
-                        <path d="M9 7a3 3 0 0 1 6 0" stroke-linecap="round"></path>
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                     </svg>
                     <span class="cart-badge">0</span>
                 </a>
@@ -1578,9 +1678,10 @@
                         </svg>
                     </a>
                     <a href="cart.html" class="icon-btn" aria-label="Shopping Bag">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
-                            <path d="M6 7h12l-1 13H7L6 7z" stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path d="M9 7a3 3 0 0 1 6 0" stroke-linecap="round"></path>
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                         </svg>
                     </a>
                 </div>
@@ -1818,7 +1919,7 @@
                 price: 1699,
                 oldPrice: 1699,
                 image: "ekkvastra_cargo.png",
-                size: "32",
+                size: "M",
                 color: "Ash Grey",
                 category: "Cargo Pants",
                 fit: "Relaxed",
@@ -1828,12 +1929,12 @@
 
         // Recommendation products
         const RECOMMENDATIONS = [
-            { id: "rec-1", name: "MINIMAL TEE - SAND", price: 1299, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", size: "M", color: "Sand", category: "Graphic Tees", fit: "Oversized" },
-            { id: "rec-2", name: "ZIP HOODIE - CHARCOAL", price: 1799, image: "ekkvastra_hoodie.png", hoverImage: "ekkvastra_back_print_tee.png", size: "L", color: "Charcoal", category: "Hoodies", fit: "Regular" },
-            { id: "rec-3", name: "JOGGERS - GREY MELANGE", price: 1499, image: "ekkvastra_cargo.png", hoverImage: "ekkvastra_back_print_tee.png", size: "32", color: "Grey Melange", category: "Joggers", fit: "Relaxed" },
-            { id: "rec-4", name: "GRAPHIC TEE - ABSTRACT", price: 1299, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", size: "M", color: "Abstract Black", category: "Graphic Tees", fit: "Oversized" },
-            { id: "rec-5", name: "OVERSIZED TEE - GRAPHITE", price: 1159, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", size: "M", color: "Graphite", category: "Oversized Tees", fit: "Oversized" },
-            { id: "rec-6", name: "CARGO PANTS - BLACK", price: 1699, image: "ekkvastra_cargo.png", hoverImage: "ekkvastra_back_print_tee.png", size: "32", color: "Black", category: "Cargo Pants", fit: "Relaxed" }
+            { id: "rec-1", name: "MINIMAL TEE - SAND", price: 1299, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "M", color: "Sand", category: "Graphic Tees", fit: "Oversized" },
+            { id: "rec-2", name: "ZIP HOODIE - CHARCOAL", price: 1799, image: "ekkvastra_hoodie.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "L", color: "Charcoal", category: "Hoodies", fit: "Regular" },
+            { id: "rec-3", name: "JOGGERS - GREY MELANGE", price: 1499, image: "ekkvastra_cargo.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "M", color: "Grey Melange", category: "Joggers", fit: "Relaxed" },
+            { id: "rec-4", name: "GRAPHIC TEE - ABSTRACT", price: 1299, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "M", color: "Abstract Black", category: "Graphic Tees", fit: "Oversized" },
+            { id: "rec-5", name: "OVERSIZED TEE - GRAPHITE", price: 1159, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "M", color: "Graphite", category: "Oversized Tees", fit: "Oversized" },
+            { id: "rec-6", name: "CARGO PANTS - BLACK", price: 1699, image: "ekkvastra_cargo.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "M", color: "Black", category: "Cargo Pants", fit: "Relaxed" }
         ];
 
         let appliedPromo = null;
@@ -2139,16 +2240,16 @@
                                 <path d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z" stroke-linecap="round" stroke-linejoin="round"></path>
                             </svg>
                         </button>
-                        <div class="quick-add-overlay">
-                            <button class="btn-quick-add" onclick="quickAdd(event, '${item.id}')">
-                                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
-                                Quick Add
-                            </button>
-                        </div>
                     </div>
                     <div class="product-info">
                         <h4 class="product-name">${item.name}</h4>
                         <div class="product-price">${formatPrice(item.price)}</div>
+                        <div class="size-variants-select" style="margin-top: 6px; margin-bottom: 8px;">
+                            ${(item.sizes || ["S", "M", "L", "XL"]).map((sz, idx) => `
+                                <button type="button" class="size-variant-btn ${sz === (item.defaultSize || 'M') ? 'active' : ''}" data-size="${sz}" onclick="selectCardSize(event, this, '${sz}')">${sz}</button>
+                            `).join('')}
+                        </div>
+                        <button type="button" class="btn-move-bag" onclick="quickAdd(event, '${item.id}', this)">Add to Cart</button>
                     </div>
                 </article>`;
             }).join('');
@@ -2184,12 +2285,31 @@
             saveWishlist(wishlist);
         }
 
-        function quickAdd(e, id) {
+        function selectCardSize(e, btnEl, size) {
             e.stopPropagation();
-            const item = RECOMMENDATIONS.find(r => r.id === id);
+            const parent = btnEl.closest('.size-variants-select');
+            if (parent) {
+                parent.querySelectorAll('.size-variant-btn').forEach(btn => btn.classList.remove('active'));
+            }
+            btnEl.classList.add('active');
+        }
+
+        function quickAdd(e, id, btnEl) {
+            e.stopPropagation();
+            const item = RECOMMENDATIONS.find(r => String(r.id) === String(id));
             if (item) {
+                let selectedSize = item.defaultSize || (item.sizes && item.sizes.length > 0 ? item.sizes[0] : 'M');
+                if (btnEl) {
+                    const card = btnEl.closest('.product-card');
+                    if (card) {
+                        const activeSizeBtn = card.querySelector('.size-variant-btn.active');
+                        if (activeSizeBtn) {
+                            selectedSize = activeSizeBtn.getAttribute('data-size');
+                        }
+                    }
+                }
                 const cart = getCart();
-                const existing = cart.find(p => p.id === id);
+                const existing = cart.find(p => String(p.id) === String(id) && p.size === selectedSize);
                 if (existing) {
                     existing.quantity = (existing.quantity || 1) + 1;
                 } else {
@@ -2198,7 +2318,7 @@
                         name: item.name,
                         price: item.price,
                         image: item.image,
-                        size: item.size || 'M',
+                        size: selectedSize,
                         color: item.color || 'Black',
                         category: item.category || 'Tees',
                         fit: item.fit || 'Oversized',
@@ -2207,7 +2327,7 @@
                 }
                 saveCart(cart);
                 renderCart();
-                showToast(`"${item.name}" added to Cart!`);
+                showToast(`"${item.name}" (${selectedSize}) added to Cart!`);
             }
         }
 
@@ -2792,5 +2912,34 @@
             </div>
         </div>
     </div>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top" title="Back to top">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <script>
+        // Back to Top functionality
+        (function() {
+            const backToTopBtn = document.getElementById('backToTop');
+            if (backToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        backToTopBtn.classList.add('show');
+                    } else {
+                        backToTopBtn.classList.remove('show');
+                    }
+                });
+                backToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        })();
+    </script>
 </body>
 </html>

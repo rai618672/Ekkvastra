@@ -9,31 +9,31 @@
     <!-- Premium Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Poppins:wght@500;600;700;800;900&family=Mr+Dafoe&family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="search-overlay.css" />
 
     <style>
         /* --- DESIGN SYSTEM TOKENS --- */
         :root {
-            --bg: #000000;
+            --bg: #080808;
             --panel: #0d0d0d;
-            --panel-light: #161616;
+            --panel-soft: #141414;
             --border: rgba(255, 255, 255, 0.08);
             --border-hover: rgba(255, 255, 255, 0.2);
             --ink: #ffffff;
-            --ink-muted: rgba(255, 255, 255, 0.6);
-            --ink-subtle: rgba(255, 255, 255, 0.35);
-            --accent: #ffffff;
-            --font-main: "Inter", sans-serif;
-            --font-display: "Poppins", sans-serif;
+            --muted: #888888;
+            --font-sans: "Inter", sans-serif;
+            --font-display: "Poppins", "Inter", sans-serif;
+            --soft-shadow: 0 12px 36px rgba(0, 0, 0, 0.6);
+            --max: 1440px;
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: var(--font-main);
+            font-family: var(--font-sans);
             -webkit-font-smoothing: antialiased;
         }
 
@@ -41,70 +41,154 @@
             background-color: var(--bg);
             color: var(--ink);
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- SCROLLBAR --- */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #080808;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1a1a1a;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #2a2a2a;
         }
 
         /* --- UTILITIES & LAYOUT --- */
         .container {
             width: 100%;
-            max-width: 1400px;
+            max-width: var(--max);
             margin: 0 auto;
             padding: 0 24px;
         }
 
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+            white-space: nowrap;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 24px;
+            background: #fff;
+            color: #000;
+            padding: 10px 20px;
+            z-index: 10000;
+            border-radius: 4px;
+            font-weight: 700;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            text-decoration: none;
+            transition: top 0.3s ease;
+        }
+        .skip-link:focus {
+            top: 24px;
+        }
+
         /* --- ANNOUNCEMENT BAR --- */
         .announcement-bar {
-            background: var(--ink);
-            color: var(--bg);
+            background: #ffffff;
+            color: #000000;
             text-align: center;
+            height: 40px;
             font-size: 0.65rem;
             font-weight: 800;
-            letter-spacing: 0.2em;
-            padding: 10px 0;
+            letter-spacing: 0.18em;
             text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 80;
+            position: relative;
+            box-sizing: border-box;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         /* --- HEADER & NAVIGATION --- */
         .sticky-header {
-            position: sticky;
-            top: 0;
+            position: absolute;
+            top: 40px;
             left: 0;
             right: 0;
-            z-index: 1000;
+            z-index: 70;
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border);
-            transition: all 0.3s ease;
+            border-bottom: 1px solid transparent;
+            transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
         .sticky-header.scrolled {
-            padding: 8px 0;
+            position: fixed;
+            top: 0;
             background: rgba(0, 0, 0, 0.7);
             backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
         }
+
         .header-inner {
+            max-width: var(--max);
+            width: 100%;
+            margin: 0 auto;
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            height: 72px;
+            justify-content: space-between;
+            gap: 18px;
+            min-height: 80px;
+            padding: 0 24px;
+            transition: min-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
+        .sticky-header.scrolled .header-inner {
+            min-height: 72px;
+        }
+
         .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            flex-shrink: 0;
             text-decoration: none;
-            color: var(--ink);
+        }
+
+        .logo-text {
             font-family: var(--font-display);
             font-size: 1.4rem;
             font-weight: 900;
             letter-spacing: 0.22em;
+            color: #fff;
         }
+
         .nav-links {
             display: none;
             gap: 32px;
+            align-items: center;
         }
         @media (min-width: 1024px) {
             .nav-links { display: flex; }
         }
         .nav-links a {
             text-decoration: none;
-            color: var(--ink-muted);
+            color: var(--muted);
             font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
@@ -114,6 +198,7 @@
         .nav-links a:hover, .nav-links a.active {
             color: var(--ink);
         }
+
         .nav-actions {
             display: flex;
             align-items: center;
@@ -130,240 +215,804 @@
             display: grid;
             place-items: center;
             position: relative;
-            transition: all 0.25s ease;
+            transition: transform 0.3s ease, background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, opacity 0.3s ease;
             border: 1px solid transparent;
         }
         .icon-btn:hover {
+            color: var(--ink);
             background: rgba(255, 255, 255, 0.08);
-            border-color: var(--border-hover);
         }
 
-        /* --- HERO --- */
-        .about-hero {
-            padding: 100px 0 60px;
-            text-align: center;
+        .nav-wishlist-btn {
+            position: relative;
+            text-decoration: none;
         }
-        .about-hero h1 {
-            font-family: var(--font-display);
-            font-size: clamp(2.5rem, 6vw, 4.5rem);
-            font-weight: 900;
-            letter-spacing: -0.02em;
-            line-height: 1.1;
-            margin-bottom: 20px;
+        .nav-wishlist-badge {
+            display: none;
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            background: #e53935;
+            color: #fff;
+            font-size: 0.58rem;
+            font-weight: 800;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+            border: 1.5px solid #000;
+        }
+        .nav-wishlist-badge.visible {
+            display: flex;
+        }
+        .cart-badge {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            background: #fff;
+            color: #000;
+            font-size: 0.58rem;
+            font-weight: 800;
+            width: 17px;
+            height: 17px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1.5px solid #000;
+        }
+
+        .mobile-menu-btn {
+            display: grid;
+        }
+        @media (min-width: 1024px) {
+            .mobile-menu-btn { display: none; }
+        }
+
+        /* --- MOBILE DRAWER --- */
+        .mobile-drawer {
+            position: fixed;
+            inset: 0;
+            z-index: 90;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        .mobile-drawer.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .drawer-panel {
+            margin-left: auto;
+            width: min(84vw, 360px);
+            height: 100%;
+            background: rgba(13, 13, 13, 0.96);
+            padding: 24px;
+            transform: translateX(100%);
+            transition: transform 0.35s ease;
+            display: flex;
+            flex-direction: column;
+            box-shadow: -18px 0 50px rgba(0, 0, 0, 0.5);
+            border-left: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .mobile-drawer.open .drawer-panel {
+            transform: translateX(0);
+        }
+        .drawer-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo-mark {
+            width: 38px;
+            height: 38px;
+            border-radius: 999px;
+            display: grid;
+            place-items: center;
+            background: transparent;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.28);
+        }
+        .drawer-links {
+            margin-top: 40px;
+            display: grid;
+            gap: 20px;
+        }
+        .drawer-links a {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
             text-transform: uppercase;
+            letter-spacing: 0.05em;
         }
-        .about-hero p {
-            color: var(--ink-muted);
-            font-size: clamp(1rem, 2.5vw, 1.25rem);
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.6;
-            font-weight: 500;
+        .drawer-actions {
+            margin-top: auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            padding-top: 32px;
+        }
+        .drawer-actions .icon-btn {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.15);
+            color: #fff;
         }
 
-        /* --- STORY SECTION --- */
-        .story-block {
+        /* --- HERO SECTION --- */
+        .about-hero-section {
+            padding: 180px 0 100px;
+            position: relative;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border);
+        }
+        .about-hero-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 48px;
-            padding: 60px 0 80px;
+            gap: 60px;
             align-items: center;
         }
         @media (min-width: 1024px) {
-            .story-block {
-                grid-template-columns: 1fr 1.1fr;
+            .about-hero-grid {
+                grid-template-columns: 1fr 1.05fr;
             }
         }
-        .story-img-wrap {
-            border: 1px solid var(--border);
-            border-radius: 20px;
-            overflow: hidden;
-            background: var(--panel);
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
             position: relative;
-            aspect-ratio: 4/5;
+            z-index: 2;
         }
-        .story-img-wrap img {
+        .hero-eyebrow {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--muted);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(2.2rem, 5.2vw, 4.4rem);
+            font-weight: 900;
+            line-height: 1.05;
+            letter-spacing: -0.04em;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+        .hero-title span {
+            color: var(--muted);
+        }
+        .hero-desc {
+            font-size: 1.02rem;
+            line-height: 1.75;
+            color: rgba(255, 255, 255, 0.72);
+            margin-bottom: 40px;
+            max-width: 480px;
+        }
+        .hero-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid var(--ink);
+            background: transparent;
+            color: var(--ink);
+            padding: 16px 36px;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            text-decoration: none;
+            width: fit-content;
+            transition: background 0.3s, color 0.3s, transform 0.2s;
+        }
+        .hero-btn:hover {
+            background: var(--ink);
+            color: var(--bg);
+            transform: translateY(-2px);
+        }
+        .hero-watermark {
+            position: absolute;
+            bottom: -60px;
+            left: 20px;
+            font-family: 'Mr Dafoe', cursive;
+            font-size: clamp(4rem, 8vw, 7rem);
+            color: rgba(255, 255, 255, 0.04);
+            transform: rotate(-8deg);
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .hero-right {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .hero-img-container {
+            width: 100%;
+            max-width: 460px;
+            aspect-ratio: 1 / 1.15;
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            box-shadow: var(--soft-shadow);
+            position: relative;
+            background: var(--panel-soft);
+        }
+        .hero-img-container img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            opacity: 0.85;
-            transition: transform 0.6s ease;
+            display: block;
         }
-        .story-img-wrap:hover img {
-            transform: scale(1.04);
+        .hero-vertical-text {
+            position: absolute;
+            right: -60px;
+            top: 50%;
+            transform: translateY(-50%) rotate(90deg);
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.35em;
+            color: rgba(255, 255, 255, 0.2);
+            text-transform: uppercase;
+            white-space: nowrap;
+            display: none;
         }
-        .story-text-wrap {
+        @media (min-width: 1200px) {
+            .hero-vertical-text { display: block; }
+        }
+        .hero-barcode-badge {
+            position: absolute;
+            bottom: 24px;
+            right: 24px;
+            background: rgba(8, 8, 8, 0.85);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px 20px;
             display: flex;
             flex-direction: column;
-            gap: 24px;
+            gap: 4px;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.5);
+            z-index: 3;
+            max-width: 160px;
         }
-        .story-text-wrap .eyebrow {
-            font-size: 0.75rem;
+        .barcode-title {
+            font-size: 0.58rem;
             font-weight: 800;
-            letter-spacing: 0.2em;
-            color: var(--ink-muted);
+            letter-spacing: 0.22em;
+            color: var(--ink);
             text-transform: uppercase;
         }
-        .story-text-wrap h2 {
-            font-family: var(--font-display);
-            font-size: clamp(1.8rem, 4vw, 2.8rem);
-            font-weight: 900;
-            line-height: 1.2;
-            letter-spacing: -0.01em;
+        .barcode-desc {
+            font-size: 0.52rem;
+            color: var(--muted);
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 4px;
         }
-        .story-text-wrap p {
-            color: var(--ink-muted);
-            line-height: 1.7;
-            font-size: 0.98rem;
+        .barcode-lines {
+            font-size: 0.8rem;
+            letter-spacing: 0px;
+            color: var(--ink);
+            opacity: 0.85;
+            font-family: monospace;
+            line-height: 1;
+            user-select: none;
         }
 
-        /* --- STATS GRID --- */
+        /* --- OUR JOURNEY SECTION --- */
+        .journey-section {
+            padding: 100px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .section-head-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 50px;
+        }
+        .section-head-row h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+        }
+        .section-head-row span {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: var(--muted);
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+        }
+        .journey-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+        @media (min-width: 900px) {
+            .journey-grid {
+                grid-template-columns: repeat(5, 1fr);
+                gap: 20px;
+            }
+        }
+        .journey-card {
+            border-top: 1.5px solid var(--border);
+            padding-top: 24px;
+            display: flex;
+            flex-direction: column;
+            transition: border-color 0.3s;
+        }
+        .journey-card:hover {
+            border-color: var(--border-hover);
+        }
+        .journey-num {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: var(--ink);
+            letter-spacing: -0.04em;
+            line-height: 1;
+        }
+        .journey-num span {
+            color: var(--border-hover);
+            font-weight: 500;
+        }
+        .journey-title {
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            color: var(--ink);
+            margin: 12px 0 16px;
+        }
+        .journey-desc {
+            font-size: 0.84rem;
+            line-height: 1.6;
+            color: var(--muted);
+            margin-bottom: 24px;
+            min-height: auto;
+        }
+        @media (min-width: 900px) {
+            .journey-desc {
+                min-height: 90px;
+            }
+        }
+        .journey-thumb {
+            border-radius: 12px;
+            overflow: hidden;
+            aspect-ratio: 16 / 10;
+            border: 1px solid var(--border);
+            filter: grayscale(1);
+            transition: filter 0.4s ease, border-color 0.4s ease;
+            background: var(--panel-soft);
+        }
+        .journey-card:hover .journey-thumb {
+            filter: grayscale(0);
+            border-color: var(--border-hover);
+        }
+        .journey-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* --- STATS SECTION --- */
+        .stats-section {
+            position: relative;
+            padding: 56px 0;
+            background: #0a0a0a;
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            overflow: hidden;
+        }
+        .stats-section .stats-map-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+            opacity: 0.13;
+            pointer-events: none;
+            user-select: none;
+        }
+        .stats-section .container {
+            position: relative;
+            z-index: 1;
+        }
         .stats-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-            padding: 40px 0 80px;
+            gap: 32px 24px;
         }
-        @media (min-width: 768px) {
+        @media (min-width: 900px) {
             .stats-grid {
                 grid-template-columns: repeat(4, 1fr);
+                gap: 0;
             }
         }
-        .stat-card {
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 32px 24px;
-            background: var(--panel);
-            text-align: center;
+        .stat-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 14px;
+            padding: 0 24px;
+            border-right: 1px solid rgba(255,255,255,0.07);
         }
-        .stat-number {
-            font-family: var(--font-display);
-            font-size: clamp(2rem, 4vw, 3rem);
-            font-weight: 900;
-            letter-spacing: -0.02em;
-            color: var(--ink);
-            margin-bottom: 8px;
+        .stat-item:last-child {
+            border-right: none;
         }
-        .stat-label {
-            font-size: 0.75rem;
-            font-weight: 800;
-            letter-spacing: 0.15em;
-            color: var(--ink-muted);
-            text-transform: uppercase;
+        @media (max-width: 899px) {
+            .stat-item {
+                padding: 0 8px;
+                border-right: none;
+            }
         }
-
-        /* --- VALUES SECTION --- */
-        .values-section {
-            padding: 80px 0;
-            border-top: 1px solid var(--border);
+        .stat-icon {
+            width: 40px;
+            height: 40px;
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            color: rgba(255,255,255,0.85);
+            margin-top: 2px;
         }
-        .values-header {
-            text-align: center;
-            margin-bottom: 50px;
+        .stat-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1px;
         }
-        .values-header h2 {
+        .stat-count {
             font-family: var(--font-display);
             font-size: 2rem;
             font-weight: 900;
-            letter-spacing: -0.01em;
-            margin-bottom: 12px;
+            color: var(--ink);
+            line-height: 1;
+            letter-spacing: -0.02em;
+        }
+        .stat-label {
+            font-size: 0.62rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.55);
             text-transform: uppercase;
+            letter-spacing: 0.18em;
+            margin-top: 3px;
         }
-        .values-header p {
-            color: var(--ink-muted);
-            font-size: 0.95rem;
+        .stat-sub {
+            font-size: 0.68rem;
+            color: rgba(255,255,255,0.32);
+            font-weight: 400;
+            margin-top: 2px;
         }
-        .values-grid {
+
+        /* --- DRIVES SECTION --- */
+        .drives-section {
+            padding: 80px 0;
+            border-bottom: 1px solid var(--border);
+            background: #0c0c0c;
+        }
+        .drives-grid {
             display: grid;
             grid-template-columns: 1fr;
-            gap: 24px;
+            gap: 48px;
+        }
+        @media (min-width: 1024px) {
+            .drives-grid {
+                grid-template-columns: 320px 1fr;
+                gap: 64px;
+                align-items: center;
+            }
+        }
+        .drives-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .drives-eyebrow {
+            font-size: 0.62rem;
+            font-weight: 800;
+            color: rgba(255,255,255,0.38);
+            letter-spacing: 0.3em;
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        .drives-left h2 {
+            font-family: var(--font-display);
+            font-size: clamp(1.7rem, 3.5vw, 2.6rem);
+            font-weight: 900;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            color: var(--ink);
+        }
+        .drives-left p {
+            font-size: 0.88rem;
+            line-height: 1.75;
+            color: rgba(255, 255, 255, 0.5);
+            max-width: 340px;
+        }
+
+        /* drives-right: single horizontal row of 4 cards */
+        .drives-right {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0;
+        }
+        @media (min-width: 900px) {
+            .drives-right {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+        .drive-card {
+            padding: 28px 24px;
+            border-right: 1px solid rgba(255,255,255,0.07);
+            background: transparent;
+            transition: background 0.3s ease;
+        }
+        .drive-card:last-child {
+            border-right: none;
+        }
+        @media (max-width: 899px) {
+            .drive-card {
+                border-right: none;
+                border-bottom: 1px solid rgba(255,255,255,0.07);
+            }
+            .drive-card:last-child { border-bottom: none; }
+        }
+        .drive-card:hover {
+            background: rgba(255,255,255,0.03);
+        }
+        .drive-icon {
+            color: rgba(255,255,255,0.8);
+            margin-bottom: 18px;
+            display: flex;
+        }
+        .drive-card h3 {
+            font-family: var(--font-display);
+            font-size: 0.72rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--ink);
+            margin-bottom: 10px;
+        }
+        .drive-card p {
+            font-size: 0.78rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.42);
+        }
+
+        /* --- TRENDING SECTION --- */
+        .trending-styles {
+            padding: 100px 0;
+        }
+        .trending-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
         }
         @media (min-width: 768px) {
-            .values-grid {
+            .trending-grid {
                 grid-template-columns: repeat(3, 1fr);
             }
         }
-        .value-card {
-            border: 1px solid var(--border);
+        @media (min-width: 1200px) {
+            .trending-grid {
+                grid-template-columns: repeat(6, 1fr);
+            }
+        }
+        .category-card {
+            height: 290px;
+            position: relative;
             border-radius: 16px;
-            padding: 40px 32px;
-            background: var(--panel);
-            transition: all 0.3s ease;
-        }
-        .value-card:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-4px);
-        }
-        .value-icon {
-            width: 52px;
-            height: 52px;
-            border-radius: 12px;
-            background: var(--panel-light);
+            overflow: hidden;
             border: 1px solid var(--border);
-            display: grid;
-            place-items: center;
-            color: var(--ink);
-            margin-bottom: 24px;
+            box-shadow: var(--soft-shadow);
+            cursor: pointer;
+            display: block;
+            text-decoration: none;
         }
-        .value-card h3 {
+        .category-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .category-card:hover img {
+            transform: scale(1.08);
+        }
+        .category-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0,0,0,0.05) 0%, rgba(0,0,0,0.85) 100%);
+            z-index: 2;
+        }
+        .card-bg-text {
+            position: absolute;
+            top: 20px;
+            left: 16px;
             font-family: var(--font-display);
-            font-size: 1.15rem;
-            font-weight: 800;
-            letter-spacing: 0.02em;
-            margin-bottom: 12px;
+            font-size: 2.4rem;
+            font-weight: 900;
+            -webkit-text-stroke: 1px rgba(255,255,255,0.05);
+            color: transparent;
+            pointer-events: none;
+            z-index: 1;
             text-transform: uppercase;
+            line-height: 1;
         }
-        .value-card p {
-            color: var(--ink-muted);
+        .category-content {
+            position: absolute;
+            bottom: 20px;
+            left: 16px;
+            right: 16px;
+            z-index: 3;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .category-title {
+            font-family: var(--font-display);
             font-size: 0.9rem;
-            line-height: 1.6;
+            font-weight: 800;
+            text-transform: uppercase;
+            color: #fff;
+            letter-spacing: 0.04em;
+        }
+        .category-link {
+            font-size: 0.7rem;
+            color: var(--muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            transition: color 0.2s;
+        }
+        .category-card:hover .category-link {
+            color: #fff;
         }
 
-        /* --- CTA CARD --- */
-        .about-cta-section {
-            padding: 40px 0 100px;
+        /* --- FOUNDER SECTION --- */
+        .founders-note {
+            padding: 0;
+            border-top: 1px solid rgba(255,255,255,0.08);
+            background: #080808;
+            overflow: hidden;
         }
-        .cta-card {
-            border: 1px solid var(--border);
-            border-radius: 24px;
-            padding: 80px 32px;
-            background: radial-gradient(circle at top right, #111111, #000000);
-            text-align: center;
+        .founder-banner {
+            display: flex;
+            align-items: stretch;
+            height: 280px;
+        }
+        @media (max-width: 767px) {
+            .founder-banner {
+                flex-direction: column;
+                height: auto;
+            }
+        }
+
+        /* Left: photo fills full height */
+        .founder-photo-strip {
+            width: 260px;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+        @media (max-width: 767px) {
+            .founder-photo-strip {
+                width: 100%;
+                height: 300px;
+            }
+        }
+        .founder-photo-strip img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            display: block;
+        }
+
+        /* Center: quote block */
+        .founder-content {
+            flex: 1;
+            padding: 36px 52px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            border-left: 1px solid rgba(255,255,255,0.06);
+            border-right: 1px solid rgba(255,255,255,0.06);
+        }
+        @media (max-width: 767px) {
+            .founder-content {
+                padding: 32px 24px;
+                border-left: none;
+                border-right: none;
+                border-top: 1px solid rgba(255,255,255,0.06);
+            }
+        }
+        .founder-eyebrow-row {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        .founder-eyebrow-line {
+            width: 26px;
+            height: 1px;
+            background: rgba(255,255,255,0.3);
+            flex-shrink: 0;
+        }
+        .founder-eyebrow {
+            font-size: 0.58rem;
+            font-weight: 800;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.4);
+        }
+        .founder-quote {
+            font-family: var(--font-display);
+            font-size: clamp(1.15rem, 2.2vw, 1.65rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            color: #fff;
+            line-height: 1.2;
+            margin-bottom: 14px;
+        }
+        .founder-text {
+            font-size: 0.78rem;
+            line-height: 1.75;
+            color: rgba(255,255,255,0.46);
+            max-width: 460px;
+        }
+
+        /* Right: signature block */
+        .founder-sig-block {
+            width: 220px;
+            flex-shrink: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 28px;
+            justify-content: center;
+            gap: 6px;
+            padding: 28px;
         }
-        .cta-card h2 {
-            font-family: var(--font-display);
-            font-size: clamp(1.8rem, 4vw, 3rem);
-            font-weight: 900;
-            letter-spacing: -0.01em;
-            text-transform: uppercase;
+        @media (max-width: 767px) {
+            .founder-sig-block {
+                width: 100%;
+                padding: 24px;
+                border-top: 1px solid rgba(255,255,255,0.06);
+            }
         }
-        .cta-card p {
-            color: var(--ink-muted);
-            font-size: 1rem;
-            max-width: 500px;
-            line-height: 1.6;
+        .founder-sig-text {
+            font-family: 'Dancing Script', cursive;
+            font-size: 2.6rem;
+            color: rgba(255,255,255,0.82);
+            line-height: 1;
+            transform: rotate(-4deg);
+            white-space: nowrap;
+            user-select: none;
         }
-        .cta-btn {
-            background: var(--ink);
-            color: var(--bg);
-            border: 1px solid var(--ink);
-            padding: 18px 44px;
-            border-radius: 8px;
-            font-size: 0.85rem;
-            font-weight: 800;
-            letter-spacing: 0.18em;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            text-transform: uppercase;
-            text-decoration: none;
-        }
-        .cta-btn:hover {
-            background: transparent;
-            color: var(--ink);
+        .founder-name {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.35);
+            letter-spacing: 0.07em;
+            text-align: center;
+            margin-top: 6px;
         }
 
         /* --- FOOTER --- */
@@ -371,6 +1020,7 @@
             border-top: 1px solid var(--border);
             padding: 60px 0 40px;
             background: var(--panel);
+            margin-top: auto;
         }
         .footer-grid {
             display: grid;
@@ -396,11 +1046,11 @@
             margin-bottom: 16px;
         }
         .footer-brand p {
-            color: var(--ink-muted);
+            color: rgba(255, 255, 255, 0.65);
             font-size: 0.8rem;
             line-height: 1.6;
         }
-        .footer-col h3 {
+        .footer-heading {
             font-family: var(--font-display);
             font-size: 0.8rem;
             font-weight: 800;
@@ -417,7 +1067,7 @@
         }
         .footer-links a {
             text-decoration: none;
-            color: var(--ink-muted);
+            color: rgba(255, 255, 255, 0.64);
             font-size: 0.8rem;
             font-weight: 600;
             transition: color 0.2s ease;
@@ -425,39 +1075,24 @@
         .footer-links a:hover {
             color: var(--ink);
         }
-        .newsletter-form {
+        .newsletter {
             display: flex;
-            gap: 8px;
-            margin-top: 16px;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 20px;
         }
-        .newsletter-input {
-            flex: 1;
-            background: var(--panel-light);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            color: var(--ink);
-            padding: 10px 14px;
-            font-size: 0.8rem;
+        .newsletter input {
+            min-height: 48px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.06);
+            color: #fff;
+            padding: 0 20px;
             outline: none;
+            font-size: 0.85rem;
         }
-        .newsletter-input:focus {
-            border-color: var(--ink);
-        }
-        .newsletter-btn {
-            background: var(--ink);
-            color: var(--bg);
-            border: 1px solid var(--ink);
-            padding: 0 16px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.75rem;
-            font-weight: 800;
-            letter-spacing: 0.1em;
-            transition: all 0.2s ease;
-        }
-        .newsletter-btn:hover {
-            background: transparent;
-            color: var(--ink);
+        .newsletter input:focus {
+            border-color: rgba(255, 255, 255, 0.3);
         }
         .footer-bottom {
             display: flex;
@@ -467,19 +1102,32 @@
             border-top: 1px solid var(--border);
             flex-wrap: wrap;
             gap: 20px;
-            color: var(--ink-subtle);
-            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.58);
+            font-size: 0.72rem;
             font-weight: 600;
             letter-spacing: 0.05em;
         }
         .footer-bottom a {
-            color: var(--ink-subtle);
+            color: rgba(255, 255, 255, 0.58);
             text-decoration: none;
-            margin-left: 20px;
         }
         .footer-bottom a:hover {
             color: var(--ink);
         }
+        .payment-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 6px 12px;
+            font-size: 0.65rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255, 255, 255, 0.78);
+        }
+
         /* --- TOAST NOTIFICATIONS --- */
         .toast-container {
             position: fixed;
@@ -511,51 +1159,184 @@
         .toast.show {
             transform: translateX(0);
         }
+
+        /* --- REVEAL ANIMATIONS --- */
+        .reveal {
+            opacity: 0;
+            transform: translateY(24px);
+            transition: opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1), transform 0.75s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-48px);
+            transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(48px);
+            transition: opacity 0.85s cubic-bezier(0.16, 1, 0.3, 1), transform 0.85s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .delay-1 { transition-delay: 0.1s; }
+        .delay-2 { transition-delay: 0.22s; }
+        .delay-3 { transition-delay: 0.36s; }
+        .delay-4 { transition-delay: 0.52s; }
+
+        /* Back to Top Button */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: #ffffff;
+            color: #000000;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease, background-color 0.3s ease, color 0.3s ease;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        .back-to-top:hover {
+            background: #000000;
+            color: #ffffff;
+            border-color: #ffffff;
+            transform: translateY(-3px);
+        }
     </style>
 </head>
 <body>
 
+    <!-- Skip Link -->
+    <a href="#content" class="skip-link">Skip to content</a>
+
     <!-- Announcement Bar -->
     <div class="announcement-bar">
-        FREE SHIPPING ON ORDERS OVER ₹1499 | EASY 14-DAY RETURNS | COD AVAILABLE
+        <span>FREE SHIPPING ON ORDERS ABOVE ₹1499</span>
+        <span style="margin: 0 16px; opacity: 0.35;">•</span>
+        <span>EASY 14-DAY RETURNS</span>
+        <span style="margin: 0 16px; opacity: 0.35;">•</span>
+        <span>COD AVAILABLE</span>
     </div>
 
     <!-- Sticky Header -->
     <header class="sticky-header" id="siteHeader">
-        <div class="container">
-            <div class="header-inner">
-                <a href="index.html" class="logo" aria-label="EKKVASTRA home">EKKVASTRA</a>
-                
-                <nav class="nav-links">
+        <div class="header-inner">
+            <a href="index.html" class="logo" aria-label="EKKVASTRA home">
+                <span class="logo-text">EKKVASTRA</span>
+            </a>
+
+            <nav class="nav-links" aria-label="Primary">
+                <a href="index.html#new-arrivals">New Arrivals</a>
+                <a href="shop.html">Shop</a>
+                <a href="index.html#collections">Collections</a>
+                <a href="CONTACT.html">Contact Us</a>
+                <a href="ABOUT.html" class="active">About Us</a>
+            </nav>
+
+            <div class="nav-actions">
+                <button class="icon-btn" aria-label="Search">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="M20 20l-3.5-3.5" stroke-linecap="round"></path>
+                    </svg>
+                </button>
+                <a href="LOGIN.html" class="icon-btn" aria-label="Account">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M20 21a8 8 0 0 0-16 0" stroke-linecap="round"></path>
+                        <circle cx="12" cy="8" r="4"></circle>
+                    </svg>
+                </a>
+                <a href="wishlist.html" class="icon-btn nav-wishlist-btn" aria-label="Wishlist" id="navWishlistBtn">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                    <span id="navWishlistBadge" class="nav-wishlist-badge">0</span>
+                </a>
+                <a href="cart.html" class="icon-btn" aria-label="Shopping Bag">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-badge">0</span>
+                </a>
+            </div>
+
+            <button class="icon-btn mobile-menu-btn" id="menuBtn" aria-label="Open menu">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Drawer -->
+        <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+            <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+                <div class="drawer-top">
+                    <a href="index.html" class="logo" aria-label="EKKVASTRA home">
+                        <span class="logo-text" style="color:#fff;">EKKVASTRA</span>
+                    </a>
+                    <button class="icon-btn" id="closeBtn" aria-label="Close menu">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"></path></svg>
+                    </button>
+                </div>
+
+                <div class="drawer-links">
                     <a href="index.html#new-arrivals">New Arrivals</a>
                     <a href="shop.html">Shop</a>
                     <a href="index.html#collections">Collections</a>
                     <a href="CONTACT.html">Contact Us</a>
-                    <a href="ABOUT.html" class="active">About Us</a>
-                </nav>
+                    <a href="ABOUT.html">About Us</a>
+                </div>
 
-                <div class="nav-actions">
+                <div class="drawer-actions">
                     <button class="icon-btn" aria-label="Search">
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
                             <circle cx="11" cy="11" r="7"></circle>
                             <path d="M20 20l-3.5-3.5" stroke-linecap="round"></path>
                         </svg>
                     </button>
                     <a href="LOGIN.html" class="icon-btn" aria-label="Account">
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
                             <path d="M20 21a8 8 0 0 0-16 0" stroke-linecap="round"></path>
                             <circle cx="12" cy="8" r="4"></circle>
                         </svg>
                     </a>
                     <a href="wishlist.html" class="icon-btn" aria-label="Wishlist">
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
                             <path d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z" stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
                     </a>
                     <a href="cart.html" class="icon-btn" aria-label="Shopping Bag">
-                        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
-                            <path d="M6 7h12l-1 13H7L6 7z" stroke-linecap="round" stroke-linejoin="round"></path>
-                            <path d="M9 7a3 3 0 0 1 6 0" stroke-linecap="round"></path>
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="9" cy="21" r="1"></circle>
+                            <circle cx="20" cy="21" r="1"></circle>
+                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                         </svg>
                     </a>
                 </div>
@@ -563,87 +1344,310 @@
         </div>
     </header>
 
-    <!-- Main Content -->
-    <main class="container">
-        <!-- Hero Section -->
-        <section class="about-hero">
-            <h1>ABOUT US</h1>
-            <p>EKKVASTRA is an independent streetwear design studio engineering premium, raw, oversized garments crafted for modern subcultures.</p>
-        </section>
-
-        <!-- Our Origin Section -->
-        <section class="story-block">
-            <div class="story-img-wrap">
-                <img src="ekkvastra_back_print_tee.png" alt="Ekkvastra Back Print Tee">
-            </div>
-            <div class="story-text-wrap">
-                <span class="eyebrow">OUR ORIGIN</span>
-                <h2>ESTABLISHED IN BENGALURU, 2024</h2>
-                <p>EKKVASTRA was born out of a frustration with flimsy, fast-fashion basics. We wanted structured garments that hold their shape. Heavyweight fabrics that feel substantial. Fits that drape perfectly, with sizing optimized for drop-shoulder aesthetics.</p>
-                <p>Every piece we create is designed from scratch in our local studio, built from custom heavyweight cotton blends, pre-shrunk, and custom-dyed. We represent a commitment to slow, deliberate drops over mass production.</p>
-            </div>
-        </section>
-
-        <!-- Premium Stats -->
-        <section class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-number">50K+</div>
-                <div class="stat-label">Units Shipped</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">100%</div>
-                <div class="stat-label">Premium Cotton</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">400 GSM</div>
-                <div class="stat-label">Maximum Weight</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number">15+</div>
-                <div class="stat-label">Exclusive Drops</div>
-            </div>
-        </section>
-
-        <!-- Brand Values -->
-        <section class="values-section">
-            <div class="values-header">
-                <h2>CORE BRAND VALUES</h2>
-                <p>The rules we live by when designing streetwear culture.</p>
-            </div>
-
-            <div class="values-grid">
-                <div class="value-card">
-                    <div class="value-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+    <main id="content">
+        <!-- HERO SECTION -->
+        <section class="about-hero-section">
+            <div class="container">
+                <div class="about-hero-grid">
+                    <div class="hero-left reveal-left">
+                        <span class="hero-eyebrow">About Us</span>
+                        <h1 class="hero-title">Rooted in Streets.<br><span>Driven by Purpose.</span></h1>
+                        <p class="hero-desc">EKKVASTRA is a movement born from the streets, designed for the dreamers and built for the future. We create premium streetwear that speaks your language—authentic, bold and timeless.</p>
+                        <a href="#story" class="hero-btn">Our Story &nbsp;→</a>
+                        <div class="hero-watermark">Built Different</div>
                     </div>
-                    <h3>QUALITY FIRST</h3>
-                    <p>We source only high-grade, long-staple cotton fibers. Our hoodies use 380-400 GSM fleece, and our tees use 240 GSM combed cotton. Built to endure.</p>
-                </div>
-
-                <div class="value-card">
-                    <div class="value-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                    <div class="hero-right reveal-right">
+                        <div class="hero-img-container">
+                            <img src="ekkvastra_back_print_tee.png" alt="EKKVASTRA Back Print Tee Model">
+                            <div class="hero-barcode-badge">
+                                <span class="barcode-title">Streetwear</span>
+                                <span class="barcode-desc">Essentials Forever</span>
+                                <span class="barcode-lines">||||| | ||| | ||| |||</span>
+                            </div>
+                        </div>
+                        <div class="hero-vertical-text">EKKVASTRA Worldwide</div>
                     </div>
-                    <h3>UNISEX CUTS</h3>
-                    <p>Designed with versatile, drop-shoulder silhouettes. Relaxed chests, boxy crops, and broad armholes engineered to look spectacular on all body types.</p>
-                </div>
-
-                <div class="value-card">
-                    <div class="value-icon">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/></svg>
-                    </div>
-                    <h3>CULTURE DRIVEN</h3>
-                    <p>Every print, seam detail, and graphic tells a story. Inspired by hip-hop, skate culture, and raw concrete cityscapes.</p>
                 </div>
             </div>
         </section>
 
-        <!-- CTA drop section -->
-        <section class="about-cta-section">
-            <div class="cta-card">
-                <h2>CRAFTED FOR THE CULTURE</h2>
-                <p>Join the drop roster today and browse our current limited collection before it sells out.</p>
-                <a href="shop.html" class="cta-btn">BROWSE SHOP</a>
+        <!-- OUR JOURNEY SECTION -->
+        <section class="journey-section" id="story">
+            <div class="container">
+                <div class="section-head-row reveal">
+                    <h2>Our Journey</h2>
+                    <span>The Story So Far</span>
+                </div>
+                <div class="journey-grid">
+                    <!-- Milestone 01 -->
+                    <div class="journey-card reveal" style="transition-delay: 0s;">
+                        <div class="journey-num">01<span>&nbsp;—</span></div>
+                        <h3 class="journey-title">The Beginning</h3>
+                        <p class="journey-desc">EKKVASTRA started in a small room with a big idea—make quality streetwear accessible to all.</p>
+                        <div class="journey-thumb">
+                            <img src="https://images.unsplash.com/photo-1479064555552-3ef4979f8908?auto=format&fit=crop&w=400&q=80" alt="Milestone 1">
+                        </div>
+                    </div>
+                    <!-- Milestone 02 -->
+                    <div class="journey-card reveal" style="transition-delay: 0.1s;">
+                        <div class="journey-num">02<span>&nbsp;—</span></div>
+                        <h3 class="journey-title">The Growth</h3>
+                        <p class="journey-desc">From a local community to a global movement. Your love and support made us who we are today.</p>
+                        <div class="journey-thumb">
+                            <img src="https://images.unsplash.com/photo-1511556532299-8f662fc26c06?auto=format&fit=crop&w=400&q=80" alt="Milestone 2">
+                        </div>
+                    </div>
+                    <!-- Milestone 03 -->
+                    <div class="journey-card reveal" style="transition-delay: 0.2s;">
+                        <div class="journey-num">03<span>&nbsp;—</span></div>
+                        <h3 class="journey-title">The Expansion</h3>
+                        <p class="journey-desc">New collections, better quality and a bigger vision. We kept pushing limits.</p>
+                        <div class="journey-thumb">
+                            <img src="https://images.unsplash.com/photo-1509631179647-0177331693ae?auto=format&fit=crop&w=400&q=80" alt="Milestone 3">
+                        </div>
+                    </div>
+                    <!-- Milestone 04 -->
+                    <div class="journey-card reveal" style="transition-delay: 0.3s;">
+                        <div class="journey-num">04<span>&nbsp;—</span></div>
+                        <h3 class="journey-title">The Purpose</h3>
+                        <p class="journey-desc">It's more than fashion. It's about self-expression, confidence and breaking boundaries.</p>
+                        <div class="journey-thumb">
+                            <img src="https://images.unsplash.com/photo-1529139574466-a303027c1d8b?auto=format&fit=crop&w=400&q=80" alt="Milestone 4">
+                        </div>
+                    </div>
+                    <!-- Milestone 05 -->
+                    <div class="journey-card reveal" style="transition-delay: 0.4s;">
+                        <div class="journey-num">05<span>&nbsp;—</span></div>
+                        <h3 class="journey-title">The Future</h3>
+                        <p class="journey-desc">We're just getting started. The best is yet to come.</p>
+                        <div class="journey-thumb">
+                            <img src="https://images.unsplash.com/photo-1506629905607-d405b7a5f5b0?auto=format&fit=crop&w=400&q=80" alt="Milestone 5">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STATS SECTION -->
+        <section class="stats-section">
+            <img src="world_map_dark.png" alt="" class="stats-map-bg" aria-hidden="true">
+            <div class="container">
+                <div class="stats-grid">
+                    <div class="stat-item reveal" style="transition-delay: 0s;">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="10"/>
+                                <line x1="2" y1="12" x2="22" y2="12"/>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-count">50K+</span>
+                            <span class="stat-label">Happy Customers</span>
+                            <span class="stat-sub">Across the globe</span>
+                        </div>
+                    </div>
+                    <div class="stat-item reveal" style="transition-delay: 0.1s;">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/>
+                                <path d="M3 20h18"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-count">100+</span>
+                            <span class="stat-label">Premium Styles</span>
+                            <span class="stat-sub">Designed with pride</span>
+                        </div>
+                    </div>
+                    <div class="stat-item reveal" style="transition-delay: 0.2s;">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-count">25+</span>
+                            <span class="stat-label">Countries Shipped</span>
+                            <span class="stat-sub">Delivering worldwide</span>
+                        </div>
+                    </div>
+                    <div class="stat-item reveal" style="transition-delay: 0.3s;">
+                        <div class="stat-icon">
+                            <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+                            </svg>
+                        </div>
+                        <div class="stat-info">
+                            <span class="stat-count">4.9/5</span>
+                            <span class="stat-label">Customer Rating</span>
+                            <span class="stat-sub">Trust that drives us</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- WHAT DRIVES US SECTION -->
+        <section class="drives-section">
+            <div class="container">
+                <div class="drives-grid">
+                    <div class="drives-left reveal-left">
+                        <span class="drives-eyebrow">What Drives Us</span>
+                        <h2>More Than Clothes.<br>It's a Culture.</h2>
+                        <p>Every stitch, every detail and every design reflects our belief in originality and purpose. We don't follow trends, we set them.</p>
+                    </div>
+                    <div class="drives-right reveal-right">
+                        <!-- Premium Quality -->
+                        <div class="drive-card">
+                            <div class="drive-icon">
+                                <!-- diamond / sparkle icon -->
+                                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M12 2l2.4 7.4H22l-6.2 4.5 2.4 7.4L12 17l-6.2 4.3 2.4-7.4L2 9.4h7.6L12 2z"/>
+                                </svg>
+                            </div>
+                            <h3>Premium Quality</h3>
+                            <p>Handpicked fabrics and flawless craftsmanship.</p>
+                        </div>
+                        <!-- Bold Designs -->
+                        <div class="drive-card">
+                            <div class="drive-icon">
+                                <!-- target / crosshair icon -->
+                                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="12" cy="12" r="10"/>
+                                    <circle cx="12" cy="12" r="6"/>
+                                    <circle cx="12" cy="12" r="2"/>
+                                </svg>
+                            </div>
+                            <h3>Bold Designs</h3>
+                            <p>Minimal, edgy and made to stand out.</p>
+                        </div>
+                        <!-- Built for All -->
+                        <div class="drive-card">
+                            <div class="drive-icon">
+                                <!-- group / people icon -->
+                                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                                    <circle cx="9" cy="7" r="4"/>
+                                    <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                                    <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                                </svg>
+                            </div>
+                            <h3>Built for All</h3>
+                            <p>Streetwear is for everyone, every day.</p>
+                        </div>
+                        <!-- Sustainable -->
+                        <div class="drive-card">
+                            <div class="drive-icon">
+                                <!-- leaf icon -->
+                                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M2 22 L22 2"/>
+                                    <path d="M6.5 22C6.5 22 2 18 2 12C2 6 8 2 14 2C20 2 22 6 22 10C22 16 16 20 10 20L6.5 22z"/>
+                                </svg>
+                            </div>
+                            <h3>Sustainable</h3>
+                            <p>Better choices for a better tomorrow.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TRENDING STYLES SECTION -->
+        <section class="trending-styles">
+            <div class="container">
+                <div class="section-head-row reveal">
+                    <h2>Trending Styles</h2>
+                    <a href="shop.html" class="category-link" style="color:#fff;font-weight:800;">Explore All &nbsp;→</a>
+                </div>
+                <div class="trending-grid">
+                    <!-- Oversized Tees -->
+                    <a href="shop.html" class="category-card reveal" style="transition-delay: 0s;">
+                        <div class="card-bg-text">Tees</div>
+                        <img src="ekkvastra_front_print_tee.png" alt="Oversized Tees">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <span class="category-title">Oversized Tees</span>
+                            <span class="category-link">Shop Now &nbsp;→</span>
+                        </div>
+                    </a>
+                    <!-- Hoodies -->
+                    <a href="shop.html" class="category-card reveal" style="transition-delay: 0.05s;">
+                        <div class="card-bg-text">Hoods</div>
+                        <img src="ekkvastra_hoodie.png" alt="Hoodies">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <span class="category-title">Hoodies</span>
+                            <span class="category-link">Shop Now &nbsp;→</span>
+                        </div>
+                    </a>
+                    <!-- Cargo Pants -->
+                    <a href="shop.html" class="category-card reveal" style="transition-delay: 0.1s;">
+                        <div class="card-bg-text">Cargo</div>
+                        <img src="ekkvastra_cargo.png" alt="Cargo Pants">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <span class="category-title">Cargo Pants</span>
+                            <span class="category-link">Shop Now &nbsp;→</span>
+                        </div>
+                    </a>
+                    <!-- Graphic Tees -->
+                    <a href="shop.html" class="category-card reveal" style="transition-delay: 0.15s;">
+                        <div class="card-bg-text">Graphic</div>
+                        <img src="ekkvastra_front_print_tee.png" alt="Graphic Tees">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <span class="category-title">Graphic Tees</span>
+                            <span class="category-link">Shop Now &nbsp;→</span>
+                        </div>
+                    </a>
+                    <!-- Essentials -->
+                    <a href="shop.html" class="category-card reveal" style="transition-delay: 0.2s;">
+                        <div class="card-bg-text">Basic</div>
+                        <img src="ekkvastra_back_print_tee.png" alt="Essentials">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <span class="category-title">Essentials</span>
+                            <span class="category-link">Shop Now &nbsp;→</span>
+                        </div>
+                    </a>
+                    <!-- Jackets -->
+                    <a href="shop.html" class="category-card reveal" style="transition-delay: 0.25s;">
+                        <div class="card-bg-text">Outer</div>
+                        <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=600&q=80" alt="Jackets">
+                        <div class="category-overlay"></div>
+                        <div class="category-content">
+                            <span class="category-title">Jackets</span>
+                            <span class="category-link">Shop Now &nbsp;→</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- FOUNDER SECTION -->
+        <section class="founders-note">
+            <div class="founder-banner">
+                <!-- Photo: full height cover -->
+                <div class="founder-photo-strip">
+                    <img src="founder_portrait.png" alt="Akash Rai, Founder of EKKVASTRA">
+                </div>
+
+                <!-- Center: Quote + Text -->
+                <div class="founder-content">
+                    <div class="founder-eyebrow-row">
+                        <span class="founder-eyebrow-line"></span>
+                        <span class="founder-eyebrow">Founder's Note</span>
+                    </div>
+                    <h2 class="founder-quote">&ldquo;Stay Real, Stay Original.&rdquo;</h2>
+                    <p class="founder-text">EKKVASTRA is my way of giving back to the culture that raised me. Keep believing in yourself and keep pushing forward. This is just the beginning.</p>
+                </div>
+
+                <!-- Right: Signature -->
+                <div class="founder-sig-block">
+                    <span class="founder-sig-text">Akash Rai</span>
+                    <span class="founder-name">&ndash; Akash Rai: Founder, EKKVASTRA</span>
+                </div>
             </div>
         </section>
     </main>
@@ -653,60 +1657,298 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-brand">
-                    <h2>EKKVASTRA</h2>
-                    <p>Premium, raw streetwear engineered for comfortable, oversized fits and clean aesthetics.</p>
+                    <a href="index.html" class="logo" aria-label="EKKVASTRA home" style="margin-bottom: 16px;">
+                        <span class="logo-text" style="color:#fff;">EKKVASTRA</span>
+                    </a>
+                    <p style="max-width:320px;margin-top:20px;color:rgba(255,255,255,.65);line-height:1.75;font-size:.95rem;">
+                        Premium Streetwear. Built Different.
+                    </p>
                 </div>
-                <div class="footer-col">
-                    <h3>SHOP</h3>
-                    <ul class="footer-links">
-                        <li><a href="shop.html">New Arrivals</a></li>
-                        <li><a href="shop.html">Hoodies</a></li>
-                        <li><a href="shop.html">Cargo Pants</a></li>
-                        <li><a href="shop.html">Oversized Tees</a></li>
-                    </ul>
+
+                <div>
+                    <h3 class="footer-heading">Shop</h3>
+                    <div class="footer-links">
+                        <a href="shop.html">New Arrivals</a>
+                        <a href="shop.html">All Products</a>
+                        <a href="shop.html">Hoodies</a>
+                        <a href="shop.html">T-Shirts</a>
+                        <a href="shop.html">Bottoms</a>
+                        <a href="shop.html">Accessories</a>
+                    </div>
                 </div>
-                <div class="footer-col">
-                    <h3>ABOUT</h3>
-                    <ul class="footer-links">
-                        <li><a href="ABOUT.html">Our Story</a></li>
-                        <li><a href="CONTACT.html">Contact Us</a></li>
-                        <li><a href="#press">Press Kit</a></li>
-                        <li><a href="#careers">Careers</a></li>
-                    </ul>
+
+                <div>
+                    <h3 class="footer-heading">Collections</h3>
+                    <div class="footer-links">
+                        <a href="shop.html">Oversized</a>
+                        <a href="shop.html">Graphic Tees</a>
+                        <a href="shop.html">Essentials</a>
+                        <a href="shop.html">Hoodies</a>
+                        <a href="shop.html">Summer Collection</a>
+                        <a href="shop.html">Winter Collection</a>
+                    </div>
                 </div>
-                <div class="footer-col">
-                    <h3>POLICIES</h3>
-                    <ul class="footer-links">
-                        <li><a href="#shipping">Shipping & Delivery</a></li>
-                        <li><a href="#returns">14-Day Returns</a></li>
-                        <li><a href="#terms">Terms of Service</a></li>
-                        <li><a href="#privacy">Privacy Policy</a></li>
-                    </ul>
+
+                <div>
+                    <h3 class="footer-heading">Customer Care</h3>
+                    <div class="footer-links">
+                        <a href="CONTACT.html">Contact Us</a>
+                        <a href="#">Track Order</a>
+                        <a href="#">Shipping & Delivery</a>
+                        <a href="#">Returns & Exchanges</a>
+                        <a href="#">FAQs</a>
+                        <a href="#">Size Guide</a>
+                    </div>
                 </div>
-                <div class="footer-col">
-                    <h3>NEWSLETTER</h3>
-                    <p style="color:var(--ink-muted);font-size:0.8rem;line-height:1.5;">Subscribe for updates on exclusive drops, restocks, and secret coupon codes.</p>
-                    <form class="newsletter-form" onsubmit="event.preventDefault(); showToast('Subscribed successfully!'); this.reset();">
-                        <input class="newsletter-input" type="email" placeholder="Your email address" required>
-                        <button class="newsletter-btn" type="submit">JOIN</button>
+
+                <div>
+                    <h3 class="footer-heading">Newsletter</h3>
+                    <p style="margin-top:20px;color:rgba(255,255,255,.65);line-height:1.75;font-size:.95rem;">
+                        Subscribe for exclusive offers, early access and more.
+                    </p>
+                    <form class="newsletter" onsubmit="event.preventDefault(); showToast('Subscribed successfully!'); this.reset();">
+                        <label class="sr-only" for="email">Email</label>
+                        <div style="display:flex;gap:8px;">
+                            <input id="email" type="email" placeholder="Enter your email" required style="flex:1;min-width:0;" aria-label="Email address" />
+                            <button type="submit" class="icon-btn" style="background:#fff;color:#000;min-width:48px;padding:0 18px;border:none;border-radius:999px;cursor:pointer;">→</button>
+                        </div>
                     </form>
                 </div>
             </div>
 
-            <div class="footer-bottom">
-                <span>&copy; 2026 EKKVASTRA. All rights reserved.</span>
-                <div>
-                    <a href="#privacy">Privacy</a>
-                    <a href="#terms">Terms</a>
-                    <a href="#cookies">Cookies</a>
+            <div class="footer-bottom" style="margin-top:24px;">
+                <div style="display:flex;flex-wrap:wrap;gap:20px;">
+                    <a href="#" style="color:rgba(255,255,255,.58);">Privacy Policy</a>
+                    <a href="#" style="color:rgba(255,255,255,.58);">Terms of Service</a>
+                    <a href="#" style="color:rgba(255,255,255,.58);">Refund Policy</a>
+                </div>
+
+                <div style="display:flex;flex-wrap:wrap;gap:12px;">
+                    <span class="payment-pill">Amex</span>
+                    <span class="payment-pill">Apple Pay</span>
+                    <span class="payment-pill">Mastercard</span>
+                    <span class="payment-pill">PayPal</span>
+                    <span class="payment-pill">Visa</span>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- Search Overlay -->
+    <!-- Search Overlay Modal -->
+    <div id="searchOverlay" class="search-overlay" aria-hidden="true">
+        <div class="search-overlay-inner">
+            <div class="search-announcement">
+                <div>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2" ry="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                    <span>FREE SHIPPING ON ORDERS ABOVE ₹1499</span>
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                    <span>EASY 14-DAY RETURNS</span>
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                    <span>COD AVAILABLE</span>
+                </div>
+            </div>
+
+            <div class="search-header">
+                <span class="search-logo">EKKVASTRA</span>
+                <button class="search-close-btn" id="closeSearchBtn" aria-label="Close search">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="search-body">
+                <div class="search-input-wrapper">
+                    <svg class="search-input-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search for products, categories..." autofocus>
+                </div>
+
+                <div class="search-info-row">
+                    <div class="trending-col">
+                        <span class="search-section-title">TRENDING NOW <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:2px;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+                        <div class="trending-links">
+                            <a href="shop.html">New Arrivals</a>
+                            <a href="shop.html">Best Sellers</a>
+                            <a href="shop.html">Oversized Tees</a>
+                            <a href="shop.html">Cargo Pants</a>
+                        </div>
+                    </div>
+                    <div class="recent-searches-col">
+                        <div class="recent-header">
+                            <span class="search-section-title">
+                                RECENT SEARCHES
+                                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:4px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                            </span>
+                        </div>
+                        <ul class="recent-searches-list" id="recentSearchesList">
+                            <li><span>oversized tee</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
+                            <li><span>cargo pants</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
+                            <li><span>hoodie</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
+                            <li><span>black t shirt</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
+                        </ul>
+                    </div>
+
+                    <div class="suggested-products-col">
+                        <div class="suggested-header">
+                            <span class="search-section-title">SUGGESTED FOR YOU</span>
+                            <a href="shop.html" class="search-view-all">VIEW ALL <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:4px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                        
+                        <div class="suggested-products-grid">
+                            <!-- Card 1 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_front_print_tee.png" alt="OVERSIZED TEE">
+                                    <button class="suggested-wishlist" aria-label="Wishlist" data-product="${encodeURIComponent(JSON.stringify({id:'idx-1', name:'Oversized Tee - Noir', price:1199, image:'ekkvastra_front_print_tee.png', colors:['#fff','#777','#222']}))}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>OVERSIZED TEE - NOIR</h3>
+                                    <div class="suggested-price">₹1,199</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#ffffff; border: 1px solid rgba(255, 255, 255, 0.4);"></span>
+                                        <span class="color-dot" style="background:#777777;"></span>
+                                        <span class="color-dot" style="background:#222222;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 2 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_hoodie.png" alt="SIGNATURE HOODIE">
+                                    <button class="suggested-wishlist" aria-label="Wishlist" data-product="${encodeURIComponent(JSON.stringify({id:'idx-2', name:'Signature Hoodie - Black', price:1799, image:'ekkvastra_hoodie.png', colors:['#111','#8a8a8a']}))}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>SIGNATURE HOODIE - BLACK</h3>
+                                    <div class="suggested-price">₹1,799</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#111111; border: 1px solid rgba(255, 255, 255, 0.4);"></span>
+                                        <span class="color-dot" style="background:#8a8a8a;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 3 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_cargo.png" alt="CARGO PANTS">
+                                    <button class="suggested-wishlist" aria-label="Wishlist" data-product="${encodeURIComponent(JSON.stringify({id:'idx-3', name:'Cargo Pants - Black', price:1699, image:'ekkvastra_cargo.png', colors:['#111','#8a8a8a']}))}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>CARGO PANTS - BLACK</h3>
+                                    <div class="suggested-price">₹1,699</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#111111; border: 1px solid rgba(255, 255, 255, 0.4);"></span>
+                                        <span class="color-dot" style="background:#8a8a8a;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 4 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_back_print_tee.png" alt="MINIMAL TEE">
+                                    <button class="suggested-wishlist" aria-label="Wishlist" data-product="${encodeURIComponent(JSON.stringify({id:'idx-4', name:'Minimal Tee - Sand', price:1099, image:'ekkvastra_back_print_tee.png', colors:['#d8d0c4','#8a8a8a']}))}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>MINIMAL TEE - SAND</h3>
+                                    <div class="suggested-price">₹1,099</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#d8d0c4;"></span>
+                                        <span class="color-dot" style="background:#8a8a8a;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 5 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_front_print_tee.png" alt="GRAPHIC TEE">
+                                    <button class="suggested-wishlist" aria-label="Wishlist" data-product="${encodeURIComponent(JSON.stringify({id:'idx-5', name:'Graphic Tee - Abstract', price:1299, image:'ekkvastra_front_print_tee.png', colors:['#fff','#777','#222']}))}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>GRAPHIC TEE - ABSTRACT</h3>
+                                    <div class="suggested-price">₹1,299</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#ffffff; border: 1px solid rgba(255, 255, 255, 0.4);"></span>
+                                        <span class="color-dot" style="background:#777777;"></span>
+                                        <span class="color-dot" style="background:#222222;"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Card 6 -->
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_hoodie.png" alt="ESSENTIAL HOODIE">
+                                    <button class="suggested-wishlist" aria-label="Wishlist" data-product="${encodeURIComponent(JSON.stringify({id:'idx-6', name:'Essential Hoodie - Forest', price:1899, image:'ekkvastra_hoodie.png', colors:['#fff','#777','#222']}))}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>ESSENTIAL HOODIE - FOREST</h3>
+                                    <div class="suggested-price">₹1,899</div>
+                                    <div class="suggested-colors">
+                                        <span class="color-dot active" style="background:#ffffff; border: 1px solid rgba(255, 255, 255, 0.4);"></span>
+                                        <span class="color-dot" style="background:#777777;"></span>
+                                        <span class="color-dot" style="background:#222222;"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="search-contact-card">
+                    <div class="search-icon-box">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                    <div class="search-contact-text">
+                        <h4>CAN'T FIND WHAT YOU'RE LOOKING FOR?</h4>
+                        <p>Our team is here to help you find the perfect fit.</p>
+                    </div>
+                    <a href="CONTACT.html" class="search-contact-btn">CONTACT US <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:4px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                </div>
+            </div>
+
+            <div class="search-footer">
+                <span class="search-footer-logo">EKKVASTRA</span>
+                <div class="search-footer-links">
+                    <a href="shop.html">SHOP</a>
+                    <a href="index.html#collections">COLLECTIONS</a>
+                    <a href="ABOUT.html">ABOUT</a>
+                    <a href="CONTACT.html">CONTACT</a>
+                </div>
+                <div class="search-footer-social">
+                    <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+                    <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></a>
+                    <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg></a>
+                    <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22a9 9 0 0 1-1.91-8.3A7.5 7.5 0 0 1 12 4.5a8.38 8.38 0 0 1 9 9 7.26 7.26 0 0 1-4.25 6.66c-1.12.5-2.24-.29-2.24-1.5v-1a5.83 5.83 0 0 0 .5-3.5c-.32-1.5-1.5-2.5-3-2.5a2.5 2.5 0 0 0-2.5 2.5 6 6 0 0 0 1 3.5c.34.5.21 1.5-.5 2S8.5 17 8 16c-.5-1-1-3-1-5a7 7 0 0 1 7-7 7.5 7.5 0 0 1 7.5 7.5c0 2.5-1.5 5-4.5 5a2 2 0 0 1-2-2"/></svg></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button id="backToTop" class="back-to-top" aria-label="Back to top" title="Back to top">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </button>
+
+    <!-- Scripts -->
     <script src="products.js"></script>
     <script>
+        // Toast notifications
         function showToast(message, type = 'success') {
             let container = document.getElementById('toastContainer');
             if (!container) {
@@ -738,7 +1980,32 @@
         window.addEventListener('scroll', onScroll);
         onScroll();
 
-        // ── MAGNIFICENT SEARCH OVERLAY ENGINE ──
+        // Mobile drawer navigation
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const mobileDrawer = document.getElementById('mobileDrawer');
+
+        if (menuBtn && closeBtn && mobileDrawer) {
+            menuBtn.addEventListener('click', () => {
+                mobileDrawer.classList.add('open');
+                mobileDrawer.setAttribute('aria-hidden', 'false');
+                document.body.style.overflow = 'hidden';
+            });
+            closeBtn.addEventListener('click', () => {
+                mobileDrawer.classList.remove('open');
+                mobileDrawer.setAttribute('aria-hidden', 'true');
+                document.body.style.overflow = '';
+            });
+            mobileDrawer.addEventListener('click', (e) => {
+                if (e.target === mobileDrawer) {
+                    mobileDrawer.classList.remove('open');
+                    mobileDrawer.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                }
+            });
+        }
+
+        // Search Overlay
         document.addEventListener('DOMContentLoaded', () => {
             const searchOpenBtns = document.querySelectorAll('button[aria-label="Search"]');
             const searchOverlay = document.getElementById('searchOverlay');
@@ -751,7 +2018,7 @@
                         e.preventDefault();
                         searchOverlay.classList.add('open');
                         searchOverlay.setAttribute('aria-hidden', 'false');
-                        document.body.style.overflow = 'hidden'; // prevent bg scroll
+                        document.body.style.overflow = 'hidden';
                         setTimeout(() => searchInput?.focus(), 100);
                     });
                 });
@@ -759,10 +2026,9 @@
                 closeSearchBtn.addEventListener('click', () => {
                     searchOverlay.classList.remove('open');
                     searchOverlay.setAttribute('aria-hidden', 'true');
-                    document.body.style.overflow = ''; // restore bg scroll
+                    document.body.style.overflow = '';
                 });
 
-                // ESC key to close search overlay
                 window.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape' && searchOverlay.classList.contains('open')) {
                         searchOverlay.classList.remove('open');
@@ -770,71 +2036,21 @@
                         document.body.style.overflow = '';
                     }
                 });
+            }
 
-                // Setup wishlist togglers inside search suggestions
-                const bindSearchWishlistHandlers = () => {
-                    searchOverlay.querySelectorAll('.suggested-wishlist').forEach(btn => {
-                        btn.addEventListener('click', () => {
-                            btn.classList.toggle('active');
-                        });
-                    });
-                };
-                bindSearchWishlistHandlers();
+            // Real-time Search Overlay Engine
+            const suggestedGrid = document.querySelector('.suggested-products-grid');
+            const defaultSuggestedHtml = suggestedGrid ? suggestedGrid.innerHTML : '';
 
-                // Recent searches remove action
-                searchOverlay.querySelectorAll('.remove-recent').forEach(btn => {
-                    btn.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        btn.closest('li').remove();
-                    });
-                });
-
-                // Clicking recent search items or chips puts text in input
-                const fillSearch = (text) => {
-                    if (searchInput) {
-                        searchInput.value = text;
-                        // Trigger input event to filter products instantly
-                        searchInput.dispatchEvent(new Event('input'));
-                        searchInput.focus();
+            if (searchInput && suggestedGrid) {
+                searchInput.addEventListener('input', () => {
+                    const query = searchInput.value.trim().toLowerCase();
+                    if (!query) {
+                        suggestedGrid.innerHTML = defaultSuggestedHtml;
+                        return;
                     }
-                };
 
-                searchOverlay.querySelectorAll('.recent-searches-list li span, .search-chip').forEach(el => {
-                    el.addEventListener('click', () => fillSearch(el.textContent.trim()));
-                });
-
-                // Helper to render product card inside search results
-                function renderSearchSuggestedProduct(p) {
-                    return `
-                        <div class="suggested-card">
-                            <div class="suggested-img-wrap">
-                                <img src="${p.image}" alt="${p.name}">
-                                <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-                            </div>
-                            <div class="suggested-info">
-                                <h3>${p.name.toUpperCase()}</h3>
-                                <div class="suggested-price">₹${p.price.toLocaleString('en-IN')}</div>
-                                <div class="suggested-colors">
-                                    ${p.colors.map((c, idx) => `<span class="color-dot ${idx === 0 ? 'active' : ''}" style="background:${c}"></span>`).join('')}
-                                </div>
-                            </div>
-                        </div>
-                    `;
-                }
-
-                // Dynamic input filtering logic
-                const suggestedGrid = searchOverlay.querySelector('.suggested-products-grid');
-                const originalSuggestionsHTML = suggestedGrid ? suggestedGrid.innerHTML : '';
-
-                if (searchInput && suggestedGrid) {
-                    searchInput.addEventListener('input', () => {
-                        const query = searchInput.value.trim().toLowerCase();
-                        if (!query) {
-                            suggestedGrid.innerHTML = originalSuggestionsHTML;
-                            bindSearchWishlistHandlers();
-                            return;
-                        }
-
+                    if (typeof EKKVASTRA_PRODUCTS !== 'undefined') {
                         const matches = EKKVASTRA_PRODUCTS.filter(p => 
                             p.name.toLowerCase().includes(query) || 
                             p.category.toLowerCase().includes(query)
@@ -848,243 +2064,128 @@
                                 </div>
                             `;
                         } else {
-                            suggestedGrid.innerHTML = matches.slice(0, 6).map(renderSearchSuggestedProduct).join('');
-                            bindSearchWishlistHandlers();
+                            suggestedGrid.innerHTML = matches.slice(0, 6).map(p => `
+                                <div class="suggested-card">
+                                    <div class="suggested-img-wrap">
+                                        <img src="${p.image}" alt="${p.name}">
+                                        <button class="suggested-wishlist" aria-label="Wishlist" data-product="${encodeURIComponent(JSON.stringify(p))}"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                                    </div>
+                                    <div class="suggested-info">
+                                        <h3>${p.name}</h3>
+                                        <div class="suggested-price">₹${p.price.toLocaleString('en-IN')}</div>
+                                        <div class="suggested-colors">
+                                            ${p.colors.map((c, i) => `<span class="color-dot ${i === 0 ? 'active' : ''}" style="background:${c}; ${c.toLowerCase() === '#111111' || c.toLowerCase() === '#111' ? 'border: 1px solid rgba(255,255,255,0.4);' : ''}"></span>`).join('')}
+                                        </div>
+                                    </div>
+                                </div>
+                            `).join('');
                         }
-                    });
-                }
+                    }
+                });
             }
         });
+
+        // Wishlist LocalStorage Helpers
+        const WL_KEY = 'ekkvastra_wishlist';
+        function getWishlist() { try { return JSON.parse(localStorage.getItem(WL_KEY)) || []; } catch { return []; } }
+        function saveWishlist(wl) { try { localStorage.setItem(WL_KEY, JSON.stringify(wl)); } catch {} }
+
+        function updateWishlistBadge() {
+            const items = getWishlist();
+            const badge = document.getElementById('navWishlistBadge');
+            if (badge) {
+                badge.textContent = items.length;
+                badge.classList.toggle('visible', items.length > 0);
+            }
+        }
+
+        // Restore active state on page load
+        function restoreWishlistStates() {
+            const wl = getWishlist();
+            const ids = wl.map(p => p.id);
+            document.querySelectorAll('.wishlist[data-product]').forEach(btn => {
+                try {
+                    const p = JSON.parse(decodeURIComponent(btn.dataset.product));
+                    if (ids.includes(p.id)) btn.classList.add('active');
+                } catch {}
+            });
+        }
+
+        // Wishlist click toggler
+        document.addEventListener('click', function(e) {
+            const btn = e.target.closest('.wishlist, .suggested-wishlist');
+            if (!btn) return;
+            e.preventDefault();
+            e.stopPropagation();
+            btn.classList.toggle('active');
+            try {
+                const productData = btn.dataset.product || btn.getAttribute('data-product');
+                if (productData) {
+                    const p = JSON.parse(decodeURIComponent(productData));
+                    let wl = getWishlist();
+                    const idx = wl.findIndex(item => item.id === p.id);
+                    if (btn.classList.contains('active')) {
+                        if (idx === -1) wl.push(p);
+                    } else {
+                        if (idx !== -1) wl.splice(idx, 1);
+                    }
+                    saveWishlist(wl);
+                    updateWishlistBadge();
+                }
+            } catch (err) {
+                console.error('Failed to toggle wishlist state', err);
+            }
+        });
+
+        // Restore Cart Badge count from LocalStorage
+        function updateCartBadge() {
+            const cartKey = 'ekkvastra_cart';
+            try {
+                const cart = JSON.parse(localStorage.getItem(cartKey)) || [];
+                const totalQty = cart.reduce((total, item) => total + (item.quantity || 1), 0);
+                document.querySelectorAll('.cart-badge').forEach(badge => {
+                    badge.textContent = totalQty;
+                });
+            } catch {}
+        }
+
+        // Initial setup
+        updateWishlistBadge();
+        updateCartBadge();
+
+        // Scroll reveals intersection observer
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add("visible");
+                    revealObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.05 });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.querySelectorAll(".reveal, .reveal-left, .reveal-right").forEach(el => revealObserver.observe(el));
+        });
+
+        // Back to Top button logic
+        (function() {
+            const backToTopBtn = document.getElementById('backToTop');
+            if (backToTopBtn) {
+                window.addEventListener('scroll', () => {
+                    if (window.scrollY > 300) {
+                        backToTopBtn.classList.add('show');
+                    } else {
+                        backToTopBtn.classList.remove('show');
+                    }
+                });
+                backToTopBtn.addEventListener('click', () => {
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                });
+            }
+        })();
     </script>
-
-    <!-- Search Overlay Modal -->
-    <div id="searchOverlay" class="search-overlay" aria-hidden="true">
-        <div class="search-overlay-inner">
-            <!-- Top Announcement Bar -->
-            <div class="search-announcement">
-                <div>
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2" ry="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-                    <span>FREE SHIPPING ON ORDERS ABOVE ₹1499</span>
-                </div>
-                <div>
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-                    <span>EASY 14-DAY RETURNS</span>
-                </div>
-                <div>
-                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-                    <span>COD AVAILABLE</span>
-                </div>
-            </div>
-
-            <!-- Search Header -->
-            <div class="search-header">
-                <span class="search-logo">EKKVASTRA</span>
-                <button class="search-close-btn" id="closeSearchBtn" aria-label="Close search">
-                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-                        <line x1="18" y1="6" x2="6" y2="18"></line>
-                        <line x1="6" y1="6" x2="18" y2="18"></line>
-                    </svg>
-                </button>
-            </div>
-
-            <div class="search-body">
-                <!-- Search Input Wrapper -->
-                <div class="search-input-wrapper">
-                    <svg class="search-input-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
-                        <circle cx="11" cy="11" r="8"></circle>
-                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                    </svg>
-                    <input type="text" id="searchInput" class="search-input" placeholder="Search for products, categories..." autofocus>
-                </div>
-
-                <!-- Quick Info Row -->
-                <div class="search-quick-info">
-                    <div class="popular-searches-col">
-                        <span class="search-section-title">POPULAR SEARCHES</span>
-                        <div class="search-chips">
-                            <button class="search-chip">Oversized Tee</button>
-                            <button class="search-chip">Hoodie</button>
-                            <button class="search-chip">Cargo Pants</button>
-                            <button class="search-chip">Black Tee</button>
-                            <button class="search-chip">Jacket</button>
-                        </div>
-                    </div>
-                    <div class="trending-col">
-                        <span class="search-section-title">TRENDING NOW <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:2px;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
-                        <div class="trending-links">
-                            <a href="shop.html">New Arrivals</a>
-                            <a href="shop.html">Best Sellers</a>
-                            <a href="shop.html">Graphic Tees</a>
-                            <a href="shop.html">Essentials</a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Main Split Layout -->
-                <div class="search-results-layout">
-                    <!-- Recent Searches -->
-                    <div class="recent-searches-col">
-                        <div class="recent-header">
-                            <span class="search-section-title">
-                                RECENT SEARCHES
-                                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:4px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
-                            </span>
-                        </div>
-                        <ul class="recent-searches-list" id="recentSearchesList">
-                            <li><span>oversized tee</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
-                            <li><span>cargo pants</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
-                            <li><span>hoodie</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
-                            <li><span>black t shirt</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
-                        </ul>
-                    </div>
-
-                    <!-- Suggested Products -->
-                    <div class="suggested-products-col">
-                        <div class="suggested-header">
-                            <span class="search-section-title">SUGGESTED FOR YOU</span>
-                            <a href="shop.html" class="search-view-all">VIEW ALL <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:4px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-                        </div>
-                        
-                        <div class="suggested-products-grid">
-                            <!-- Card 1 -->
-                            <div class="suggested-card">
-                                <div class="suggested-img-wrap">
-                                    <img src="ekkvastra_front_print_tee.png" alt="OVERSIZED TEE">
-                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-                                </div>
-                                <div class="suggested-info">
-                                    <h3>OVERSIZED TEE - NOIR</h3>
-                                    <div class="suggested-price">₹1,199</div>
-                                    <div class="suggested-colors">
-                                        <span class="color-dot active" style="background:#ffffff;"></span>
-                                        <span class="color-dot" style="background:#777777;"></span>
-                                        <span class="color-dot" style="background:#222222;"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Card 2 -->
-                            <div class="suggested-card">
-                                <div class="suggested-img-wrap">
-                                    <img src="ekkvastra_hoodie.png" alt="SIGNATURE HOODIE">
-                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-                                </div>
-                                <div class="suggested-info">
-                                    <h3>SIGNATURE HOODIE - BLACK</h3>
-                                    <div class="suggested-price">₹1,799</div>
-                                    <div class="suggested-colors">
-                                        <span class="color-dot active" style="background:#ffffff;"></span>
-                                        <span class="color-dot" style="background:#777777;"></span>
-                                        <span class="color-dot" style="background:#222222;"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Card 3 -->
-                            <div class="suggested-card">
-                                <div class="suggested-img-wrap">
-                                    <img src="ekkvastra_cargo.png" alt="CARGO PANTS">
-                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-                                </div>
-                                <div class="suggested-info">
-                                    <h3>CARGO PANTS - BLACK</h3>
-                                    <div class="suggested-price">₹1,699</div>
-                                    <div class="suggested-colors">
-                                        <span class="color-dot active" style="background:#ffffff;"></span>
-                                        <span class="color-dot" style="background:#777777;"></span>
-                                        <span class="color-dot" style="background:#222222;"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Card 4 -->
-                            <div class="suggested-card">
-                                <div class="suggested-img-wrap">
-                                    <img src="ekkvastra_back_print_tee.png" alt="MINIMAL TEE">
-                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-                                </div>
-                                <div class="suggested-info">
-                                    <h3>MINIMAL TEE - SAND</h3>
-                                    <div class="suggested-price">₹1,099</div>
-                                    <div class="suggested-colors">
-                                        <span class="color-dot active" style="background:#ffffff;"></span>
-                                        <span class="color-dot" style="background:#777777;"></span>
-                                        <span class="color-dot" style="background:#222222;"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Card 5 -->
-                            <div class="suggested-card">
-                                <div class="suggested-img-wrap">
-                                    <img src="ekkvastra_front_print_tee.png" alt="GRAPHIC TEE">
-                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-                                </div>
-                                <div class="suggested-info">
-                                    <h3>GRAPHIC TEE - ABSTRACT</h3>
-                                    <div class="suggested-price">₹1,299</div>
-                                    <div class="suggested-colors">
-                                        <span class="color-dot active" style="background:#ffffff;"></span>
-                                        <span class="color-dot" style="background:#777777;"></span>
-                                        <span class="color-dot" style="background:#222222;"></span>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Card 6 -->
-                            <div class="suggested-card">
-                                <div class="suggested-img-wrap">
-                                    <img src="ekkvastra_hoodie.png" alt="ESSENTIAL HOODIE">
-                                    <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
-                                </div>
-                                <div class="suggested-info">
-                                    <h3>ESSENTIAL HOODIE - FOREST</h3>
-                                    <div class="suggested-price">₹1,899</div>
-                                    <div class="suggested-colors">
-                                        <span class="color-dot active" style="background:#ffffff;"></span>
-                                        <span class="color-dot" style="background:#777777;"></span>
-                                        <span class="color-dot" style="background:#222222;"></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- bottom helper card -->
-                <div class="search-contact-card">
-                    <div class="search-icon-box">
-                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
-                            <circle cx="11" cy="11" r="8"></circle>
-                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-                        </svg>
-                    </div>
-                    <div class="search-contact-text">
-                        <h4>CAN'T FIND WHAT YOU'RE LOOKING FOR?</h4>
-                        <p>Our team is here to help you find the perfect fit.</p>
-                    </div>
-                    <a href="CONTACT.html" class="search-contact-btn">CONTACT US <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:4px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
-                </div>
-            </div>
-
-            <!-- Search Footer -->
-            <div class="search-footer">
-                <span class="search-footer-logo">EKKVASTRA</span>
-                <div class="search-footer-links">
-                    <a href="shop.html">SHOP</a>
-                    <a href="index.html#collections">COLLECTIONS</a>
-                    <a href="ABOUT.html">ABOUT</a>
-                    <a href="CONTACT.html">CONTACT</a>
-                </div>
-                <div class="search-footer-social">
-                    <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
-                    <a href="#" aria-label="TikTok"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 12a4 4 0 1 0 4 4V4a5 5 0 0 0 5 5"/></svg></a>
-                    <a href="#" aria-label="YouTube"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"/><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"/></svg></a>
-                    <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22a9 9 0 0 1-1.91-8.3A7.5 7.5 0 0 1 12 4.5a8.38 8.38 0 0 1 9 9 7.26 7.26 0 0 1-4.25 6.66c-1.12.5-2.24-.29-2.24-1.5v-1a5.83 5.83 0 0 0 .5-3.5c-.32-1.5-1.5-2.5-3-2.5a2.5 2.5 0 0 0-2.5 2.5 6 6 0 0 0 1 3.5c.34.5.21 1.5-.5 2S8.5 17 8 16c-.5-1-1-3-1-5a7 7 0 0 1 7-7 7.5 7.5 0 0 1 7.5 7.5c0 2.5-1.5 5-4.5 5a2 2 0 0 1-2-2"/></svg></a>
-                </div>
-            </div>
-        </div>
-    </div>
-
 </body>
 </html>
