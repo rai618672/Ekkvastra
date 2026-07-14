@@ -1,4 +1,13 @@
 /* --- SEARCH OVERLAY STYLES --- */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 96px;
+}
+
+body {
+    overscroll-behavior-y: none;
+}
+
 #searchOverlay {
     position: fixed;
     inset: 0;

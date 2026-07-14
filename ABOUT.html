@@ -41,12 +41,17 @@
             max-width: 100%;
             overflow-x: hidden;
         }
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 96px;
+        }
         body {
             background-color: var(--bg);
             color: var(--ink);
             display: flex;
             flex-direction: column;
             min-height: 100vh;
+            overscroll-behavior-y: none;
         }
 
         /* --- SCROLLBAR --- */
@@ -2065,8 +2070,6 @@
             function toggleMobileDrawer(open) {
                 mobileDrawer.classList.toggle('open', open);
                 mobileDrawer.setAttribute('aria-hidden', String(!open));
-                document.body.style.overflow = open ? 'hidden' : '';
-                document.documentElement.style.overflow = open ? 'hidden' : '';
             }
 
             menuBtn.addEventListener('click', () => toggleMobileDrawer(true));
