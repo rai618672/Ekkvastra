@@ -3122,28 +3122,25 @@
         const mobileDrawer = document.getElementById("mobileDrawer");
         const closeBtn = document.getElementById("closeBtn");
 
-        menuBtn.addEventListener("click", () => {
-            mobileDrawer.classList.add("open");
-            mobileDrawer.setAttribute("aria-hidden", "false");
-        });
+        function toggleMobileDrawer(open) {
+            mobileDrawer.classList.toggle("open", open);
+            mobileDrawer.setAttribute("aria-hidden", String(!open));
+            document.body.style.overflow = open ? "hidden" : "";
+            document.documentElement.style.overflow = open ? "hidden" : "";
+        }
 
-        closeBtn.addEventListener("click", () => {
-            mobileDrawer.classList.remove("open");
-            mobileDrawer.setAttribute("aria-hidden", "true");
-        });
+        menuBtn.addEventListener("click", () => toggleMobileDrawer(true));
+
+        closeBtn.addEventListener("click", () => toggleMobileDrawer(false));
 
         mobileDrawer.addEventListener("click", (e) => {
             if (e.target === mobileDrawer) {
-                mobileDrawer.classList.remove("open");
-                mobileDrawer.setAttribute("aria-hidden", "true");
+                toggleMobileDrawer(false);
             }
         });
 
         document.querySelectorAll(".drawer-links a").forEach((a) =>
-            a.addEventListener("click", () => {
-                mobileDrawer.classList.remove("open");
-                mobileDrawer.setAttribute("aria-hidden", "true");
-            })
+            a.addEventListener("click", () => toggleMobileDrawer(false))
         );
 
         function createRipple(event) {
