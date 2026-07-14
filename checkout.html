@@ -295,11 +295,16 @@
         /* ── MOBILE DRAWER ── */
         .mobile-drawer {
             position: fixed;
-            inset: 0;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100vw;
+            height: 100vh;
             z-index: 90;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.72);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
@@ -313,8 +318,10 @@
         .drawer-panel {
             margin-left: auto;
             width: min(84vw, 360px);
-            height: 100%;
-            background: rgba(13, 13, 13, 0.96);
+            height: 100vh;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
             padding: 24px;
             transform: translateX(100%);
             transition: transform 0.35s ease;
@@ -1358,6 +1365,41 @@
         }
         .btn-success-home:hover {
             background: #eaeaea;
+        }
+
+        @media (max-width: 767px) {
+            .announcement-bar {
+                height: auto;
+                min-height: 40px;
+                padding: 8px 12px;
+                font-size: 0.58rem;
+                line-height: 1.3;
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+
+            .sticky-header {
+                position: sticky;
+                top: 0;
+            }
+
+            .header-inner {
+                min-height: 64px;
+                padding: 0 16px;
+                gap: 12px;
+            }
+
+            .page-shell {
+                padding: 0 16px;
+            }
+
+            .mobile-menu-btn {
+                display: inline-flex;
+            }
+
+            .nav-actions {
+                display: none;
+            }
         }
     </style>
     <link rel="stylesheet" href="search-overlay.css" />

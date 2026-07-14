@@ -797,6 +797,32 @@
         border-color: #ffffff;
         transform: translateY(-3px);
     }
+
+    @media (max-width: 767px) {
+      body {
+        padding: 16px;
+        overflow-y: auto;
+      }
+
+      .auth-main {
+        grid-template-columns: 1fr;
+        gap: 24px;
+      }
+
+      .auth-image-panel {
+        display: none;
+      }
+
+      .auth-card {
+        height: auto;
+        min-height: auto;
+        padding: 24px 20px;
+      }
+
+      .form-scroll-content {
+        overflow-y: visible;
+      }
+    }
   </style>
 </head>
 
