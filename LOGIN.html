@@ -1121,6 +1121,11 @@
   <!-- --- JAVASCRIPT FOR INTERACTION & VALIDATION --- -->
   <script>
     document.addEventListener('DOMContentLoaded', () => {
+      // Check if user is already logged in
+      if (localStorage.getItem('ekkvastra_logged_in') === 'true') {
+        window.location.href = 'account.html';
+        return;
+      }
 
       const toggleLinks = document.querySelectorAll('.toggle-auth-link');
       const authMain = document.getElementById('auth-main');
@@ -1257,13 +1262,26 @@
           passwordInput.focus();
           return;
         }
-
         // Simulating successful login
         showToast('Login successful! Welcome back to EKKVASTRA.', 'success');
 
-        // Optional form reset
+        // Save session state to localStorage
+        localStorage.setItem('ekkvastra_logged_in', 'true');
+        
+        // Save current user to localStorage (default or registered)
+        let existingUser = JSON.parse(localStorage.getItem('ekkvastra_user')) || {};
+        if (!existingUser.email || existingUser.email !== email) {
+          existingUser = {
+            name: email.split('@')[0].toUpperCase(),
+            email: email,
+            phone: '+91 98765 43210',
+            tier: 'VVIP Member'
+          };
+          localStorage.setItem('ekkvastra_user', JSON.stringify(existingUser));
+        }
+
         setTimeout(() => {
-          loginForm.reset();
+          window.location.href = 'account.html';
         }, 1500);
       });
 
@@ -1323,17 +1341,21 @@
           showToast('You must agree to the Terms & Conditions.', 'error');
           return;
         }
-
         // Simulating successful registration
         showToast('Account successfully created! Welcome to the community.', 'success');
 
-        // Automatically switch back to login form after short delay
+        // Save user to localStorage and log them in
+        const userObj = {
+          name: name,
+          email: email,
+          phone: '+91 98765 43210',
+          tier: 'Core Collector'
+        };
+        localStorage.setItem('ekkvastra_user', JSON.stringify(userObj));
+        localStorage.setItem('ekkvastra_logged_in', 'true');
+
         setTimeout(() => {
-          signupForm.reset();
-          authCard.classList.remove('show-signup');
-          formsSlider.style.transform = 'translateX(0)';
-          imgSignup.classList.remove('active');
-          imgLogin.classList.add('active');
+          window.location.href = 'account.html';
         }, 1800);
       });
 

@@ -49,6 +49,10 @@
             transform: translateY(0);
         }
         
+        html, body {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
         body {
             font-family: 'Inter', sans-serif;
             background: var(--bg);
@@ -199,10 +203,46 @@
         }
 
         .nav-actions {
+            display: none;
+            align-items: center;
+            gap: 4px;
+        }
+
+        @media (min-width: 768px) {
+            .nav-actions {
+                display: flex;
+            }
+        }
+
+        /* Avatar button */
+        .nav-avatar-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px 4px 4px 8px;
+            border-radius: 999px;
+            transition: background 0.25s ease;
+            text-decoration: none;
+        }
+        .nav-avatar-btn:hover { background: rgba(255, 255, 255, 0.06); }
+        .nav-avatar-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            display: block;
+        }
+        .nav-avatar-chevron {
+            color: rgba(255, 255, 255, 0.6);
             display: flex;
             align-items: center;
-            gap: 8px;
+            transition: color 0.2s;
         }
+        .nav-avatar-btn:hover .nav-avatar-chevron { color: #fff; }
 
         .nav-actions .icon-btn {
             background: transparent;
@@ -1283,12 +1323,6 @@
                         <path d="M20 20l-3.5-3.5" stroke-linecap="round"></path>
                     </svg>
                 </button>
-                <a href="LOGIN.html" class="icon-btn" aria-label="Account">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <path d="M20 21a8 8 0 0 0-16 0" stroke-linecap="round"></path>
-                        <circle cx="12" cy="8" r="4"></circle>
-                    </svg>
-                </a>
                 <a href="wishlist.html" class="icon-btn nav-wishlist-btn" aria-label="Wishlist" id="navWishlistBtn">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1301,7 +1335,15 @@
                         <circle cx="20" cy="21" r="1"></circle>
                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                     </svg>
-                    <span class="cart-badge">2</span>
+                    <span class="cart-badge">0</span>
+                </a>
+                <a href="account.html" class="nav-avatar-btn" aria-label="My Account">
+                    <img src="avatar_akash.png" alt="Account" class="nav-avatar-img" />
+                    <span class="nav-avatar-chevron">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </span>
                 </a>
             </div>
 

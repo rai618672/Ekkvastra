@@ -36,6 +36,8 @@
             color: var(--ink);
             font-family: var(--font-sans);
             -webkit-font-smoothing: antialiased;
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
         img { display: block; width: 100%; height: auto; }
@@ -115,11 +117,11 @@
 
         @media (min-width: 768px) {
             .nav-actions { display: flex; }
-            .mobile-menu-btn { display: none; }
         }
 
-        @media (min-width: 1280px) {
+        @media (min-width: 1024px) {
             .nav-links { display: flex; }
+            .mobile-menu-btn { display: none; }
         }
 
         /* ── MOBILE DRAWER ── */
@@ -284,9 +286,15 @@
         .nav-links a.active { color: #fff; }
 
         .nav-actions {
-            display: flex;
+            display: none;
             align-items: center;
             gap: 8px;
+        }
+
+        @media (min-width: 768px) {
+            .nav-actions {
+                display: flex;
+            }
         }
 
         .icon-btn {
@@ -1576,6 +1584,100 @@
             border-color: #ffffff;
             transform: translateY(-3px);
         }
+
+        /* ── RESPONSIVE CART OVERRIDES ── */
+        @media (max-width: 639px) {
+            .cart-item-card {
+                flex-direction: row;
+                gap: 16px;
+                padding: 16px;
+                border-radius: 16px;
+            }
+
+            .cart-item-img-wrapper {
+                width: 90px;
+                height: 90px;
+                border-radius: 12px;
+            }
+
+            .cart-item-content {
+                gap: 8px;
+            }
+
+            .cart-item-name {
+                font-size: 0.9rem;
+            }
+
+            .cart-item-price-top {
+                font-size: 0.9rem;
+            }
+
+            .cart-item-specs {
+                font-size: 0.72rem;
+                margin: 2px 0 4px;
+            }
+
+            .cart-item-price-sub {
+                font-size: 0.8rem;
+                margin-bottom: 6px;
+            }
+
+            .cart-item-controls-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+                margin-top: 4px;
+            }
+
+            .cart-item-actions {
+                gap: 12px;
+            }
+
+            .cart-item-action-btn {
+                font-size: 0.65rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .cart-header-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 12px;
+            }
+            .cart-title {
+                font-size: 1.6rem;
+            }
+        }
+
+        /* Avatar button */
+        .nav-avatar-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px 4px 4px 8px;
+            border-radius: 999px;
+            transition: background 0.25s ease;
+            text-decoration: none;
+        }
+        .nav-avatar-btn:hover { background: rgba(255, 255, 255, 0.06); }
+        .nav-avatar-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            display: block;
+        }
+        .nav-avatar-chevron {
+            color: rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+        }
+        .nav-avatar-btn:hover .nav-avatar-chevron { color: #fff; }
     </style>
     <link rel="stylesheet" href="search-overlay.css" />
 </head>
@@ -1609,12 +1711,6 @@
                         <path d="M20 20l-3.5-3.5" stroke-linecap="round"></path>
                     </svg>
                 </button>
-                <a href="LOGIN.html" class="icon-btn" aria-label="Account">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <path d="M20 21a8 8 0 0 0-16 0" stroke-linecap="round"></path>
-                        <circle cx="12" cy="8" r="4"></circle>
-                    </svg>
-                </a>
                 <a href="wishlist.html" class="icon-btn nav-wishlist-btn" aria-label="Wishlist" id="navWishlistBtn">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
                         <path d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z" stroke-linecap="round" stroke-linejoin="round"></path>
@@ -1628,6 +1724,14 @@
                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                     </svg>
                     <span class="cart-badge">0</span>
+                </a>
+                <a href="account.html" class="nav-avatar-btn" aria-label="My Account">
+                    <img src="avatar_akash.png" alt="Account" class="nav-avatar-img" />
+                    <span class="nav-avatar-chevron">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </span>
                 </a>
             </div>
 
@@ -1891,7 +1995,7 @@
         const DEFAULT_CART = [
             {
                 id: "mock-1",
-                name: "OVERSIZED TEE - NOIR",
+                name: "Oversized Tee - Noir",
                 price: 1199,
                 oldPrice: 1299,
                 image: "ekkvastra_front_print_tee.png",
@@ -1903,7 +2007,7 @@
             },
             {
                 id: "mock-2",
-                name: "SIGNATURE HOODIE - BLACK",
+                name: "Signature Hoodie - Black",
                 price: 1799,
                 oldPrice: 1900,
                 image: "ekkvastra_hoodie.png",
@@ -1915,7 +2019,7 @@
             },
             {
                 id: "mock-4",
-                name: "CARGO PANTS - ASH GREY",
+                name: "Cargo Pants - Ash Grey",
                 price: 1699,
                 oldPrice: 1699,
                 image: "ekkvastra_cargo.png",
@@ -1929,12 +2033,12 @@
 
         // Recommendation products
         const RECOMMENDATIONS = [
-            { id: "rec-1", name: "MINIMAL TEE - SAND", price: 1299, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "M", color: "Sand", category: "Graphic Tees", fit: "Oversized" },
-            { id: "rec-2", name: "ZIP HOODIE - CHARCOAL", price: 1799, image: "ekkvastra_hoodie.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "L", color: "Charcoal", category: "Hoodies", fit: "Regular" },
-            { id: "rec-3", name: "JOGGERS - GREY MELANGE", price: 1499, image: "ekkvastra_cargo.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "M", color: "Grey Melange", category: "Joggers", fit: "Relaxed" },
-            { id: "rec-4", name: "GRAPHIC TEE - ABSTRACT", price: 1299, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "M", color: "Abstract Black", category: "Graphic Tees", fit: "Oversized" },
-            { id: "rec-5", name: "OVERSIZED TEE - GRAPHITE", price: 1159, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "M", color: "Graphite", category: "Oversized Tees", fit: "Oversized" },
-            { id: "rec-6", name: "CARGO PANTS - BLACK", price: 1699, image: "ekkvastra_cargo.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "M", color: "Black", category: "Cargo Pants", fit: "Relaxed" }
+            { id: "rec-1", name: "Minimal Tee - Sand", price: 1299, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "M", color: "Sand", category: "Graphic Tees", fit: "Oversized" },
+            { id: "rec-2", name: "Zip Hoodie - Charcoal", price: 1799, image: "ekkvastra_hoodie.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "L", color: "Charcoal", category: "Hoodies", fit: "Regular" },
+            { id: "rec-3", name: "Joggers - Grey Melange", price: 1499, image: "ekkvastra_cargo.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "M", color: "Grey Melange", category: "Joggers", fit: "Relaxed" },
+            { id: "rec-4", name: "Graphic Tee - Abstract", price: 1299, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "M", color: "Abstract Black", category: "Graphic Tees", fit: "Oversized" },
+            { id: "rec-5", name: "Oversized Tee - Graphite", price: 1159, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "M", color: "Graphite", category: "Oversized Tees", fit: "Oversized" },
+            { id: "rec-6", name: "Cargo Pants - Black", price: 1699, image: "ekkvastra_cargo.png", hoverImage: "ekkvastra_back_print_tee.png", sizes: ["S", "M", "L", "XL"], defaultSize: "M", color: "Black", category: "Cargo Pants", fit: "Relaxed" }
         ];
 
         let appliedPromo = null;
@@ -2523,6 +2627,9 @@
                     return;
                 }
                 showToast('Thank you! Redirecting to checkout...');
+                setTimeout(() => {
+                    window.location.href = 'checkout.html';
+                }, 800);
             };
             document.getElementById('checkoutBtn')?.addEventListener('click', handleCheckout);
             document.getElementById('expressCheckoutBtn')?.addEventListener('click', handleCheckout);

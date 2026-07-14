@@ -1,0 +1,2742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>MY ACCOUNT | EKKVASTRA</title>
+    
+    <!-- Premium Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="search-overlay.css" />
+    
+    <style>
+        :root {
+            --bg: #000000;
+            --panel: #0d0d0d;
+            --panel-soft: #141414;
+            --ink: #ffffff;
+            --muted: #888888;
+            --border: rgba(255, 255, 255, 0.06);
+            --accent: #ff5e00;
+            --font-sans: 'Plus Jakarta Sans', sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --radius-lg: 16px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--ink);
+            font-family: var(--font-sans);
+            -webkit-font-smoothing: antialiased;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            overflow-y: auto;
+        }
+
+        /* Hide scrollbars globally but keep functionality */
+        ::-webkit-scrollbar {
+            display: none !important;
+        }
+        html, body, .sidebar, .main-content {
+            scrollbar-width: none !important;
+            -ms-overflow-style: none !important;
+        }
+
+        /* --- STICKY HEADER --- */
+        .sticky-header {
+            position: absolute;
+            top: 40px;
+            left: 0;
+            right: 0;
+            z-index: 70;
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid transparent;
+            transition: background-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), backdrop-filter 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sticky-header.scrolled {
+            position: fixed;
+            top: 0;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        .header-inner {
+            max-width: 1400px;
+            width: 100%;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 18px;
+            min-height: 80px;
+            padding: 0 24px;
+            transition: min-height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .sticky-header.scrolled .header-inner {
+            min-height: 72px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: opacity 0.25s ease;
+            text-decoration: none;
+        }
+
+        .logo-text {
+            font-size: 1.25rem;
+            font-weight: 950;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        .nav-links {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex: 1;
+            padding: 0 8px;
+        }
+
+        @media (min-width: 1024px) {
+            .nav-links {
+                display: flex;
+            }
+        }
+
+        .nav-links a {
+            position: relative;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            padding: 10px 12px;
+            color: rgba(255, 255, 255, 0.9);
+            transition: color 0.35s ease, opacity 0.25s ease;
+            text-decoration: none;
+        }
+
+        .nav-links a::after {
+            content: "";
+            position: absolute;
+            left: 12px;
+            right: 12px;
+            bottom: 6px;
+            height: 1.5px;
+            background: currentColor;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .nav-links a:hover::after,
+        .nav-links a.active::after {
+            transform: scaleX(1);
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #fff;
+        }
+
+        .nav-actions {
+            display: none;
+            align-items: center;
+            gap: 4px;
+        }
+
+        @media (min-width: 768px) {
+            .nav-actions {
+                display: flex;
+            }
+        }
+
+        /* Avatar button */
+        .nav-avatar-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px 4px 4px 8px;
+            border-radius: 999px;
+            transition: background 0.25s ease;
+            text-decoration: none;
+        }
+        .nav-avatar-btn:hover { background: rgba(255, 255, 255, 0.06); }
+        .nav-avatar-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            display: block;
+        }
+        .nav-avatar-chevron {
+            color: rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+        }
+        .nav-avatar-btn:hover .nav-avatar-chevron { color: #fff; }
+
+        .nav-actions .icon-btn {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+            position: relative;
+            overflow: visible !important;
+            transition: transform 0.25s ease, background-color 0.25s ease, border-color 0.25s ease;
+        }
+
+        .nav-actions .icon-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-1px);
+        }
+
+        .icon-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 1.5px solid transparent;
+            cursor: pointer;
+            transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            background: transparent;
+            color: #fff;
+        }
+
+        .cart-badge {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            background: #fff;
+            color: #000;
+            font-size: 0.58rem;
+            font-weight: 800;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+            border: 1.5px solid #000;
+            z-index: 10;
+        }
+
+        .nav-wishlist-btn {
+            position: relative;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .nav-wishlist-badge {
+            display: none;
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            background: #e53935;
+            color: #fff;
+            font-size: 0.58rem;
+            font-weight: 800;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            line-height: 1;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+            border: 1.5px solid #000;
+            z-index: 10;
+        }
+
+        .nav-wishlist-badge.visible {
+            display: flex;
+        }
+
+        .mobile-menu-btn {
+            display: flex;
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #fff;
+        }
+        @media (min-width: 1024px) {
+            .mobile-menu-btn {
+                display: none;
+            }
+        }
+
+        /* ── MOBILE DRAWER ── */
+        .mobile-drawer {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 200;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+        }
+        .mobile-drawer.open { display: flex; }
+        .drawer-panel {
+            background: #111; width: min(320px, 90vw); height: 100%;
+            padding: 24px; display: flex; flex-direction: column; gap: 24px;
+            animation: slideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        @keyframes slideIn { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+        .drawer-top { display: flex; justify-content: space-between; align-items: center; }
+        .drawer-nav { display: flex; flex-direction: column; gap: 16px; margin-top: 20px; }
+        .drawer-nav a {
+            font-size: 1.1rem; font-weight: 750; text-transform: uppercase;
+            letter-spacing: 0.08em; color: rgba(255,255,255,0.7); text-decoration: none;
+            transition: color 0.2s;
+        }
+        .drawer-nav a:hover { color: #fff; }
+
+        /* ── ANNOUNCEMENT BAR ── */
+        .announcement-bar {
+            background: #ffffff;
+            color: #000000;
+            text-align: center;
+            height: 40px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            z-index: 80;
+            position: relative;
+            box-sizing: border-box;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .announcement-bar span {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .announcement-bar span::before {
+            content: "•";
+            color: #000000;
+        }
+        .announcement-bar span:first-child::before {
+            display: none;
+        }
+
+        /* Mobile dashboard sub-header bar to toggle sidebar */
+        .dashboard-mobile-bar {
+            display: none;
+            background: #0d0d0d;
+            border-bottom: 1px solid var(--border);
+            height: 50px;
+            align-items: center;
+            padding: 0 20px;
+            position: fixed;
+            top: 120px;
+            z-index: 60;
+            width: 100%;
+            box-sizing: border-box;
+            justify-content: space-between;
+        }
+
+        .dashboard-mobile-bar button {
+            background: transparent;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #fff;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .dashboard-mobile-bar span {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        /* --- DASHBOARD LAYOUT SHAPE --- */
+        .dashboard-container {
+            display: flex;
+            width: 100%;
+            min-height: calc(100vh - 120px);
+            height: auto;
+            overflow: visible;
+            margin-top: 120px;
+        }
+
+        /* --- SIDEBAR PANEL (LEFT) --- */
+        .sidebar {
+            width: 280px;
+            height: auto;
+            min-height: calc(100vh - 120px);
+            background-color: #000000;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 32px 24px;
+            flex-shrink: 0;
+            overflow-y: auto;
+        }
+
+        .sidebar-top {
+            display: flex;
+            flex-direction: column;
+            gap: 36px;
+        }
+
+        /* Profile Block */
+        .sidebar-profile {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .profile-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .profile-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            overflow: hidden;
+            background: #111;
+            border: 1.5px solid rgba(255,255,255,0.15);
+        }
+
+        .profile-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .profile-name {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .profile-email {
+            font-size: 0.72rem;
+            color: var(--muted);
+            word-break: break-all;
+        }
+
+        .profile-subtext {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            padding-left: 2px;
+        }
+
+        .profile-subtext span.label {
+            font-size: 0.62rem;
+            font-weight: 800;
+            color: var(--muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .profile-subtext span.val {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.95);
+        }
+
+        /* Sidebar Navigation Menu */
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            color: var(--muted);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+        }
+
+        .nav-item-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .nav-item svg {
+            color: inherit;
+            flex-shrink: 0;
+            transition: transform 0.25s;
+        }
+
+        .nav-item:hover {
+            color: #fff;
+            background-color: rgba(255, 255, 255, 0.03);
+        }
+
+        .nav-item.active {
+            color: #fff;
+            background-color: var(--panel-soft);
+        }
+
+        .nav-badge {
+            background: #222;
+            color: #fff;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 8px;
+            border-radius: 99px;
+        }
+
+        /* Referral Card Promo */
+        .referral-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .referral-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .referral-header svg {
+            color: #fff;
+        }
+
+        .referral-header span {
+            font-family: var(--font-display);
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .referral-text {
+            font-size: 0.75rem;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        .referral-link {
+            font-size: 0.74rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 4px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .referral-link:hover {
+            color: var(--accent);
+        }
+        /* --- MAIN WRAPPER (RIGHT) --- */
+        .main-content {
+            flex-grow: 1;
+            min-height: 0;
+            overflow: visible;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            background: #000000;
+        }
+
+        @media (max-width: 1200px) {
+            .main-content {
+                padding: 20px;
+                gap: 16px;
+            }
+        }
+
+        /* ── SECTION HEADER TITLE ── */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .section-header h2 {
+            font-family: var(--font-display);
+            font-size: 0.82rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: #ffffff;
+        }
+
+        .section-header-link {
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .section-header-link:hover {
+            color: #fff;
+        }
+
+        /* ── WELCOME BANNER PANEL ── */
+        .welcome-banner {
+            background-color: var(--panel);
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 300' fill='none'%3E%3Cpath d='M30 80 L220 270' stroke='rgba(255,255,255,0.035)' stroke-width='38' stroke-linecap='square'/%3E%3Cpath d='M70 40 L260 230' stroke='rgba(255,255,255,0.035)' stroke-width='38' stroke-linecap='square'/%3E%3Cpath d='M220 80 L30 270' stroke='rgba(255,255,255,0.035)' stroke-width='38' stroke-linecap='square'/%3E%3Cpath d='M260 40 L70 230' stroke='rgba(255,255,255,0.035)' stroke-width='38' stroke-linecap='square'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right -30px center;
+            background-size: 320px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 32px;
+            align-items: center;
+        }
+
+        @media (min-width: 1024px) {
+            .welcome-banner {
+                grid-template-columns: 1.1fr 1.9fr;
+            }
+        }
+
+        .welcome-left {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 16px;
+        }
+
+        .welcome-greet {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .welcome-greet span.sub {
+            font-size: 0.95rem;
+            color: var(--muted);
+            font-weight: 500;
+        }
+
+        .welcome-greet h1 {
+            font-family: var(--font-display);
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .welcome-desc {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .btn-continue {
+            background: #ffffff;
+            color: #000000;
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 12px 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.2s, transform 0.2s;
+        }
+
+        .btn-continue:hover {
+            background-color: #eaeaea;
+            transform: translateY(-1px);
+        }
+
+        /* Stats Blocks Row */
+        .welcome-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+        }
+
+        @media (min-width: 640px) {
+            .welcome-stats {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .stat-box {
+            background: transparent;
+            border: none;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 8px;
+        }
+
+        .stat-icon {
+            color: #fff;
+            opacity: 0.8;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2px;
+        }
+
+        .stat-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-meta span.lbl {
+            font-family: var(--font-display);
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .stat-meta span.num {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .stat-link {
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--muted);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            transition: color 0.2s;
+        }
+
+        .stat-box:hover .stat-link {
+            color: #fff;
+        }
+
+        /* ── GRID CONTENT COLUMNS LAYOUT ── */
+        .dashboard-grid-layout {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            align-items: start;
+            width: 100%;
+        }
+
+        @media (min-width: 1024px) {
+            .dashboard-grid-layout {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .dashboard-grid-column {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+        }
+
+        .dashboard-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        /* ── RECENT ORDERS LIST ── */
+        .order-list {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .order-row-item {
+            background: var(--panel-soft);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            text-decoration: none;
+            transition: transform 0.25s ease, border-color 0.25s ease;
+        }
+
+        .order-row-item:hover {
+            transform: translateY(-1px);
+            border-color: var(--border);
+        }
+
+        .order-thumb {
+            width: 52px;
+            height: 60px;
+            border-radius: var(--radius-sm);
+            overflow: hidden;
+            background: #111;
+            flex-shrink: 0;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .order-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .order-info {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .order-name {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .order-meta {
+            font-size: 0.72rem;
+            color: var(--muted);
+        }
+
+        .order-item-status-col {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .status-badge {
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            padding: 4px 8px;
+            border-radius: 99px;
+            line-height: 1;
+        }
+
+        .status-badge.delivered {
+            background: rgba(16, 185, 129, 0.08);
+            color: #10b981;
+            border: 1px solid rgba(16, 185, 129, 0.15);
+        }
+
+        .status-badge.shipped {
+            background: rgba(245, 158, 11, 0.08);
+            color: #f59e0b;
+            border: 1px solid rgba(245, 158, 11, 0.15);
+        }
+
+        .status-badge.processing {
+            background: rgba(156, 163, 175, 0.08);
+            color: #9ca3af;
+            border: 1px solid rgba(156, 163, 175, 0.15);
+        }
+
+        .order-date {
+            font-size: 0.68rem;
+            color: var(--muted);
+        }
+
+        .order-arrow {
+            color: var(--muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .order-row-item:hover .order-arrow {
+            color: #fff;
+        }
+
+        /* ── YOUR WISHLIST GRID ── */
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        @media (min-width: 640px) {
+            .wishlist-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .wishlist-item-card {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            position: relative;
+        }
+
+        .wishlist-img-wrap {
+            aspect-ratio: 0.8;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            background: var(--panel-soft);
+            border: 1px solid rgba(255,255,255,0.02);
+            position: relative;
+        }
+
+        .wishlist-img-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .wishlist-item-card:hover img {
+            transform: scale(1.03);
+        }
+
+        .wishlist-heart-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #fff;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: background-color 0.2s;
+        }
+
+        .wishlist-heart-btn:hover {
+            background-color: var(--accent);
+            border-color: var(--accent);
+        }
+
+        .wishlist-item-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 2px;
+        }
+
+        .wishlist-item-name {
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: #fff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .wishlist-item-price {
+            font-size: 0.72rem;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        /* ── RECENTLY VIEWED SLIDER ── */
+        .recently-viewed-wrap {
+            position: relative;
+            width: 100%;
+        }
+
+        .recent-slider-container {
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            scrollbar-width: none; /* Hide standard Firefox scrollbar */
+        }
+
+        .recent-slider-container::-webkit-scrollbar {
+            display: none; /* Hide Chrome/Safari scrollbar */
+        }
+
+        .recent-slider-track {
+            display: flex;
+            gap: 12px;
+        }
+
+        .recent-slider-item {
+            width: calc(25% - 9px);
+            min-width: 130px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .recent-slider-item img {
+            width: 100%;
+            aspect-ratio: 0.8;
+            border-radius: var(--radius-md);
+            object-fit: cover;
+            background: var(--panel-soft);
+            border: 1px solid rgba(255,255,255,0.02);
+            transition: transform 0.4s ease;
+        }
+
+        .recent-slider-item:hover img {
+            transform: scale(1.03);
+        }
+
+        .recent-slider-btn {
+            position: absolute;
+            top: 35%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(0,0,0,0.7);
+            border: 1px solid rgba(255,255,255,0.1);
+            color: #fff;
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: background-color 0.2s, border-color 0.2s;
+        }
+
+        .recent-slider-btn:hover {
+            background-color: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        .recent-slider-btn.prev { left: -10px; }
+        .recent-slider-btn.next { right: -10px; }
+
+        /* ── QUICK ACTIONS GRID ── */
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        @media (min-width: 640px) {
+            .quick-actions-grid {
+                grid-template-columns: repeat(4, 1fr);
+            }
+        }
+
+        .action-box {
+            background: var(--panel-soft);
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            gap: 10px;
+            cursor: pointer;
+            transition: border-color 0.25s, transform 0.25s;
+        }
+
+        .action-box:hover {
+            border-color: var(--border);
+            transform: translateY(-1px);
+        }
+
+        .action-box-icon {
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .action-box-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .action-box-title {
+            font-size: 0.76rem;
+            font-weight: 700;
+            color: #fff;
+        }
+
+        .action-box-subtitle {
+            font-size: 0.65rem;
+            color: var(--muted);
+        }
+
+        /* ── MODEL PROMO BANNER ── */
+        .promo-banner {
+            position: relative;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            min-height: 180px;
+            display: grid;
+            grid-template-columns: 1fr;
+            border: 1px solid var(--border);
+            background: #0d0d0d;
+        }
+
+        @media (min-width: 640px) {
+            .promo-banner {
+                grid-template-columns: 1.2fr 1.8fr;
+            }
+        }
+
+        .promo-image-side {
+            position: relative;
+            overflow: hidden;
+            min-height: 160px;
+        }
+
+        .promo-image-side img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: absolute;
+            inset: 0;
+        }
+
+        .promo-banner-content {
+            position: relative;
+            z-index: 5;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: center;
+            gap: 12px;
+            padding: 24px;
+        }
+
+        .promo-banner-eyebrow {
+            font-family: var(--font-display);
+            font-size: 0.6rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            color: var(--muted);
+            text-transform: uppercase;
+        }
+
+        .promo-banner-title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .promo-banner-desc {
+            font-size: 0.72rem;
+            color: var(--muted);
+            line-height: 1.4;
+        }
+
+        .btn-promo {
+            background: transparent;
+            color: #fff;
+            border: 1.5px solid rgba(255, 255, 255, 0.15);
+            border-radius: var(--radius-sm);
+            padding: 10px 16px;
+            font-size: 0.74rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: border-color 0.25s, background-color 0.25s;
+            margin-top: 4px;
+        }
+
+        .btn-promo:hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        /* ── TOAST NOTIFICATION ── */
+        .toast-container {
+            position: fixed;
+            top: 24px;
+            right: 24px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .toast {
+            background: #0d0d0d;
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 14px 20px;
+            border-radius: var(--radius-md);
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            transform: translateY(-20px);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            pointer-events: none;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ── MODALS (PROFILE / ADDRESS EDIT) ── */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-card {
+            background: var(--panel);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            width: 90%;
+            max-width: 480px;
+            padding: 32px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            transform: scale(0.95);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-overlay.open .modal-card {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 14px;
+        }
+
+        .modal-header h3 {
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .modal-close-btn {
+            background: transparent;
+            border: none;
+            color: var(--muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s;
+        }
+
+        .modal-close-btn:hover {
+            color: #fff;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+        }
+
+        @media (min-width: 640px) {
+            .form-row {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.68rem;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .form-input {
+            background: #000;
+            border: 1px solid var(--border);
+            color: #fff;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 0.82rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--accent);
+        }
+
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .btn-modal-primary {
+            background: #fff;
+            color: #000;
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 12px 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .btn-modal-secondary {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: #fff;
+            border-radius: var(--radius-sm);
+            padding: 12px 20px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .btn-modal-secondary:hover {
+            background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        /* ── RESPONSIVE DASHBOARD OVERRIDES ── */
+        .sidebar-backdrop {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(4px);
+            z-index: 999;
+        }
+
+        @media (max-width: 767px) {
+            body {
+                overflow-y: auto;
+                height: auto;
+            }
+
+            .dashboard-container {
+                flex-direction: column;
+                width: 100%;
+                height: auto;
+                overflow: visible;
+                margin-top: 170px !important;
+            }
+
+            .dashboard-mobile-bar {
+                display: flex;
+            }
+
+            .mobile-dashboard-header {
+                display: none;
+            }
+
+            .sidebar-backdrop.open {
+                display: block;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 0;
+                bottom: 0;
+                width: 280px;
+                height: 100vh;
+                z-index: 1000;
+                transform: translateX(-100%);
+                transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+                background: #000;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                height: auto;
+                overflow: visible;
+                padding: 24px 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Toast container for notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        <span>FREE SHIPPING ON ORDERS ABOVE ₹1499</span>
+        <span>EASY 14-DAY RETURNS</span>
+        <span>COD AVAILABLE</span>
+    </div>
+
+    <!-- Sticky Header -->
+    <header class="sticky-header" id="siteHeader">
+        <div class="header-inner">
+            <a href="index.html" class="logo" aria-label="EKKVASTRA home">
+                <span class="logo-text">EKKVASTRA</span>
+            </a>
+
+            <nav class="nav-links" aria-label="Primary">
+                <a href="index.html#new-arrivals">New Arrivals</a>
+                <a href="shop.html">Shop</a>
+                <a href="index.html#collections">Collections</a>
+                <a href="CONTACT.html">Contact Us</a>
+                <a href="ABOUT.html">About Us</a>
+            </nav>
+
+            <div class="nav-actions">
+                <button class="icon-btn" aria-label="Search">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <path d="M20 20l-3.5-3.5" stroke-linecap="round"></path>
+                    </svg>
+                </button>
+                <a href="wishlist.html" class="icon-btn nav-wishlist-btn" aria-label="Wishlist" id="navWishlistBtn">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z" stroke-linecap="round" stroke-linejoin="round"></path>
+                    </svg>
+                    <span id="navWishlistBadge" class="nav-wishlist-badge">0</span>
+                </a>
+                <a href="cart.html" class="icon-btn" aria-label="Shopping Bag">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="9" cy="21" r="1"></circle>
+                        <circle cx="20" cy="21" r="1"></circle>
+                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                    </svg>
+                    <span class="cart-badge">0</span>
+                </a>
+                <a href="account.html" class="nav-avatar-btn" aria-label="My Account">
+                    <img src="avatar_akash.png" alt="Account" class="nav-avatar-img" />
+                    <span class="nav-avatar-chevron">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </span>
+                </a>
+            </div>
+
+            <button class="icon-btn mobile-menu-btn" id="menuBtn" aria-label="Open menu">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                    <path d="M4 7h16M4 12h16M4 17h16" stroke-linecap="round"></path>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <!-- Mobile Drawer -->
+    <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+        <div class="drawer-panel">
+            <div class="drawer-top">
+                <span class="logo-text" style="color:#fff;">EKKVASTRA</span>
+                <button class="icon-btn" id="closeBtn" aria-label="Close menu" style="color:#fff;">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M18 6L6 18M6 6l12 12" stroke-linecap="round"></path>
+                    </svg>
+                </button>
+            </div>
+            <nav class="drawer-nav">
+                <a href="index.html#new-arrivals">New Arrivals</a>
+                <a href="shop.html">Shop</a>
+                <a href="index.html#collections">Collections</a>
+                <a href="CONTACT.html">Contact Us</a>
+                <a href="ABOUT.html">About Us</a>
+                <a href="wishlist.html" style="color:#e53935;">❤ Wishlist</a>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Sidebar mobile backdrop -->
+    <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
+
+    <!-- Mobile dashboard bar to toggle sidebar on mobile view -->
+    <div class="dashboard-mobile-bar">
+        <button id="sidebarToggle" aria-label="Open dashboard menu">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h16M4 18h16" stroke-linecap="round"/></svg>
+            Menu
+        </button>
+        <span>Dashboard</span>
+    </div>
+
+    <div class="dashboard-container">
+
+        <!-- SIDEBAR (LEFT) -->
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                
+                <!-- Profile Block -->
+                <div class="sidebar-profile">
+                    <div class="profile-header">
+                        <div class="profile-avatar">
+                            <img src="avatar_akash.png" alt="Akash Rai" />
+                        </div>
+                        <div class="profile-meta">
+                            <span class="profile-name" id="sideProfileName">Akash Rai</span>
+                            <span class="profile-email" id="sideProfileEmail">akash.rai@email.com</span>
+                        </div>
+                    </div>
+                    <div class="profile-subtext">
+                        <span class="label">Member Since</span>
+                        <span class="val">May 2024</span>
+                    </div>
+                </div>
+
+                <!-- Nav Menu -->
+                <nav class="sidebar-nav">
+                    <a href="#" class="nav-item active" onclick="switchNav(this)">
+                        <div class="nav-item-left">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="3" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="14" width="7" height="7"></rect>
+                                <rect x="3" y="14" width="7" height="7"></rect>
+                            </svg>
+                            <span>Dashboard</span>
+                        </div>
+                    </a>
+                    <a href="#" class="nav-item" onclick="switchNav(this); showToast('Displaying your orders list');">
+                        <div class="nav-item-left">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                <line x1="3" y1="6" x2="21" y2="6"></line>
+                                <path d="M16 10a4 4 0 0 1-8 0"></path>
+                            </svg>
+                            <span>My Orders</span>
+                        </div>
+                    </a>
+                    <a href="#" class="nav-item" onclick="switchNav(this); showToast('Displaying items saved in wishlist');">
+                        <div class="nav-item-left">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                            <span>Wishlist</span>
+                        </div>
+                        <span class="nav-badge">2</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="openAddressModal()">
+                        <div class="nav-item-left">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            <span>Addresses</span>
+                        </div>
+                    </a>
+                    <a href="#" class="nav-item" onclick="switchNav(this); showToast('Payments module loaded.');">
+                        <div class="nav-item-left">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                <line x1="1" y1="10" x2="23" y2="10"></line>
+                            </svg>
+                            <span>Saved Payments</span>
+                        </div>
+                    </a>
+                    <a href="#" class="nav-item" onclick="switchNav(this); showToast('Checking recent account notifications.');">
+                        <div class="nav-item-left">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                                <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                            </svg>
+                            <span>Notifications</span>
+                        </div>
+                        <span class="nav-badge" style="background:var(--accent);">3</span>
+                    </a>
+                    <a href="#" class="nav-item" onclick="openProfileModal()">
+                        <div class="nav-item-left">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <circle cx="12" cy="12" r="3"></circle>
+                                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                            </svg>
+                            <span>Account Settings</span>
+                        </div>
+                    </a>
+                </nav>
+            </div>
+
+            <div class="sidebar-bottom">
+                <!-- Promo invite card -->
+                <div class="referral-card">
+                    <div class="referral-header">
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <rect x="3" y="8" width="18" height="12" rx="2"></rect>
+                            <path d="M12 5V3"></path>
+                            <path d="M7.5 8c0-1.5 1-2.5 2.5-2.5s2.5 1 2.5 2.5"></path>
+                            <path d="M16.5 8c0-1.5-1-2.5-2.5-2.5s-2.5 1-2.5 2.5"></path>
+                        </svg>
+                        <span>Refer & Earn</span>
+                    </div>
+                    <p class="referral-text">Invite your friends and earn exclusive rewards.</p>
+                    <a href="#" class="referral-link" onclick="showToast('Referral code copied to clipboard!')">Invite Now &rarr;</a>
+                </div>
+
+                <!-- Log out link -->
+                <a href="#" class="nav-item" style="margin-top: 16px; border: 1px solid rgba(239, 68, 68, 0.1); color: #ef4444;" onclick="processLogout()">
+                    <div class="nav-item-left">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                        <span>Logout</span>
+                    </div>
+                </a>
+            </div>
+        </aside>
+
+        <!-- MAIN WINDOW WRAPPER (RIGHT) -->
+        <main class="main-content">
+            
+            <!-- Welcome Header Card Banner -->
+            <section class="welcome-banner">
+                <div class="welcome-left">
+                    <div class="welcome-greet">
+                        <span class="sub">Welcome Back,</span>
+                        <h1 id="welcomeGreeting">Akash 👋</h1>
+                    </div>
+                    <p class="welcome-desc">Discover new fits. Express your vibe.</p>
+                    <button class="btn-continue" onclick="window.location.href='shop.html'">
+                        <span>Continue Shopping</span>
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </div>
+
+                <!-- Quick Stats -->
+                <div class="welcome-stats">
+                    <div class="stat-box">
+                        <div class="stat-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                <line x1="3" y1="6" x2="21" y2="6"></line>
+                                <path d="M16 10a4 4 0 0 1-8 0"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-meta">
+                            <span class="lbl">Total Orders</span>
+                            <span class="num" id="statOrdersCount">12</span>
+                        </div>
+                        <a href="#" class="stat-link" onclick="showToast('Viewing your order list')">View all orders &rarr;</a>
+                    </div>
+
+                    <div class="stat-box">
+                        <div class="stat-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect>
+                                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                            </svg>
+                        </div>
+                        <div class="stat-meta">
+                            <span class="lbl">Pending Orders</span>
+                            <span class="num">2</span>
+                        </div>
+                        <a href="#" class="stat-link" onclick="showToast('Tracking your in-transit items...')">Track now &rarr;</a>
+                    </div>
+
+                    <div class="stat-box">
+                        <div class="stat-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-meta">
+                            <span class="lbl">Wishlist</span>
+                            <span class="num" id="statWishlistCount">2</span>
+                        </div>
+                        <a href="#" class="stat-link" onclick="showToast('Opening wishlist items...')">View wishlist &rarr;</a>
+                    </div>
+
+                    <div class="stat-box">
+                        <div class="stat-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"></path>
+                                <path d="M5 20h14"></path>
+                            </svg>
+                        </div>
+                        <div class="stat-meta">
+                            <span class="lbl">Reward Points</span>
+                            <span class="num">560</span>
+                        </div>
+                        <a href="#" class="stat-link" onclick="showToast('Viewing your streetwear rewards drops')">View rewards &rarr;</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Dashboard Grid Layout -->
+            <div class="dashboard-grid-layout">
+                
+                <!-- Left Column (Recent Orders & Recently Viewed) -->
+                <div class="dashboard-grid-column">
+                    <!-- Recent Orders -->
+                    <div class="dashboard-card">
+                        <div class="section-header">
+                            <h2>Recent Orders</h2>
+                            <a href="#" class="section-header-link" onclick="showToast('Viewing full order logs')">View All Orders &rarr;</a>
+                        </div>
+
+                        <div class="order-list" id="orderHistoryList">
+                            <!-- Placed dynamically or defaults -->
+                            <div class="order-row-item">
+                                <div class="order-thumb">
+                                    <img src="ekkvastra_hoodie.png" alt="Signature Hoodie">
+                                </div>
+                                <div class="order-info">
+                                    <span class="order-name">Signature Hoodie - Black</span>
+                                    <span class="order-meta">Size: L &bull; Qty: 1</span>
+                                    <span class="order-meta">Order ID: #EKK12456</span>
+                                </div>
+                                <div class="order-item-status-col">
+                                    <span class="status-badge delivered">Delivered</span>
+                                    <span class="order-date">10 May, 2024</span>
+                                </div>
+                                <div class="order-arrow">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="9 18 15 12 9 6"></polyline>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div class="order-row-item">
+                                <div class="order-thumb">
+                                    <img src="ekkvastra_front_print_tee.png" alt="Oversized Tee">
+                                </div>
+                                <div class="order-info">
+                                    <span class="order-name">Oversized Tee - Beige</span>
+                                    <span class="order-meta">Size: L &bull; Qty: 1</span>
+                                    <span class="order-meta">Order ID: #EKK12420</span>
+                                </div>
+                                <div class="order-item-status-col">
+                                    <span class="status-badge shipped">Shipped</span>
+                                    <span class="order-date">07 May, 2024</span>
+                                </div>
+                                <div class="order-arrow">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="9 18 15 12 9 6"></polyline>
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div class="order-row-item">
+                                <div class="order-thumb">
+                                    <img src="ekkvastra_cargo.png" alt="Cargo Pants">
+                                </div>
+                                <div class="order-info">
+                                    <span class="order-name">Cargo Pants - Black</span>
+                                    <span class="order-meta">Size: 32 &bull; Qty: 1</span>
+                                    <span class="order-meta">Order ID: #EKK12368</span>
+                                </div>
+                                <div class="order-item-status-col">
+                                    <span class="status-badge processing">Processing</span>
+                                    <span class="order-date">05 May, 2024</span>
+                                </div>
+                                <div class="order-arrow">
+                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="9 18 15 12 9 6"></polyline>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Recently Viewed -->
+                    <div class="dashboard-card">
+                        <div class="section-header">
+                            <h2>Recently Viewed</h2>
+                            <a href="#" class="section-header-link" onclick="showToast('Viewing full history')">View All &rarr;</a>
+                        </div>
+
+                        <div class="recently-viewed-wrap">
+                            <button class="recent-slider-btn prev" onclick="scrollSlider(-150)">&larr;</button>
+                            <button class="recent-slider-btn next" onclick="scrollSlider(150)">&rarr;</button>
+
+                            <div class="recent-slider-container" id="recentSlider">
+                                <div class="recent-slider-track">
+                                    <div class="recent-slider-item">
+                                        <img src="ekkvastra_back_print_tee.png" alt="Oversized Tee" />
+                                        <div class="wishlist-item-meta">
+                                            <span class="wishlist-item-name">Oversized Tee - Black</span>
+                                            <span class="wishlist-item-price">₹1,195</span>
+                                        </div>
+                                    </div>
+                                    <div class="recent-slider-item">
+                                        <img src="ekkvastra_hoodie.png" alt="Zip Hoodie" />
+                                        <div class="wishlist-item-meta">
+                                            <span class="wishlist-item-name">Zip Hoodie - Washed Black</span>
+                                            <span class="wishlist-item-price">₹1,889</span>
+                                        </div>
+                                    </div>
+                                    <div class="recent-slider-item">
+                                        <img src="ekkvastra_cargo.png" alt="Utility Cargo" />
+                                        <div class="wishlist-item-meta">
+                                            <span class="wishlist-item-name">Utility Cargo - Black</span>
+                                            <span class="wishlist-item-price">₹1,999</span>
+                                        </div>
+                                    </div>
+                                    <div class="recent-slider-item">
+                                        <img src="ekkvastra_front_print_tee.png" alt="Graphic Tee" />
+                                        <div class="wishlist-item-meta">
+                                            <span class="wishlist-item-name">Graphic Tee - Noir</span>
+                                            <span class="wishlist-item-price">₹1,195</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Column (Your Wishlist, Quick Actions, Member Promo) -->
+                <div class="dashboard-grid-column">
+                    <!-- Your Wishlist -->
+                    <div class="dashboard-card">
+                        <div class="section-header">
+                            <h2>Your Wishlist</h2>
+                            <a href="#" class="section-header-link" onclick="showToast('Loading wishlist page...')">View Wishlist &rarr;</a>
+                        </div>
+
+                        <div class="wishlist-grid">
+                            <div class="wishlist-item-card">
+                                <div class="wishlist-img-wrap">
+                                    <img src="ekkvastra_back_print_tee.png" alt="Graphic Tee" />
+                                </div>
+                                <button class="wishlist-heart-btn" aria-label="Remove" onclick="showToast('Item removed from wishlist')">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                </button>
+                                <div class="wishlist-item-meta">
+                                    <span class="wishlist-item-name">Graphic Tee - Chaos</span>
+                                    <span class="wishlist-item-price">₹1,199</span>
+                                </div>
+                            </div>
+
+                            <div class="wishlist-item-card">
+                                <div class="wishlist-img-wrap">
+                                    <img src="ekkvastra_hoodie.png" alt="Shadow Hoodie" />
+                                </div>
+                                <button class="wishlist-heart-btn" aria-label="Remove" onclick="showToast('Item removed from wishlist')">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                </button>
+                                <div class="wishlist-item-meta">
+                                    <span class="wishlist-item-name">Shadow Hoodie - Black</span>
+                                    <span class="wishlist-item-price">₹1,799</span>
+                                </div>
+                            </div>
+
+                            <div class="wishlist-item-card">
+                                <div class="wishlist-img-wrap">
+                                    <img src="ekkvastra_cargo.png" alt="Parachute Pants" />
+                                </div>
+                                <button class="wishlist-heart-btn" aria-label="Remove" onclick="showToast('Item removed from wishlist')">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                </button>
+                                <div class="wishlist-item-meta">
+                                    <span class="wishlist-item-name">Parachute Pants - Black</span>
+                                    <span class="wishlist-item-price">₹1,899</span>
+                                </div>
+                            </div>
+
+                            <div class="wishlist-item-card">
+                                <div class="wishlist-img-wrap">
+                                    <img src="ekkvastra_front_print_tee.png" alt="Minimal Tee" />
+                                </div>
+                                <button class="wishlist-heart-btn" aria-label="Remove" onclick="showToast('Item removed from wishlist')">
+                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                </button>
+                                <div class="wishlist-item-meta">
+                                    <span class="wishlist-item-name">Minimal Tee - Sand</span>
+                                    <span class="wishlist-item-price">₹1,099</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Quick Actions -->
+                    <div class="dashboard-card" style="padding: 24px;">
+                        <div class="section-header" style="margin-bottom: 4px;">
+                            <h2>Quick Actions</h2>
+                        </div>
+
+                        <div class="quick-actions-grid">
+                            <div class="action-box" onclick="showToast('Tracking orders - status is live!')">
+                                <div class="action-box-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                </div>
+                                <div class="action-box-meta">
+                                    <span class="action-box-title">Track Order</span>
+                                    <span class="action-box-subtitle">Check status</span>
+                                </div>
+                            </div>
+
+                            <div class="action-box" onclick="openAddressModal()">
+                                <div class="action-box-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                </div>
+                                <div class="action-box-meta">
+                                    <span class="action-box-title">Manage Addresses</span>
+                                    <span class="action-box-subtitle">Add / Edit</span>
+                                </div>
+                            </div>
+
+                            <div class="action-box" onclick="showToast('Opening payment cards manager')">
+                                <div class="action-box-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                        <line x1="1" y1="10" x2="23" y2="10"></line>
+                                    </svg>
+                                </div>
+                                <div class="action-box-meta">
+                                    <span class="action-box-title">Saved Payments</span>
+                                    <span class="action-box-subtitle">Manage cards</span>
+                                </div>
+                            </div>
+
+                            <div class="action-box" onclick="openProfileModal()">
+                                <div class="action-box-icon">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                </div>
+                                <div class="action-box-meta">
+                                    <span class="action-box-title">Edit Profile</span>
+                                    <span class="action-box-subtitle">Update info</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Member Promo Card -->
+                    <div class="promo-banner">
+                        <div class="promo-image-side">
+                            <img src="ekkvastra_back_print_tee.png" alt="Promo Model">
+                        </div>
+                        <div class="promo-banner-content">
+                            <span class="promo-banner-eyebrow">Exclusive For You</span>
+                            <h3 class="promo-banner-title">Members get more.</h3>
+                            <p class="promo-banner-desc">Early access, special drops & exclusive offers.</p>
+                            <button class="btn-promo" onclick="window.location.href='shop.html'">
+                                <span>Explore Collections</span>
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- PROFILE EDIT MODAL -->
+    <div class="modal-overlay" id="profileModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Edit Profile Info</h3>
+                <button class="modal-close-btn" onclick="closeProfileModal()">&times;</button>
+            </div>
+            <form onsubmit="saveProfile(event)">
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label for="profName">Full Name</label>
+                    <input type="text" id="profName" class="form-input" required />
+                </div>
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label for="profPhone">Phone Number</label>
+                    <input type="text" id="profPhone" class="form-input" required />
+                </div>
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label for="profEmail">Email address</label>
+                    <input type="email" id="profEmail" class="form-input" disabled style="opacity:0.5;" />
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-modal-primary">Save Changes</button>
+                    <button type="button" class="btn-modal-secondary" onclick="closeProfileModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADDRESSES MODAL -->
+    <div class="modal-overlay" id="addressModal">
+        <div class="modal-card">
+            <div class="modal-header">
+                <h3>Update Shipping Address</h3>
+                <button class="modal-close-btn" onclick="closeAddressModal()">&times;</button>
+            </div>
+            <form onsubmit="saveAddress(event)">
+                <div class="form-group" style="margin-bottom:16px;">
+                    <label for="addrStreet">Street Address</label>
+                    <input type="text" id="addrStreet" class="form-input" required />
+                </div>
+                <div class="form-row" style="margin-bottom:16px;">
+                    <div class="form-group">
+                        <label for="addrCity">City</label>
+                        <input type="text" id="addrCity" class="form-input" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="addrPin">Pincode</label>
+                        <input type="text" id="addrPin" class="form-input" required />
+                    </div>
+                </div>
+                <div class="form-group" style="margin-bottom:20px;">
+                    <label for="addrState">State</label>
+                    <input type="text" id="addrState" class="form-input" required />
+                </div>
+                <div class="modal-actions">
+                    <button type="submit" class="btn-modal-primary">Save Address</button>
+                    <button type="button" class="btn-modal-secondary" onclick="closeAddressModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const LOGGED_IN_KEY = 'ekkvastra_logged_in';
+        const USER_KEY = 'ekkvastra_user';
+        const ORDERS_KEY = 'ekkvastra_orders';
+
+        let sessionUser = {};
+
+        function checkAuth() {
+            if (localStorage.getItem(LOGGED_IN_KEY) !== 'true') {
+                window.location.href = 'LOGIN.html';
+                return false;
+            }
+            return true;
+        }
+
+        // Initialize dashboard state
+        function initDashboard() {
+            if (!checkAuth()) return;
+
+            // Load user data
+            sessionUser = JSON.parse(localStorage.getItem(USER_KEY)) || {};
+            if (!sessionUser.name) {
+                sessionUser.name = "Akash Rai";
+                sessionUser.email = "akash.rai@email.com";
+                sessionUser.phone = "+91 98765 43210";
+                localStorage.setItem(USER_KEY, JSON.stringify(sessionUser));
+            }
+
+            // Bind values
+            const firstName = sessionUser.name.split(' ')[0];
+            document.getElementById('welcomeGreeting').textContent = `${firstName} 👋`;
+            document.getElementById('sideProfileName').textContent = sessionUser.name;
+            document.getElementById('sideProfileEmail').textContent = sessionUser.email;
+
+            // Load checkout orders if any
+            const orders = JSON.parse(localStorage.getItem(ORDERS_KEY)) || [];
+            document.getElementById('statOrdersCount').textContent = 12 + orders.length;
+
+            if (orders.length > 0) {
+                renderDynamicOrders(orders);
+            }
+
+            updateCartBadgeCount();
+            updateWishlistBadge();
+        }
+
+        function renderDynamicOrders(orders) {
+            const list = document.getElementById('orderHistoryList');
+            if (!list) return;
+
+            // Prepend new orders from checkout
+            const itemsHtml = orders.map(order => {
+                const totalItemsCount = order.items.reduce((sum, item) => sum + (item.quantity || 1), 0);
+                const firstProduct = order.items[0] || { name: "Oversized Tee", image: "ekkvastra_front_print_tee.png", size: "L" };
+                return `
+                    <div class="order-row-item">
+                        <div class="order-thumb">
+                            <img src="${firstProduct.image}" alt="${firstProduct.name}">
+                        </div>
+                        <div class="order-info">
+                            <span class="order-name">${firstProduct.name} ${order.items.length > 1 ? `(+${order.items.length - 1} items)` : ''}</span>
+                            <span class="order-meta">Size: ${firstProduct.size || 'L'} &bull; Qty: ${totalItemsCount}</span>
+                            <span class="order-meta">Order ID: #EKK${order.id.split('-')[2] || '9876'}</span>
+                        </div>
+                        <div class="order-item-status-col">
+                            <span class="status-badge processing">Processing</span>
+                            <span class="order-date">${order.date}</span>
+                        </div>
+                        <div class="order-arrow">
+                            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            // Merge with hardcoded defaults
+            list.innerHTML = itemsHtml + `
+                <div class="order-row-item">
+                    <div class="order-thumb">
+                        <img src="ekkvastra_hoodie.png" alt="Signature Hoodie">
+                    </div>
+                    <div class="order-info">
+                        <span class="order-name">Signature Hoodie - Black</span>
+                        <span class="order-meta">Size: L &bull; Qty: 1</span>
+                        <span class="order-meta">Order ID: #EKK12456</span>
+                    </div>
+                    <div class="order-item-status-col">
+                        <span class="status-badge delivered">Delivered</span>
+                        <span class="order-date">10 May, 2024</span>
+                    </div>
+                    <div class="order-arrow">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="order-row-item">
+                    <div class="order-thumb">
+                        <img src="ekkvastra_front_print_tee.png" alt="Oversized Tee">
+                    </div>
+                    <div class="order-info">
+                        <span class="order-name">Oversized Tee - Beige</span>
+                        <span class="order-meta">Size: L &bull; Qty: 1</span>
+                        <span class="order-meta">Order ID: #EKK12420</span>
+                    </div>
+                    <div class="order-item-status-col">
+                        <span class="status-badge shipped">Shipped</span>
+                        <span class="order-date">07 May, 2024</span>
+                    </div>
+                    <div class="order-arrow">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="order-row-item">
+                    <div class="order-thumb">
+                        <img src="ekkvastra_cargo.png" alt="Cargo Pants">
+                    </div>
+                    <div class="order-info">
+                        <span class="order-name">Cargo Pants - Black</span>
+                        <span class="order-meta">Size: 32 &bull; Qty: 1</span>
+                        <span class="order-meta">Order ID: #EKK12368</span>
+                    </div>
+                    <div class="order-item-status-col">
+                        <span class="status-badge processing">Processing</span>
+                        <span class="order-date">05 May, 2024</span>
+                    </div>
+                    <div class="order-arrow">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="9 18 15 12 9 6"></polyline>
+                        </svg>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Sidebar click active switch
+        function switchNav(el) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            el.classList.add('active');
+        }
+
+        // Profile Modal
+        function openProfileModal() {
+            document.getElementById('profName').value = sessionUser.name;
+            document.getElementById('profPhone').value = sessionUser.phone || "+91 98765 43210";
+            document.getElementById('profEmail').value = sessionUser.email;
+            document.getElementById('profileModal').classList.add('open');
+        }
+
+        function closeProfileModal() {
+            document.getElementById('profileModal').classList.remove('open');
+        }
+
+        function saveProfile(e) {
+            e.preventDefault();
+            const name = document.getElementById('profName').value.trim();
+            const phone = document.getElementById('profPhone').value.trim();
+
+            if (!name || !phone) {
+                showToast("Fields cannot be empty", "error");
+                return;
+            }
+
+            sessionUser.name = name;
+            sessionUser.phone = phone;
+            localStorage.setItem(USER_KEY, JSON.stringify(sessionUser));
+
+            document.getElementById('sideProfileName').textContent = name;
+            document.getElementById('welcomeGreeting').textContent = `${name.split(' ')[0]} 👋`;
+
+            closeProfileModal();
+            showToast("Profile details updated successfully!");
+        }
+
+        // Address Modal
+        function openAddressModal() {
+            const address = JSON.parse(localStorage.getItem('ekkvastra_address')) || {
+                street: "Streetwear Colony, Sector-26",
+                city: "Mumbai",
+                pincode: "400001",
+                state: "Maharashtra"
+            };
+            document.getElementById('addrStreet').value = address.street;
+            document.getElementById('addrCity').value = address.city;
+            document.getElementById('addrPin').value = address.pincode;
+            document.getElementById('addrState').value = address.state;
+            document.getElementById('addressModal').classList.add('open');
+        }
+
+        function closeAddressModal() {
+            document.getElementById('addressModal').classList.remove('open');
+        }
+
+        function saveAddress(e) {
+            e.preventDefault();
+            const street = document.getElementById('addrStreet').value.trim();
+            const city = document.getElementById('addrCity').value.trim();
+            const pincode = document.getElementById('addrPin').value.trim();
+            const state = document.getElementById('addrState').value.trim();
+
+            if (!street || !city || !pincode || !state) {
+                showToast("Please fill all address fields", "error");
+                return;
+            }
+
+            const address = { street, city, pincode, state };
+            localStorage.setItem('ekkvastra_address', JSON.stringify(address));
+
+            closeAddressModal();
+            showToast("Shipping address saved successfully!");
+        }
+
+        // Scroll helper for recently viewed
+        function scrollSlider(amt) {
+            const slider = document.getElementById('recentSlider');
+            if (slider) slider.scrollLeft += amt;
+        }
+
+        // Logout
+        function processLogout() {
+            showToast("Logging you out...", "success");
+            localStorage.setItem(LOGGED_IN_KEY, 'false');
+            setTimeout(() => {
+                window.location.href = 'LOGIN.html';
+            }, 1000);
+        }
+
+        // Toast Helper
+        function showToast(message, type = 'success') {
+            let container = document.getElementById('toastContainer');
+            if (!container) return;
+
+            const toast = document.createElement('div');
+            toast.className = 'toast';
+            
+            const icon = type === 'success' 
+                ? `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="color:#22c55e;"><polyline points="20 6 9 17 4 12"/></svg>`
+                : `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" style="color:#ef4444;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+            
+            toast.innerHTML = `${icon}<span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => toast.classList.add('show'), 50);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => toast.remove(), 400);
+            }, 3000);
+        }
+
+        // Mobile Sidebar Toggle
+        (function() {
+            const toggleBtn = document.getElementById('sidebarToggle');
+            const sidebar = document.querySelector('.sidebar');
+            const backdrop = document.getElementById('sidebarBackdrop');
+
+            if (toggleBtn && sidebar && backdrop) {
+                const openSidebar = () => {
+                    sidebar.classList.add('open');
+                    backdrop.classList.add('open');
+                };
+
+                const closeSidebar = () => {
+                    sidebar.classList.remove('open');
+                    backdrop.classList.remove('open');
+                };
+
+                toggleBtn.addEventListener('click', openSidebar);
+                backdrop.addEventListener('click', closeSidebar);
+
+                // Close sidebar when clicking links inside it on mobile
+                document.querySelectorAll('.nav-item').forEach(item => {
+                    item.addEventListener('click', () => {
+                        if (window.innerWidth < 768) {
+                            closeSidebar();
+                        }
+                    });
+                });
+            }
+        })();
+
+        // Badge counts and header init
+        const WISHLIST_KEY = 'ekkvastra_wishlist';
+        const CART_KEY = 'ekkvastra_cart';
+
+        function updateCartBadgeCount() {
+            const badges = document.querySelectorAll('.cart-badge');
+            try {
+                const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
+                const count = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
+                badges.forEach(badge => {
+                    badge.textContent = count;
+                    badge.classList.toggle('visible', count > 0);
+                });
+            } catch {
+                badges.forEach(badge => {
+                    badge.textContent = 0;
+                    badge.classList.toggle('visible', false);
+                });
+            }
+        }
+
+        function updateWishlistBadge() {
+            const badge = document.getElementById('navWishlistBadge');
+            if (!badge) return;
+            try {
+                const items = JSON.parse(localStorage.getItem(WISHLIST_KEY)) || [];
+                badge.textContent = items.length;
+                badge.classList.toggle('visible', items.length > 0);
+            } catch {
+                badge.textContent = 0;
+                badge.classList.toggle('visible', false);
+            }
+        }
+
+        // Toggle sticky header styles on scroll
+        const siteHeader = document.getElementById('siteHeader');
+        function onScrollHeader() {
+            if (siteHeader) {
+                if (window.scrollY > 12) siteHeader.classList.add('scrolled');
+                else siteHeader.classList.remove('scrolled');
+            }
+        }
+        window.addEventListener('scroll', onScrollHeader);
+        onScrollHeader();
+
+        // ── MOBILE DRAWER ──
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileDrawer = document.getElementById('mobileDrawer');
+        const closeBtn = document.getElementById('closeBtn');
+
+        if (menuBtn && mobileDrawer && closeBtn) {
+            menuBtn.addEventListener('click', () => {
+                mobileDrawer.classList.add('open');
+                mobileDrawer.setAttribute('aria-hidden', 'false');
+            });
+            closeBtn.addEventListener('click', () => {
+                mobileDrawer.classList.remove('open');
+                mobileDrawer.setAttribute('aria-hidden', 'true');
+            });
+            mobileDrawer.addEventListener('click', (e) => {
+                if (e.target === mobileDrawer) {
+                    mobileDrawer.classList.remove('open');
+                    mobileDrawer.setAttribute('aria-hidden', 'true');
+                }
+            });
+            document.querySelectorAll('.drawer-links a').forEach(a =>
+                a.addEventListener('click', () => {
+                    mobileDrawer.classList.remove('open');
+                    mobileDrawer.setAttribute('aria-hidden', 'true');
+                })
+            );
+        }
+
+        // ── SEARCH OVERLAY ──
+        document.addEventListener('DOMContentLoaded', () => {
+            const searchOpenBtns = document.querySelectorAll('button[aria-label="Search"]');
+            const searchOverlay = document.getElementById('searchOverlay');
+            const closeSearchBtn = document.getElementById('closeSearchBtn');
+            const searchInput = document.getElementById('searchInput');
+
+            if (searchOpenBtns && searchOverlay && closeSearchBtn) {
+                searchOpenBtns.forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        searchOverlay.classList.add('open');
+                        searchOverlay.setAttribute('aria-hidden', 'false');
+                        document.body.style.overflow = 'hidden';
+                        setTimeout(() => searchInput?.focus(), 100);
+                    });
+                });
+
+                closeSearchBtn.addEventListener('click', () => {
+                    searchOverlay.classList.remove('open');
+                    searchOverlay.setAttribute('aria-hidden', 'true');
+                    document.body.style.overflow = '';
+                });
+
+                window.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && searchOverlay.classList.contains('open')) {
+                        searchOverlay.classList.remove('open');
+                        searchOverlay.setAttribute('aria-hidden', 'true');
+                        document.body.style.overflow = '';
+                    }
+                });
+
+                const bindSearchWishlistHandlers = () => {
+                    searchOverlay.querySelectorAll('.suggested-wishlist').forEach(btn => {
+                        btn.addEventListener('click', () => {
+                            btn.classList.toggle('active');
+                        });
+                    });
+                };
+                bindSearchWishlistHandlers();
+
+                searchOverlay.querySelectorAll('.remove-recent').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        btn.closest('li').remove();
+                    });
+                });
+
+                const fillSearch = (text) => {
+                    if (searchInput) {
+                        searchInput.value = text;
+                        searchInput.dispatchEvent(new Event('input'));
+                        searchInput.focus();
+                    }
+                };
+
+                searchOverlay.querySelectorAll('.recent-searches-list li span, .search-chip').forEach(el => {
+                    el.addEventListener('click', () => fillSearch(el.textContent.trim()));
+                });
+
+                function renderSearchSuggestedProduct(p) {
+                    return `
+                        <div class="suggested-card">
+                            <div class="suggested-img-wrap">
+                                <img src="${p.image}" alt="${p.name}">
+                                <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
+                            </div>
+                            <div class="suggested-info">
+                                <h3>${p.name.toUpperCase()}</h3>
+                                <div class="suggested-price">₹${p.price.toLocaleString('en-IN')}</div>
+                                <div class="suggested-colors">
+                                    ${p.colors.map((c, idx) => `<span class="color-dot ${idx === 0 ? 'active' : ''}" style="background:${c}"></span>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    `;
+                }
+
+                const suggestedGrid = searchOverlay.querySelector('.suggested-products-grid');
+                const originalSuggestionsHTML = suggestedGrid ? suggestedGrid.innerHTML : '';
+
+                if (searchInput && suggestedGrid) {
+                    searchInput.addEventListener('input', () => {
+                        const query = searchInput.value.trim().toLowerCase();
+                        if (!query) {
+                            suggestedGrid.innerHTML = originalSuggestionsHTML;
+                            bindSearchWishlistHandlers();
+                            return;
+                        }
+
+                        const prodsList = (typeof EKKVASTRA_PRODUCTS !== 'undefined') ? EKKVASTRA_PRODUCTS : [];
+                        const matches = prodsList.filter(p => 
+                            p.name.toLowerCase().includes(query) || 
+                            p.category.toLowerCase().includes(query)
+                        );
+
+                        if (matches.length === 0) {
+                            suggestedGrid.innerHTML = `
+                                <div style="grid-column: 1 / -1; padding: 40px 0; text-align: center; color: rgba(255,255,255,0.4); font-size: 0.9rem; font-weight: 500;">
+                                    <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="2" style="margin: 0 auto 12px; display: block; opacity: 0.6;"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                                    No products matching "${searchInput.value}" found
+                                </div>
+                            `;
+                        } else {
+                            suggestedGrid.innerHTML = matches.slice(0, 6).map(renderSearchSuggestedProduct).join('');
+                            bindSearchWishlistHandlers();
+                        }
+                    });
+                }
+            }
+        });
+
+        window.addEventListener('DOMContentLoaded', () => {
+            initDashboard();
+        });
+    </script>
+
+    <!-- Search Overlay Modal -->
+    <div id="searchOverlay" class="search-overlay" aria-hidden="true">
+        <div class="search-overlay-inner">
+            <!-- Top Announcement Bar -->
+            <div class="search-announcement">
+                <div>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2" ry="2"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                    <span>FREE SHIPPING ON ORDERS ABOVE ₹1499</span>
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                    <span>EASY 14-DAY RETURNS</span>
+                </div>
+                <div>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+                    <span>COD AVAILABLE</span>
+                </div>
+            </div>
+
+            <!-- Search Header -->
+            <div class="search-header">
+                <span class="search-logo">EKKVASTRA</span>
+                <button class="search-close-btn" id="closeSearchBtn" aria-label="Close search">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+
+            <div class="search-body">
+                <!-- Search Input Wrapper -->
+                <div class="search-input-wrapper">
+                    <svg class="search-input-icon" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                    </svg>
+                    <input type="text" id="searchInput" class="search-input" placeholder="Search for products, categories..." autofocus>
+                </div>
+
+                <!-- Quick Info Row -->
+                <div class="search-quick-info">
+                    <div class="popular-searches-col">
+                        <span class="search-section-title">POPULAR SEARCHES</span>
+                        <div class="search-chips">
+                            <button class="search-chip">Oversized Tee</button>
+                            <button class="search-chip">Hoodie</button>
+                            <button class="search-chip">Cargo Pants</button>
+                            <button class="search-chip">Black Tee</button>
+                            <button class="search-chip">Jacket</button>
+                        </div>
+                    </div>
+                    <div class="trending-col">
+                        <span class="search-section-title">TRENDING NOW <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:2px;"><polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/></svg></span>
+                        <div class="trending-links">
+                            <a href="shop.html">New Arrivals</a>
+                            <a href="shop.html">Best Sellers</a>
+                            <a href="shop.html">Graphic Tees</a>
+                            <a href="shop.html">Essentials</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main Split Layout -->
+                <div class="search-results-layout">
+                    <!-- Recent Searches -->
+                    <div class="recent-searches-col">
+                        <div class="recent-header">
+                            <span class="search-section-title">
+                                RECENT SEARCHES
+                                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:4px;"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"/></svg>
+                            </span>
+                        </div>
+                        <ul class="recent-searches-list" id="recentSearchesList">
+                            <li><span>oversized tee</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
+                            <li><span>cargo pants</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
+                            <li><span>hoodie</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
+                            <li><span>black t shirt</span><button class="remove-recent" aria-label="Remove item">✕</button></li>
+                        </ul>
+                    </div>
+
+                    <!-- Suggested Products -->
+                    <div class="suggested-products-col">
+                        <div class="suggested-header">
+                            <span class="search-section-title">SUGGESTED FOR YOU</span>
+                            <a href="shop.html" class="search-view-all">VIEW ALL <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:4px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                        </div>
+                        <div class="suggested-products-grid">
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_front_print_tee.png" alt="OVERSIZED TEE">
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>OVERSIZED TEE - NOIR</h3>
+                                    <div class="suggested-price">₹1,199</div>
+                                </div>
+                            </div>
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_hoodie.png" alt="SIGNATURE HOODIE">
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>SIGNATURE HOODIE - BLACK</h3>
+                                    <div class="suggested-price">₹1,799</div>
+                                </div>
+                            </div>
+                            <div class="suggested-card">
+                                <div class="suggested-img-wrap">
+                                    <img src="ekkvastra_cargo.png" alt="CARGO PANTS">
+                                </div>
+                                <div class="suggested-info">
+                                    <h3>CARGO PANTS - BLACK</h3>
+                                    <div class="suggested-price">₹1,699</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- bottom helper card -->
+                <div class="search-contact-card">
+                    <div class="search-icon-box">
+                        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </div>
+                    <div class="search-contact-text">
+                        <h4>CAN'T FIND WHAT YOU'RE LOOKING FOR?</h4>
+                        <p>Our team is here to help you find the perfect fit.</p>
+                    </div>
+                    <a href="CONTACT.html" class="search-contact-btn">CONTACT US <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2" style="display:inline-block;vertical-align:middle;margin-left:4px;"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

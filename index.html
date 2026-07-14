@@ -37,6 +37,8 @@
             color: var(--ink);
             font-family: var(--font-sans);
             -webkit-font-smoothing: antialiased;
+            max-width: 100%;
+            overflow-x: hidden;
         }
 
         html {
@@ -409,7 +411,7 @@
             display: none;
             align-items: center;
             justify-content: end;
-            gap: 8px;
+            gap: 4px;
             flex-shrink: 0;
         }
 
@@ -427,6 +429,44 @@
             background: rgba(255, 255, 255, 0.08);
             border-color: rgba(255, 255, 255, 0.3);
             transform: translateY(-1px);
+        }
+
+        /* Avatar button */
+        .nav-avatar-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px 4px 4px 8px;
+            border-radius: 999px;
+            transition: background 0.25s ease;
+            text-decoration: none;
+        }
+
+        .nav-avatar-btn:hover {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .nav-avatar-img {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.25);
+            display: block;
+        }
+
+        .nav-avatar-chevron {
+            color: rgba(255, 255, 255, 0.6);
+            display: flex;
+            align-items: center;
+            transition: color 0.2s;
+        }
+
+        .nav-avatar-btn:hover .nav-avatar-chevron {
+            color: #fff;
         }
 
         .cart-icon-wrap {
@@ -473,15 +513,15 @@
             .nav-actions {
                 display: flex;
             }
+        }
+
+        @media (min-width: 1024px) {
+            .nav-links {
+                display: flex;
+            }
 
             .mobile-menu-btn {
                 display: none;
-            }
-        }
-
-        @media (min-width: 1280px) {
-            .nav-links {
-                display: flex;
             }
         }
 
@@ -1913,12 +1953,6 @@
             padding: 0;
         }
 
-        @media (max-width: 767px) {
-            .trust-inner {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
         .trust-item {
             display: flex;
             align-items: center;
@@ -1931,18 +1965,50 @@
             border-right: none;
         }
 
+        @media (max-width: 1024px) {
+            .trust-item {
+                padding: 16px 14px;
+                gap: 10px;
+            }
+        }
+
         @media (max-width: 767px) {
+            .trust-inner {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .trust-item {
+                padding: 16px 12px;
+                gap: 8px;
+            }
             .trust-item:nth-child(2) {
                 border-right: none;
             }
-
             .trust-item:nth-child(3) {
                 border-top: 1px solid rgba(255, 255, 255, 0.07);
             }
-
             .trust-item:nth-child(4) {
                 border-top: 1px solid rgba(255, 255, 255, 0.07);
                 border-right: none;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .trust-inner {
+                grid-template-columns: 1fr;
+            }
+            .trust-item {
+                border-right: none !important;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+                padding: 16px;
+            }
+            .trust-item:nth-child(3) {
+                border-top: none;
+            }
+            .trust-item:nth-child(4) {
+                border-top: none;
+            }
+            .trust-item:last-child {
+                border-bottom: none;
             }
         }
 
@@ -2346,20 +2412,13 @@
             </nav>
 
             <div class="nav-actions">
-                <button class="icon-btn" aria-label="Search">
+                <button class="icon-btn" aria-label="Search" id="searchOpenBtn">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
                         stroke-width="1.8">
                         <circle cx="11" cy="11" r="7"></circle>
                         <path d="M20 20l-3.5-3.5" stroke-linecap="round"></path>
                     </svg>
                 </button>
-                <a href="LOGIN.html" class="icon-btn" aria-label="Account">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
-                        stroke-width="1.8">
-                        <path d="M20 21a8 8 0 0 0-16 0" stroke-linecap="round"></path>
-                        <circle cx="12" cy="8" r="4"></circle>
-                    </svg>
-                </a>
                 <a href="wishlist.html" class="icon-btn nav-wishlist-btn" aria-label="Wishlist" id="navWishlistBtn">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"
                         stroke-width="1.8">
@@ -2376,7 +2435,15 @@
                         <circle cx="20" cy="21" r="1"></circle>
                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                     </svg>
-                    <span class="cart-badge">2</span>
+                    <span class="cart-badge">0</span>
+                </a>
+                <a href="account.html" class="nav-avatar-btn" aria-label="My Account">
+                    <img src="avatar_akash.png" alt="Account" class="nav-avatar-img" />
+                    <span class="nav-avatar-chevron">
+                        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </span>
                 </a>
             </div>
 
@@ -2473,7 +2540,7 @@
 
                 <div class="hero-image">
                     <img id="heroImage"
-                        src="https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1400&q=80"
+                        src="ekkvastra_hoodie.png"
                         alt="Premium streetwear hero image" />
                     <div class="hero-badge">New Season</div>
                     <div class="hero-tag">EMG / 2026</div>
@@ -2538,7 +2605,7 @@
             <div class="page-shell">
                 <div class="story-grid">
                     <div class="story-image reveal-left">
-                        <img src="https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1200&q=80"
+                        <img src="founder_portrait.png"
                             alt="EKKVASTRA story" />
                         <div class="story-image-badge">Since 2024</div>
                     </div>
@@ -2764,51 +2831,51 @@
                 eyebrow: "PREMIUM STREETWEAR",
                 title: "STYLE WITH EDGE.",
                 text: "Quiet luxury streetwear designed to feel sharp and effortless.",
-                image: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=1400&q=80"
+                image: "ekkvastra_hoodie.png"
             },
             {
                 eyebrow: "LIMITED DROP",
                 title: "OWN THE LOOK.",
                 text: "Clean silhouettes, strong layers, and everyday essentials.",
-                image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1400&q=80"
+                image: "ekkvastra_front_print_tee.png"
             },
             {
                 eyebrow: "NEW SEASON",
                 title: "BUILT DIFFERENT.",
                 text: "Premium pieces made for elevated everyday wear.",
-                image: "https://images.unsplash.com/photo-1506629905607-d405b7a5f5b0?auto=format&fit=crop&w=1400&q=80"
+                image: "ekkvastra_cargo.png"
             },
             {
                 eyebrow: "ESSENTIALS",
                 title: "EKKVASTRA DROP.",
                 text: "Discover the latest oversized trends and premium graphic tees.",
-                image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=1400&q=80"
+                image: "ekkvastra_back_print_tee.png"
             }
         ];
 
         const newArrivals = [
-            { id: "idx-1", name: "Signature Oversized Hoodie", category: "Hoodies", price: "1,799", image: "https://images.unsplash.com/photo-1506629905607-d405b7a5f5b0?auto=format&fit=crop&w=900&q=80", hoverImage: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80", colors: ["#111", "#bbb", "#8a8a8a"], sizes: ["S", "M", "L", "XL"] },
-            { id: "idx-2", name: "Abstract Graphic Tee", category: "T-Shirts", price: "999", image: "https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=900&q=80", hoverImage: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80", colors: ["#111", "#d8d0c4", "#7b7b7b"], sizes: ["S", "M", "L"] },
-            { id: "idx-3", name: "Cargo Parachute Pants", category: "Bottoms", price: "1,899", image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=900&q=80", hoverImage: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80", colors: ["#5c5a52", "#111", "#c4bdb3"], sizes: ["30", "32", "34", "36"] },
-            { id: "idx-4", name: "Back Print Tee", category: "T-Shirts", price: "799", oldPrice: "999", badge: "-20%", image: "https://images.unsplash.com/photo-1503342452485-86ff0a6a516e?auto=format&fit=crop&w=900&q=80", hoverImage: "https://images.unsplash.com/photo-1503343394128-c104d54dba01?auto=format&fit=crop&w=900&q=80", colors: ["#111", "#e5dfd6", "#7f7f7f"], sizes: ["S", "M", "L", "XL"] },
-            { id: "idx-5", name: "Minimalist Sweatshirt", category: "Sweatshirts", price: "1,599", image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80", hoverImage: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=900&q=80", colors: ["#111", "#c7c0b5", "#8d8a85"], sizes: ["S", "M", "L"] },
-            { id: "idx-6", name: "Utility Cargo Pants", category: "Bottoms", price: "1,999", image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80", hoverImage: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=900&q=80", colors: ["#d0cec8", "#4d4d4d", "#111"], sizes: ["30", "32", "34"] },
+            { id: "idx-1", name: "Signature Oversized Hoodie", category: "Hoodies", price: "1,799", image: "ekkvastra_hoodie.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#111", "#bbb", "#8a8a8a"], sizes: ["S", "M", "L", "XL"] },
+            { id: "idx-2", name: "Abstract Graphic Tee", category: "T-Shirts", price: "999", image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#111", "#d8d0c4", "#7b7b7b"], sizes: ["S", "M", "L"] },
+            { id: "idx-3", name: "Cargo Parachute Pants", category: "Bottoms", price: "1,899", image: "ekkvastra_cargo.png", hoverImage: "ekkvastra_front_print_tee.png", colors: ["#5c5a52", "#111", "#c4bdb3"], sizes: ["30", "32", "34", "36"] },
+            { id: "idx-4", name: "Back Print Tee", category: "T-Shirts", price: "799", oldPrice: "999", badge: "-20%", image: "ekkvastra_back_print_tee.png", hoverImage: "ekkvastra_front_print_tee.png", colors: ["#111", "#e5dfd6", "#7f7f7f"], sizes: ["S", "M", "L", "XL"] },
+            { id: "idx-5", name: "Minimalist Sweatshirt", category: "Sweatshirts", price: "1,599", image: "ekkvastra_hoodie.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#111", "#c7c0b5", "#8d8a85"], sizes: ["S", "M", "L"] },
+            { id: "idx-6", name: "Utility Cargo Pants", category: "Bottoms", price: "1,999", image: "ekkvastra_cargo.png", hoverImage: "ekkvastra_front_print_tee.png", colors: ["#d0cec8", "#4d4d4d", "#111"], sizes: ["30", "32", "34"] },
         ];
 
         const collections = [
-            { title: "Oversized", image: "https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=1200&q=80" },
-            { title: "Graphic Tees", image: "https://images.unsplash.com/photo-1503342452485-86ff0a6a516e?auto=format&fit=crop&w=1200&q=80" },
-            { title: "Essentials", image: "https://images.unsplash.com/photo-1506629905607-d405b7a5f5b0?auto=format&fit=crop&w=1200&q=80" },
-            { title: "Hoodies", image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=1200&q=80" },
+            { title: "Oversized", image: "ekkvastra_front_print_tee.png" },
+            { title: "Graphic Tees", image: "ekkvastra_back_print_tee.png" },
+            { title: "Essentials", image: "ekkvastra_hoodie.png" },
+            { title: "Hoodies", image: "ekkvastra_hoodie.png" },
         ];
 
         const bestSellers = [
-            { id: "idx-7", name: "Signature Hoodie", category: "Hoodies", price: "1,799", rating: { stars: 5, count: 128 }, image: "https://images.unsplash.com/photo-1506629905607-d405b7a5f5b0?auto=format&fit=crop&w=900&q=80", hoverImage: "https://images.unsplash.com/photo-1512436991641-6745cdb1723f?auto=format&fit=crop&w=900&q=80", colors: ["#111", "#bbb", "#8a8a8a"], sizes: ["S", "M", "L", "XL"] },
-            { id: "idx-8", name: "Minimal Boxy Tee", category: "T-Shirts", price: "899", rating: { stars: 5, count: 96 }, image: "https://images.unsplash.com/photo-1496747611176-843222e1e57c?auto=format&fit=crop&w=900&q=80", hoverImage: "https://images.unsplash.com/photo-1523398002811-999ca8dec234?auto=format&fit=crop&w=900&q=80", colors: ["#555", "#111", "#d7d2c8"], sizes: ["S", "M", "L"] },
-            { id: "idx-9", name: "Cargo Parachute Pants", category: "Bottoms", price: "1,899", rating: { stars: 5, count: 88 }, image: "https://images.unsplash.com/photo-1473966968600-fa801b869a1a?auto=format&fit=crop&w=900&q=80", hoverImage: "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?auto=format&fit=crop&w=900&q=80", colors: ["#b5b0a6", "#111", "#777"], sizes: ["30", "32", "34", "36"] },
-            { id: "idx-10", name: "Washed Oversized Tee", category: "T-Shirts", price: "999", rating: { stars: 5, count: 110 }, image: "https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=80", hoverImage: "https://images.unsplash.com/photo-1503342452485-86ff0a6a516e?auto=format&fit=crop&w=900&q=80", colors: ["#111", "#ccc", "#8c8c8c"], sizes: ["S", "M", "L", "XL"] },
-            { id: "idx-11", name: "Zip Up Hoodie", category: "Hoodies", price: "1,999", rating: { stars: 5, count: 76 }, image: "https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=900&q=80", hoverImage: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?auto=format&fit=crop&w=900&q=80", colors: ["#111", "#cfc8bf", "#777"], sizes: ["S", "M", "L", "XL"] },
-            { id: "idx-12", name: "Graphic Back Tee", category: "T-Shirts", price: "999", rating: { stars: 5, count: 59 }, image: "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?auto=format&fit=crop&w=900&q=80", hoverImage: "https://images.unsplash.com/photo-1503342394128-c104d54dba01?auto=format&fit=crop&w=900&q=80", colors: ["#111", "#ddd", "#878787"], sizes: ["S", "M", "L"] }
+            { id: "idx-7", name: "Signature Hoodie", category: "Hoodies", price: "1,799", rating: { stars: 5, count: 128 }, image: "ekkvastra_hoodie.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#111", "#bbb", "#8a8a8a"], sizes: ["S", "M", "L", "XL"] },
+            { id: "idx-8", name: "Minimal Boxy Tee", category: "T-Shirts", price: "899", rating: { stars: 5, count: 96 }, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#555", "#111", "#d7d2c8"], sizes: ["S", "M", "L"] },
+            { id: "idx-9", name: "Cargo Parachute Pants", category: "Bottoms", price: "1,899", rating: { stars: 5, count: 88 }, image: "ekkvastra_cargo.png", hoverImage: "ekkvastra_front_print_tee.png", colors: ["#b5b0a6", "#111", "#777"], sizes: ["30", "32", "34", "36"] },
+            { id: "idx-10", name: "Washed Oversized Tee", category: "T-Shirts", price: "999", rating: { stars: 5, count: 110 }, image: "ekkvastra_back_print_tee.png", hoverImage: "ekkvastra_front_print_tee.png", colors: ["#111", "#ccc", "#8c8c8c"], sizes: ["S", "M", "L", "XL"] },
+            { id: "idx-11", name: "Zip Up Hoodie", category: "Hoodies", price: "1,999", rating: { stars: 5, count: 76 }, image: "ekkvastra_hoodie.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#111", "#cfc8bf", "#777"], sizes: ["S", "M", "L", "XL"] },
+            { id: "idx-12", name: "Graphic Back Tee", category: "T-Shirts", price: "999", rating: { stars: 5, count: 59 }, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#111", "#ddd", "#878787"], sizes: ["S", "M", "L"] }
         ];
 
         function icon(type, size = 20) {
@@ -2964,7 +3031,7 @@
         const heroImage = document.getElementById("heroImage");
         const heroDots = document.getElementById("heroDots");
 
-        let activeSlide = 2;
+        let activeSlide = 0;
 
         function setSlide(i) {
             activeSlide = i;
@@ -2975,11 +3042,26 @@
             [...heroDots.children].forEach((dot, idx) => dot.classList.toggle("active", idx === i));
         }
 
+        let slideInterval = setInterval(nextSlide, 5000);
+
+        function nextSlide() {
+            let nextIndex = (activeSlide + 1) % heroSlides.length;
+            setSlide(nextIndex);
+        }
+
+        function resetSlideInterval() {
+            clearInterval(slideInterval);
+            slideInterval = setInterval(nextSlide, 5000);
+        }
+
         [...heroDots.children].forEach((dot, idx) => {
-            dot.addEventListener("click", () => setSlide(idx));
+            dot.addEventListener("click", () => {
+                setSlide(idx);
+                resetSlideInterval();
+            });
         });
 
-        setSlide(2);
+        setSlide(0);
 
         const menuBtn = document.getElementById("menuBtn");
         const mobileDrawer = document.getElementById("mobileDrawer");
