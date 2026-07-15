@@ -117,11 +117,11 @@
 
         @media (min-width: 768px) {
             .nav-actions { display: flex; }
+            .mobile-menu-btn { display: none !important; }
         }
 
         @media (min-width: 1024px) {
             .nav-links { display: flex; }
-            .mobile-menu-btn { display: none; }
         }
 
         /* ── MOBILE DRAWER ── */
@@ -1716,7 +1716,7 @@
             }
 
             .mobile-menu-btn {
-                display: inline-flex;
+                display: inline-flex !important;
             }
 
             .nav-actions {
@@ -2730,7 +2730,6 @@
                         e.preventDefault();
                         searchOverlay.classList.add('open');
                         searchOverlay.setAttribute('aria-hidden', 'false');
-                        document.body.style.overflow = 'hidden'; // prevent bg scroll
                         setTimeout(() => searchInput?.focus(), 100);
                     });
                 });
@@ -2738,7 +2737,6 @@
                 closeSearchBtn.addEventListener('click', () => {
                     searchOverlay.classList.remove('open');
                     searchOverlay.setAttribute('aria-hidden', 'true');
-                    document.body.style.overflow = ''; // restore bg scroll
                 });
 
                 // ESC key to close search overlay
@@ -2746,7 +2744,6 @@
                     if (e.key === 'Escape' && searchOverlay.classList.contains('open')) {
                         searchOverlay.classList.remove('open');
                         searchOverlay.setAttribute('aria-hidden', 'true');
-                        document.body.style.overflow = '';
                     }
                 });
 

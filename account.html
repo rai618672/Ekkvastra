@@ -2613,7 +2613,6 @@
                         e.preventDefault();
                         searchOverlay.classList.add('open');
                         searchOverlay.setAttribute('aria-hidden', 'false');
-                        document.body.style.overflow = 'hidden';
                         setTimeout(() => searchInput?.focus(), 100);
                     });
                 });
@@ -2621,14 +2620,12 @@
                 closeSearchBtn.addEventListener('click', () => {
                     searchOverlay.classList.remove('open');
                     searchOverlay.setAttribute('aria-hidden', 'true');
-                    document.body.style.overflow = '';
                 });
 
                 window.addEventListener('keydown', (e) => {
                     if (e.key === 'Escape' && searchOverlay.classList.contains('open')) {
                         searchOverlay.classList.remove('open');
                         searchOverlay.setAttribute('aria-hidden', 'true');
-                        document.body.style.overflow = '';
                     }
                 });
 
