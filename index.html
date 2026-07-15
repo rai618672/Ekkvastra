@@ -38,7 +38,7 @@
             font-family: var(--font-sans);
             -webkit-font-smoothing: antialiased;
             max-width: 100%;
-            overflow-x: hidden;
+            overflow-x: clip;
         }
 
         html {
@@ -234,8 +234,8 @@
         }
 
         .sticky-header {
-            position: absolute;
-            top: 40px;
+            position: sticky;
+            top: 0;
             left: 0;
             right: 0;
             z-index: 70;
@@ -247,9 +247,7 @@
         }
 
         .sticky-header.scrolled {
-            position: fixed;
-            top: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -731,6 +729,108 @@
 
             .hero-image {
                 min-height: 420px;
+            }
+        }
+
+        /* Phone-only hero refinements (tighter spacing/sizing on top of the
+           tablet rules above, so 768-1023px is untouched). Same layout,
+           just denser, smaller and scaled down for small screens. */
+        @media (max-width: 767px) {
+            .hero-grid {
+                gap: 16px; /* badges -> image */
+                padding: 14px;
+                border-radius: 24px;
+                margin-top: 14px;
+                border-color: rgba(255, 255, 255, 0.1);
+                background: linear-gradient(165deg, #121212 0%, #0a0a0a 100%);
+                box-shadow: 0 20px 48px rgba(0, 0, 0, 0.38);
+            }
+
+            .hero-copy {
+                gap: 0; /* replaced by explicit margins below for finer control */
+                padding: 18px 22px 0; /* premium mobile gutter */
+            }
+
+            .hero-copy .eyebrow {
+                font-size: 0.75rem; /* 12px */
+                letter-spacing: 0.36em; /* slightly wider than desktop */
+            }
+
+            .hero-copy .title-lg {
+                font-size: clamp(2.5rem, 9vw, 2.625rem); /* ~40-42px */
+                line-height: 0.97;
+                letter-spacing: -0.01em; /* desktop's -0.08em is too tight at this size and collapses word gaps */
+                margin-top: 10px; /* tag -> heading */
+            }
+
+            .hero-copy .copy {
+                font-size: 1rem; /* 16px */
+                line-height: 1.6;
+                margin-top: 14px; /* heading -> description */
+            }
+
+            .hero-actions {
+                gap: 10px;
+                margin-top: 18px; /* description -> buttons */
+            }
+
+            .hero-actions .btn-primary,
+            .hero-actions .btn-secondary {
+                min-height: 48px;
+                padding: 0 20px;
+                font-size: 0.95rem;
+            }
+
+            .hero-actions .btn-secondary {
+                font-weight: 600; /* slightly less visual weight than primary */
+            }
+
+            .hero-meta-chips {
+                gap: 6px;
+                margin-top: 16px; /* buttons -> badges */
+            }
+
+            .hero-meta-chip {
+                padding: 8px 12px;
+                font-size: 0.64rem;
+            }
+
+            .hero-image {
+                min-height: 380px; /* larger visible image area */
+            }
+
+            .hero-image img {
+                object-position: center top; /* keeps the model's face/upper body in frame */
+            }
+
+            .hero-badge,
+            .hero-tag {
+                bottom: 14px;
+                padding: 10px 14px;
+                font-size: 0.66rem;
+            }
+
+            .hero-badge {
+                left: 14px;
+            }
+
+            .hero-tag {
+                right: 14px;
+            }
+
+            .hero-dots {
+                bottom: 14px; /* aligned with badge/tag */
+                gap: 6px;
+            }
+
+            .hero-dot {
+                width: 8px;
+                height: 8px;
+            }
+
+            .hero-dot.active {
+                width: 24px;
+                height: 8px;
             }
         }
 
@@ -2117,6 +2217,25 @@
             }
         }
 
+        @media (max-width: 767px) {
+            .footer-grid {
+                text-align: center;
+            }
+
+            .footer-links {
+                justify-items: center;
+            }
+
+            .newsletter > div {
+                width: 100%;
+            }
+
+            .footer-bottom {
+                align-items: center;
+                text-align: center;
+            }
+        }
+
         .payment-pill {
             display: inline-flex;
             align-items: center;
@@ -2139,7 +2258,7 @@
             bottom: 0;
             width: 100vw;
             height: 100vh;
-            z-index: 90;
+            z-index: 999;
             background: rgba(0, 0, 0, 0.72);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
@@ -2160,11 +2279,12 @@
             background: rgba(10, 10, 10, 0.98);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            padding: 24px;
+            padding: 28px 24px 24px;
             transform: translateX(100%);
             transition: transform 0.35s ease;
             display: flex;
             flex-direction: column;
+            overflow-y: auto;
             box-shadow: -18px 0 50px rgba(0, 0, 0, 0.5);
             border-left: 1px solid rgba(255, 255, 255, 0.08);
         }
@@ -2173,31 +2293,144 @@
             transform: translateX(0);
         }
 
-        .drawer-links {
-            margin-top: 40px;
-            display: grid;
-            gap: 20px;
+        .drawer-tagline {
+            margin: 20px 0 0;
+            font-size: 0.92rem;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.55);
         }
 
-        .drawer-links a {
-            font-size: 1.1rem;
-            font-weight: 700;
+        .drawer-divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 20px 0 4px;
+        }
+
+        .drawer-links {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .drawer-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 2px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            color: #fff;
+            transition: opacity 0.2s ease;
+        }
+
+        .drawer-link:active {
+            opacity: 0.6;
+        }
+
+        .drawer-link-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             color: #fff;
         }
 
-        .drawer-actions {
+        .drawer-link-label {
+            flex: 1;
+            font-size: 1.02rem;
+            font-weight: 700;
+        }
+
+        .drawer-badge-new {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            flex-shrink: 0;
+        }
+
+        .drawer-chevron {
+            flex-shrink: 0;
+            color: rgba(255, 255, 255, 0.35);
+        }
+
+        .drawer-section-label {
+            display: block;
+            margin-top: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.45);
+        }
+
+        .drawer-social {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 26px;
+            margin-top: 18px;
+        }
+
+        .drawer-social a {
+            color: #fff;
+            display: flex;
+        }
+
+        .drawer-social a:active {
+            opacity: 0.6;
+        }
+
+        .drawer-quick-actions {
             margin-top: auto;
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            padding-top: 32px;
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 18px;
+            overflow: hidden;
         }
 
-        .drawer-actions .icon-btn {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.15);
+        .drawer-quick-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 14px 4px;
+            background: transparent;
+            border: none;
+            border-left: 1px solid rgba(255, 255, 255, 0.14);
             color: #fff;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .drawer-quick-item:first-child {
+            border-left: none;
+        }
+
+        .drawer-quick-item:active {
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .drawer-footer-mini {
+            margin-top: 24px;
+            padding-top: 20px;
+        }
+
+        .drawer-footer-mini p {
+            margin: 0;
+            text-align: center;
+            font-size: 0.74rem;
+            color: rgba(255, 255, 255, 0.4);
+            line-height: 1.8;
         }
 
         .sr-only {
@@ -2397,7 +2630,7 @@
 
         @media (max-width: 767px) {
             body {
-                overflow-x: hidden;
+                overflow-x: clip;
             }
 
             .announcement-bar {
@@ -2444,6 +2677,12 @@
         }
     </style>
     <link rel="stylesheet" href="search-overlay.css" />
+    <script>
+        // iOS Safari won't apply :active/:hover styles on tap unless a touch
+        // listener exists somewhere on the page -- this is what makes the
+        // card/footer tap-lift effects actually fire on a real phone.
+        document.addEventListener('touchstart', function () {}, { passive: true });
+    </script>
 </head>
 
 <body>
@@ -2493,7 +2732,7 @@
                     <span class="cart-badge">0</span>
                 </a>
                 <a href="account.html" class="nav-avatar-btn" aria-label="My Account">
-                    <img src="avatar_akash.png" alt="Account" class="nav-avatar-img" />
+                    <img src="images/avatar_akash.png" alt="Account" class="nav-avatar-img" />
                     <span class="nav-avatar-chevron">
                         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="6 9 12 15 18 9"></polyline>
@@ -2508,77 +2747,100 @@
                 </svg>
             </button>
         </div>
+    </header>
 
-        <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
-            <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Mobile navigation">
-                <div class="drawer-top">
-                    <a href="#" class="logo" aria-label="EKKVASTRA home">
-                        <div class="logo-mark" style="background:#000;color:#fff;border-color:#000;">
-                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-                                stroke-width="1.8">
-                                <path d="M6 6h12l-3 12H9L6 6z" stroke-linecap="round" stroke-linejoin="round"></path>
-                            </svg>
-                        </div>
-                        <span class="logo-text" style="color:#000;">EKKVASTRA</span>
-                    </a>
-                    <button class="icon-btn" id="closeBtn" aria-label="Close menu">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-                            stroke-width="1.8">
-                            <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"></path>
+    <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+        <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+            <div class="drawer-top">
+                <a href="#" class="logo" aria-label="EKKVASTRA home">
+                    <div class="logo-mark">
+                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M6 6h12l-3 12H9L6 6z" stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
-                    </button>
-                </div>
+                    </div>
+                    <span class="logo-text">EKKVASTRA</span>
+                </a>
+                <button class="icon-btn" id="closeBtn" aria-label="Close menu">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"></path>
+                    </svg>
+                </button>
+            </div>
 
-                <div class="drawer-links">
-                    <a href="#new-arrivals">New Arrivals</a>
-                    <a href="shop.html">Shop</a>
-                    <a href="#collections">Collections</a>
-                    <a href="CONTACT.html">Contact Us</a>
-                    <a href="ABOUT.html">About Us</a>
-                </div>
+            <p class="drawer-tagline">Premium Streetwear.<br>Built Different.</p>
 
-                <div class="drawer-actions">
-                    <button class="icon-btn" aria-label="Search">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-                            stroke-width="1.8">
-                            <circle cx="11" cy="11" r="7"></circle>
-                            <path d="M20 20l-3.5-3.5" stroke-linecap="round"></path>
-                        </svg>
-                    </button>
-                    <a href="LOGIN.html" class="icon-btn" aria-label="Account">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-                            stroke-width="1.8">
-                            <path d="M20 21a8 8 0 0 0-16 0" stroke-linecap="round"></path>
-                            <circle cx="12" cy="8" r="4"></circle>
-                        </svg>
-                    </a>
-                    <button class="icon-btn" aria-label="Wishlist">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-                            stroke-width="1.8">
-                            <path
-                                d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z"
-                                stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                    </button>
-                    <a href="cart.html" class="icon-btn" aria-label="Shopping Bag">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"
-                            stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="9" cy="21" r="1"></circle>
-                            <circle cx="20" cy="21" r="1"></circle>
-                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                        </svg>
-                    </a>
-                </div>
+            <hr class="drawer-divider" />
+
+            <nav class="drawer-links">
+                <a href="#new-arrivals" class="drawer-link">
+                    <span class="drawer-link-icon"><span class="drawer-badge-new">NEW</span></span>
+                    <span class="drawer-link-label">New Arrivals</span>
+                    <span class="drawer-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span>
+                </a>
+                <a href="shop.html" class="drawer-link">
+                    <span class="drawer-link-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 14H5L6 7z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg></span>
+                    <span class="drawer-link-label">Shop</span>
+                    <span class="drawer-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span>
+                </a>
+                <a href="#collections" class="drawer-link">
+                    <span class="drawer-link-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg></span>
+                    <span class="drawer-link-label">Collections</span>
+                    <span class="drawer-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span>
+                </a>
+                <a href="CONTACT.html" class="drawer-link">
+                    <span class="drawer-link-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13a9 9 0 0 1 18 0"></path><path d="M21 13v4a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"></path><path d="M3 13v4a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg></span>
+                    <span class="drawer-link-label">Contact Us</span>
+                    <span class="drawer-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span>
+                </a>
+                <a href="ABOUT.html" class="drawer-link">
+                    <span class="drawer-link-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0" stroke-linecap="round"></path><circle cx="12" cy="8" r="4"></circle></svg></span>
+                    <span class="drawer-link-label">About Us</span>
+                    <span class="drawer-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span>
+                </a>
+            </nav>
+
+            <span class="drawer-section-label">Follow Us</span>
+            <div class="drawer-social">
+                <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+                <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22a9 9 0 0 1-1.91-8.3A7.5 7.5 0 0 1 12 4.5a8.38 8.38 0 0 1 9 9 7.26 7.26 0 0 1-4.25 6.66c-1.12.5-2.24-.29-2.24-1.5v-1a5.83 5.83 0 0 0 .5-3.5c-.32-1.5-1.5-2.5-3-2.5a2.5 2.5 0 0 0-2.5 2.5 6 6 0 0 0 1 3.5c.34.5.21 1.5-.5 2S8.5 17 8 16c-.5-1-1-3-1-5a7 7 0 0 1 7-7 7.5 7.5 0 0 1 7.5 7.5c0 2.5-1.5 5-4.5 5a2 2 0 0 1-2-2"></path></svg></a>
+                <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h-2a5 5 0 0 0-5 5v3H6v4h2v7h4v-7h3l1-4h-4V8a1 1 0 0 1 1-1h3z"></path></svg></a>
+                <a href="#" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M20 4L4 20"></path></svg></a>
+            </div>
+
+            <hr class="drawer-divider" />
+
+            <div class="drawer-quick-actions">
+                <button class="drawer-quick-item" aria-label="Search">
+                    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+                    <span>Search</span>
+                </button>
+                <a href="LOGIN.html" class="drawer-quick-item">
+                    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"></path><circle cx="12" cy="8" r="4"></circle></svg>
+                    <span>Account</span>
+                </a>
+                <a href="wishlist.html" class="drawer-quick-item">
+                    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z"></path></svg>
+                    <span>Wishlist</span>
+                </a>
+                <a href="cart.html" class="drawer-quick-item">
+                    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    <span>Cart (<span id="drawerCartCount">0</span>)</span>
+                </a>
+            </div>
+
+            <div class="drawer-footer-mini">
+                <p>&copy; 2026 Ekkvastra. All Rights Reserved.</p>
+                <p>Privacy Policy &middot; Terms &amp; Conditions</p>
             </div>
         </div>
-    </header>
+    </div>
 
     <main id="content">
         <section class="hero-wrap">
             <div class="hero-grid" id="heroGrid">
                 <div class="hero-copy reveal" id="heroCopy">
                     <div class="eyebrow" id="heroEyebrow">PREMIUM STREETWEAR</div>
-                    <h1 class="title-lg" id="heroTitle">STYLE WITH EDGE.</h1>
+                    <h1 class="title-lg" id="heroTitle">STYLE WITH EDGE</h1>
                     <p class="copy" id="heroText">Quiet luxury streetwear designed to feel sharp and effortless.</p>
 
                     <div class="hero-actions">
@@ -2595,7 +2857,7 @@
 
                 <div class="hero-image">
                     <img id="heroImage"
-                        src="ekkvastra_hoodie.png"
+                        src="images/ekkvastra_hoodie.png"
                         alt="Premium streetwear hero image" />
                     <div class="hero-badge">New Season</div>
                     <div class="hero-tag">EMG / 2026</div>
@@ -2660,7 +2922,7 @@
             <div class="page-shell">
                 <div class="story-grid">
                     <div class="story-image reveal-left">
-                        <img src="founder_portrait.png"
+                        <img src="images/founder_portrait.png"
                             alt="EKKVASTRA story" />
                         <div class="story-image-badge">Since 2024</div>
                     </div>
@@ -2713,7 +2975,7 @@
                 <div class="promo-grid reveal">
                     <div class="promo-card promo-card--dark promo-card--centered reveal delay-1">
                         <div class="promo-bg">
-                            <img src="ekkvastra_front_print_tee.png" alt="EKKVASTRA Front Print Tee" loading="lazy" />
+                            <img src="images/ekkvastra_front_print_tee.png" alt="EKKVASTRA Front Print Tee" loading="lazy" />
                         </div>
                         <div class="promo-overlay"></div>
                         <p class="promo-label">Limited Time Offer</p>
@@ -2724,7 +2986,7 @@
                     </div>
                     <div class="promo-card promo-card--dark promo-card--split reveal delay-2">
                         <div class="promo-bg">
-                            <img src="ekkvastra_back_print_tee.png" alt="EKKVASTRA Back Print Tee" loading="lazy" />
+                            <img src="images/ekkvastra_back_print_tee.png" alt="EKKVASTRA Back Print Tee" loading="lazy" />
                         </div>
                         <div class="promo-overlay-split"></div>
                         <div class="promo-split-content">
@@ -2862,18 +3124,32 @@
             </div>
 
             <div class="footer-bottom reveal" style="margin-top:24px;">
-                <div style="display:flex;flex-wrap:wrap;gap:20px;">
-                    <a href="#" style="color:rgba(255,255,255,.58);">Privacy Policy</a>
-                    <a href="#" style="color:rgba(255,255,255,.58);">Terms of Service</a>
-                    <a href="#" style="color:rgba(255,255,255,.58);">Refund Policy</a>
+                <div class="footer-bottom-legal">
+                    <p class="footer-copyright">&copy; 2026 EKKVASTRA. All Rights Reserved.</p>
+                    <p class="footer-trust-line">Secure Payments<span class="dot">&middot;</span>Easy Returns<span class="dot">&middot;</span>Fast Shipping</p>
+                    <div style="display:flex;flex-wrap:wrap;gap:20px;">
+                        <a href="#" style="color:rgba(255,255,255,.58);">Privacy Policy</a>
+                        <a href="#" style="color:rgba(255,255,255,.58);">Terms of Service</a>
+                        <a href="#" style="color:rgba(255,255,255,.58);">Refund Policy</a>
+                    </div>
                 </div>
 
-                <div style="display:flex;flex-wrap:wrap;gap:12px;">
-                    <span class="payment-pill">Amex</span>
-                    <span class="payment-pill">Apple Pay</span>
-                    <span class="payment-pill">Mastercard</span>
-                    <span class="payment-pill">PayPal</span>
-                    <span class="payment-pill">Visa</span>
+                <div class="footer-bottom-meta">
+                    <div class="footer-social">
+                        <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg></a>
+                        <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22a9 9 0 0 1-1.91-8.3A7.5 7.5 0 0 1 12 4.5a8.38 8.38 0 0 1 9 9 7.26 7.26 0 0 1-4.25 6.66c-1.12.5-2.24-.29-2.24-1.5v-1a5.83 5.83 0 0 0 .5-3.5c-.32-1.5-1.5-2.5-3-2.5a2.5 2.5 0 0 0-2.5 2.5 6 6 0 0 0 1 3.5c.34.5.21 1.5-.5 2S8.5 17 8 16c-.5-1-1-3-1-5a7 7 0 0 1 7-7 7.5 7.5 0 0 1 7.5 7.5c0 2.5-1.5 5-4.5 5a2 2 0 0 1-2-2"/></svg></a>
+                        <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h-2a5 5 0 0 0-5 5v3H6v4h2v7h4v-7h3l1-4h-4V8a1 1 0 0 1 1-1h3z"/></svg></a>
+                        <a href="#" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M20 4L4 20"/></svg></a>
+                    </div>
+                    <div style="display:flex;flex-wrap:wrap;gap:12px;">
+                        <span class="payment-pill">Visa</span>
+                        <span class="payment-pill">Mastercard</span>
+                        <span class="payment-pill">RuPay</span>
+                        <span class="payment-pill">UPI</span>
+                        <span class="payment-pill">Amex</span>
+                        <span class="payment-pill">Apple Pay</span>
+                        <span class="payment-pill">PayPal</span>
+                    </div>
                 </div>
             </div>
         </div>
@@ -2886,51 +3162,51 @@
                 eyebrow: "PREMIUM STREETWEAR",
                 title: "STYLE WITH EDGE.",
                 text: "Quiet luxury streetwear designed to feel sharp and effortless.",
-                image: "ekkvastra_hoodie.png"
+                image: "images/ekkvastra_hoodie.png"
             },
             {
                 eyebrow: "LIMITED DROP",
                 title: "OWN THE LOOK.",
                 text: "Clean silhouettes, strong layers, and everyday essentials.",
-                image: "ekkvastra_front_print_tee.png"
+                image: "images/ekkvastra_front_print_tee.png"
             },
             {
                 eyebrow: "NEW SEASON",
                 title: "BUILT DIFFERENT.",
                 text: "Premium pieces made for elevated everyday wear.",
-                image: "ekkvastra_cargo.png"
+                image: "images/ekkvastra_cargo.png"
             },
             {
                 eyebrow: "ESSENTIALS",
                 title: "EKKVASTRA DROP.",
                 text: "Discover the latest oversized trends and premium graphic tees.",
-                image: "ekkvastra_back_print_tee.png"
+                image: "images/ekkvastra_back_print_tee.png"
             }
         ];
 
         const newArrivals = [
-            { id: "idx-1", name: "Signature Oversized Hoodie", category: "Hoodies", price: "1,799", image: "ekkvastra_hoodie.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#111", "#bbb", "#8a8a8a"], sizes: ["S", "M", "L", "XL"] },
-            { id: "idx-2", name: "Abstract Graphic Tee", category: "T-Shirts", price: "999", image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#111", "#d8d0c4", "#7b7b7b"], sizes: ["S", "M", "L"] },
-            { id: "idx-3", name: "Cargo Parachute Pants", category: "Bottoms", price: "1,899", image: "ekkvastra_cargo.png", hoverImage: "ekkvastra_front_print_tee.png", colors: ["#5c5a52", "#111", "#c4bdb3"], sizes: ["30", "32", "34", "36"] },
-            { id: "idx-4", name: "Back Print Tee", category: "T-Shirts", price: "799", oldPrice: "999", badge: "-20%", image: "ekkvastra_back_print_tee.png", hoverImage: "ekkvastra_front_print_tee.png", colors: ["#111", "#e5dfd6", "#7f7f7f"], sizes: ["S", "M", "L", "XL"] },
-            { id: "idx-5", name: "Minimalist Sweatshirt", category: "Sweatshirts", price: "1,599", image: "ekkvastra_hoodie.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#111", "#c7c0b5", "#8d8a85"], sizes: ["S", "M", "L"] },
-            { id: "idx-6", name: "Utility Cargo Pants", category: "Bottoms", price: "1,999", image: "ekkvastra_cargo.png", hoverImage: "ekkvastra_front_print_tee.png", colors: ["#d0cec8", "#4d4d4d", "#111"], sizes: ["30", "32", "34"] },
+            { id: "idx-1", name: "Signature Oversized Hoodie", category: "Hoodies", price: "1,799", image: "images/ekkvastra_hoodie.png", hoverImage: "images/ekkvastra_back_print_tee.png", colors: ["#111", "#bbb", "#8a8a8a"], sizes: ["S", "M", "L", "XL"] },
+            { id: "idx-2", name: "Abstract Graphic Tee", category: "T-Shirts", price: "999", image: "images/ekkvastra_front_print_tee.png", hoverImage: "images/ekkvastra_back_print_tee.png", colors: ["#111", "#d8d0c4", "#7b7b7b"], sizes: ["S", "M", "L"] },
+            { id: "idx-3", name: "Cargo Parachute Pants", category: "Bottoms", price: "1,899", image: "images/ekkvastra_cargo.png", hoverImage: "images/ekkvastra_front_print_tee.png", colors: ["#5c5a52", "#111", "#c4bdb3"], sizes: ["30", "32", "34", "36"] },
+            { id: "idx-4", name: "Back Print Tee", category: "T-Shirts", price: "799", oldPrice: "999", badge: "-20%", image: "images/ekkvastra_back_print_tee.png", hoverImage: "images/ekkvastra_front_print_tee.png", colors: ["#111", "#e5dfd6", "#7f7f7f"], sizes: ["S", "M", "L", "XL"] },
+            { id: "idx-5", name: "Minimalist Sweatshirt", category: "Sweatshirts", price: "1,599", image: "images/ekkvastra_hoodie.png", hoverImage: "images/ekkvastra_back_print_tee.png", colors: ["#111", "#c7c0b5", "#8d8a85"], sizes: ["S", "M", "L"] },
+            { id: "idx-6", name: "Utility Cargo Pants", category: "Bottoms", price: "1,999", image: "images/ekkvastra_cargo.png", hoverImage: "images/ekkvastra_front_print_tee.png", colors: ["#d0cec8", "#4d4d4d", "#111"], sizes: ["30", "32", "34"] },
         ];
 
         const collections = [
-            { title: "Oversized", image: "ekkvastra_front_print_tee.png" },
-            { title: "Graphic Tees", image: "ekkvastra_back_print_tee.png" },
-            { title: "Essentials", image: "ekkvastra_hoodie.png" },
-            { title: "Hoodies", image: "ekkvastra_hoodie.png" },
+            { title: "Oversized", image: "images/ekkvastra_front_print_tee.png" },
+            { title: "Graphic Tees", image: "images/ekkvastra_back_print_tee.png" },
+            { title: "Essentials", image: "images/ekkvastra_hoodie.png" },
+            { title: "Hoodies", image: "images/ekkvastra_hoodie.png" },
         ];
 
         const bestSellers = [
-            { id: "idx-7", name: "Signature Hoodie", category: "Hoodies", price: "1,799", rating: { stars: 5, count: 128 }, image: "ekkvastra_hoodie.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#111", "#bbb", "#8a8a8a"], sizes: ["S", "M", "L", "XL"] },
-            { id: "idx-8", name: "Minimal Boxy Tee", category: "T-Shirts", price: "899", rating: { stars: 5, count: 96 }, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#555", "#111", "#d7d2c8"], sizes: ["S", "M", "L"] },
-            { id: "idx-9", name: "Cargo Parachute Pants", category: "Bottoms", price: "1,899", rating: { stars: 5, count: 88 }, image: "ekkvastra_cargo.png", hoverImage: "ekkvastra_front_print_tee.png", colors: ["#b5b0a6", "#111", "#777"], sizes: ["30", "32", "34", "36"] },
-            { id: "idx-10", name: "Washed Oversized Tee", category: "T-Shirts", price: "999", rating: { stars: 5, count: 110 }, image: "ekkvastra_back_print_tee.png", hoverImage: "ekkvastra_front_print_tee.png", colors: ["#111", "#ccc", "#8c8c8c"], sizes: ["S", "M", "L", "XL"] },
-            { id: "idx-11", name: "Zip Up Hoodie", category: "Hoodies", price: "1,999", rating: { stars: 5, count: 76 }, image: "ekkvastra_hoodie.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#111", "#cfc8bf", "#777"], sizes: ["S", "M", "L", "XL"] },
-            { id: "idx-12", name: "Graphic Back Tee", category: "T-Shirts", price: "999", rating: { stars: 5, count: 59 }, image: "ekkvastra_front_print_tee.png", hoverImage: "ekkvastra_back_print_tee.png", colors: ["#111", "#ddd", "#878787"], sizes: ["S", "M", "L"] }
+            { id: "idx-7", name: "Signature Hoodie", category: "Hoodies", price: "1,799", rating: { stars: 5, count: 128 }, image: "images/ekkvastra_hoodie.png", hoverImage: "images/ekkvastra_back_print_tee.png", colors: ["#111", "#bbb", "#8a8a8a"], sizes: ["S", "M", "L", "XL"] },
+            { id: "idx-8", name: "Minimal Boxy Tee", category: "T-Shirts", price: "899", rating: { stars: 5, count: 96 }, image: "images/ekkvastra_front_print_tee.png", hoverImage: "images/ekkvastra_back_print_tee.png", colors: ["#555", "#111", "#d7d2c8"], sizes: ["S", "M", "L"] },
+            { id: "idx-9", name: "Cargo Parachute Pants", category: "Bottoms", price: "1,899", rating: { stars: 5, count: 88 }, image: "images/ekkvastra_cargo.png", hoverImage: "images/ekkvastra_front_print_tee.png", colors: ["#b5b0a6", "#111", "#777"], sizes: ["30", "32", "34", "36"] },
+            { id: "idx-10", name: "Washed Oversized Tee", category: "T-Shirts", price: "999", rating: { stars: 5, count: 110 }, image: "images/ekkvastra_back_print_tee.png", hoverImage: "images/ekkvastra_front_print_tee.png", colors: ["#111", "#ccc", "#8c8c8c"], sizes: ["S", "M", "L", "XL"] },
+            { id: "idx-11", name: "Zip Up Hoodie", category: "Hoodies", price: "1,999", rating: { stars: 5, count: 76 }, image: "images/ekkvastra_hoodie.png", hoverImage: "images/ekkvastra_back_print_tee.png", colors: ["#111", "#cfc8bf", "#777"], sizes: ["S", "M", "L", "XL"] },
+            { id: "idx-12", name: "Graphic Back Tee", category: "T-Shirts", price: "999", rating: { stars: 5, count: 59 }, image: "images/ekkvastra_front_print_tee.png", hoverImage: "images/ekkvastra_back_print_tee.png", colors: ["#111", "#ddd", "#878787"], sizes: ["S", "M", "L"] }
         ];
 
         function icon(type, size = 20) {
@@ -3031,12 +3307,14 @@
             updateCartBadgeCount();
         }
         function updateCartBadgeCount() {
+            const count = getCart().reduce((sum, item) => sum + (item.quantity || 0), 0);
             const badge = document.querySelector('.cart-badge');
             if (badge) {
-                const count = getCart().reduce((sum, item) => sum + (item.quantity || 0), 0);
                 badge.textContent = count;
                 badge.style.display = count > 0 ? 'grid' : 'none';
             }
+            const drawerCount = document.getElementById('drawerCartCount');
+            if (drawerCount) drawerCount.textContent = count;
         }
 
         function addHomeCart(e, rawProduct) {
@@ -3125,6 +3403,7 @@
         function toggleMobileDrawer(open) {
             mobileDrawer.classList.toggle("open", open);
             mobileDrawer.setAttribute("aria-hidden", String(!open));
+            document.body.classList.toggle("drawer-open", open);
         }
 
         menuBtn.addEventListener("click", () => toggleMobileDrawer(true));
@@ -3137,9 +3416,15 @@
             }
         });
 
-        document.querySelectorAll(".drawer-links a").forEach((a) =>
+        document.querySelectorAll(".drawer-links a, .drawer-quick-actions a").forEach((a) =>
             a.addEventListener("click", () => toggleMobileDrawer(false))
         );
+
+        window.addEventListener("keydown", (e) => {
+            if (e.key === "Escape" && mobileDrawer.classList.contains("open")) {
+                toggleMobileDrawer(false);
+            }
+        });
 
         function createRipple(event) {
             const target = event.currentTarget;
@@ -3333,7 +3618,7 @@
 
             modal.innerHTML = `
                 <div class="details-modal-container">
-                    <button class="details-close-btn" onclick="closeDetailModal()" aria-label="Close details">&times;</button>
+                    <button class="details-close-btn" onclick="closeDetailModal()" aria-label="Close details"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"></path></svg></button>
                     <div class="details-media">
                         <img id="modalProductImage" src="${product.image}" alt="${product.name}" />
                     </div>
@@ -3475,6 +3760,7 @@
                 searchOpenBtns.forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         e.preventDefault();
+                        if (typeof toggleMobileDrawer === 'function') toggleMobileDrawer(false);
                         searchOverlay.classList.add('open');
                         searchOverlay.setAttribute('aria-hidden', 'false');
                         setTimeout(() => searchInput?.focus(), 100);
@@ -3672,7 +3958,7 @@
                             <!-- Card 1 -->
                             <div class="suggested-card">
                                 <div class="suggested-img-wrap">
-                                    <img src="ekkvastra_front_print_tee.png" alt="OVERSIZED TEE">
+                                    <img src="images/ekkvastra_front_print_tee.png" alt="OVERSIZED TEE">
                                     <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
                                 </div>
                                 <div class="suggested-info">
@@ -3689,7 +3975,7 @@
                             <!-- Card 2 -->
                             <div class="suggested-card">
                                 <div class="suggested-img-wrap">
-                                    <img src="ekkvastra_hoodie.png" alt="SIGNATURE HOODIE">
+                                    <img src="images/ekkvastra_hoodie.png" alt="SIGNATURE HOODIE">
                                     <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
                                 </div>
                                 <div class="suggested-info">
@@ -3706,7 +3992,7 @@
                             <!-- Card 3 -->
                             <div class="suggested-card">
                                 <div class="suggested-img-wrap">
-                                    <img src="ekkvastra_cargo.png" alt="CARGO PANTS">
+                                    <img src="images/ekkvastra_cargo.png" alt="CARGO PANTS">
                                     <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
                                 </div>
                                 <div class="suggested-info">
@@ -3723,7 +4009,7 @@
                             <!-- Card 4 -->
                             <div class="suggested-card">
                                 <div class="suggested-img-wrap">
-                                    <img src="ekkvastra_back_print_tee.png" alt="MINIMAL TEE">
+                                    <img src="images/ekkvastra_back_print_tee.png" alt="MINIMAL TEE">
                                     <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
                                 </div>
                                 <div class="suggested-info">
@@ -3740,7 +4026,7 @@
                             <!-- Card 5 -->
                             <div class="suggested-card">
                                 <div class="suggested-img-wrap">
-                                    <img src="ekkvastra_front_print_tee.png" alt="GRAPHIC TEE">
+                                    <img src="images/ekkvastra_front_print_tee.png" alt="GRAPHIC TEE">
                                     <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
                                 </div>
                                 <div class="suggested-info">
@@ -3757,7 +4043,7 @@
                             <!-- Card 6 -->
                             <div class="suggested-card">
                                 <div class="suggested-img-wrap">
-                                    <img src="ekkvastra_hoodie.png" alt="ESSENTIAL HOODIE">
+                                    <img src="images/ekkvastra_hoodie.png" alt="ESSENTIAL HOODIE">
                                     <button class="suggested-wishlist" aria-label="Wishlist"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></button>
                                 </div>
                                 <div class="suggested-info">

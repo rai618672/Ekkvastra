@@ -10,7 +10,13 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
     <link rel="stylesheet" href="search-overlay.css" />
-    
+    <script>
+        // iOS Safari won't apply :active/:hover styles on tap unless a touch
+        // listener exists somewhere on the page -- this is what makes the
+        // card/footer tap-lift effects actually fire on a real phone.
+        document.addEventListener('touchstart', function () {}, { passive: true });
+    </script>
+
     <style>
         :root {
             --bg: #000000;
@@ -41,8 +47,7 @@
             min-height: 100vh;
             display: flex;
             flex-direction: column;
-            overflow-x: hidden;
-            overflow-y: auto;
+            overflow-x: clip;
         }
 
         /* Hide scrollbars globally but keep functionality */
@@ -56,8 +61,8 @@
 
         /* --- STICKY HEADER --- */
         .sticky-header {
-            position: absolute;
-            top: 40px;
+            position: sticky;
+            top: 0;
             left: 0;
             right: 0;
             z-index: 70;
@@ -69,9 +74,7 @@
         }
 
         .sticky-header.scrolled {
-            position: fixed;
-            top: 0;
-            background: rgba(0, 0, 0, 0.7);
+            background: rgba(0, 0, 0, 0.75);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.08);
@@ -304,7 +307,7 @@
             bottom: 0;
             width: 100vw;
             height: 100vh;
-            z-index: 200;
+            z-index: 999;
             background: rgba(0, 0, 0, 0.72);
             backdrop-filter: blur(24px);
             -webkit-backdrop-filter: blur(24px);
@@ -323,11 +326,12 @@
             background: rgba(10, 10, 10, 0.98);
             backdrop-filter: blur(10px);
             -webkit-backdrop-filter: blur(10px);
-            padding: 24px;
+            padding: 28px 24px 24px;
             transform: translateX(100%);
             transition: transform 0.35s ease;
             display: flex;
             flex-direction: column;
+            overflow-y: auto;
             box-shadow: -18px 0 50px rgba(0, 0, 0, 0.5);
             border-left: 1px solid rgba(255, 255, 255, 0.08);
         }
@@ -339,31 +343,128 @@
             justify-content: space-between;
             align-items: center;
         }
-        .drawer-links {
-            margin-top: 40px;
-            display: grid;
-            gap: 20px;
+        .drawer-tagline {
+            margin: 20px 0 0;
+            font-size: 0.92rem;
+            line-height: 1.5;
+            color: rgba(255, 255, 255, 0.55);
         }
-        .drawer-links a {
-            font-size: 1.1rem;
-            font-weight: 700;
+        .drawer-divider {
+            border: none;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin: 20px 0 4px;
+        }
+        .drawer-links {
+            display: flex;
+            flex-direction: column;
+        }
+        .drawer-link {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 2px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
             color: #fff;
             text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+            transition: opacity 0.2s ease;
         }
-        .drawer-actions {
+        .drawer-link:active {
+            opacity: 0.6;
+        }
+        .drawer-link-icon {
+            width: 20px;
+            height: 20px;
+            flex-shrink: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+        }
+        .drawer-link-label {
+            flex: 1;
+            font-size: 1.02rem;
+            font-weight: 700;
+        }
+        .drawer-badge-new {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5px 10px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.12);
+            color: #fff;
+            font-size: 0.62rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            flex-shrink: 0;
+        }
+        .drawer-chevron {
+            flex-shrink: 0;
+            color: rgba(255, 255, 255, 0.35);
+        }
+        .drawer-section-label {
+            display: block;
+            margin-top: 20px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.45);
+        }
+        .drawer-social {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 26px;
+            margin-top: 18px;
+        }
+        .drawer-social a {
+            color: #fff;
+            display: flex;
+        }
+        .drawer-social a:active {
+            opacity: 0.6;
+        }
+        .drawer-quick-actions {
             margin-top: auto;
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 12px;
-            padding-top: 32px;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            border-radius: 18px;
+            overflow: hidden;
         }
-        .drawer-actions .icon-btn {
-            width: 100%;
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.15);
+        .drawer-quick-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 14px 4px;
+            background: transparent;
+            border: none;
+            border-left: 1px solid rgba(255, 255, 255, 0.14);
             color: #fff;
+            text-decoration: none;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-align: center;
+        }
+        .drawer-quick-item:first-child {
+            border-left: none;
+        }
+        .drawer-quick-item:active {
+            background: rgba(255, 255, 255, 0.06);
+        }
+        .drawer-footer-mini {
+            margin-top: 24px;
+            padding-top: 20px;
+        }
+        .drawer-footer-mini p {
+            margin: 0;
+            text-align: center;
+            font-size: 0.74rem;
+            color: rgba(255, 255, 255, 0.4);
+            line-height: 1.8;
         }
 
         /* ── ANNOUNCEMENT BAR ── */
@@ -435,21 +536,24 @@
             text-transform: uppercase;
         }
 
-        /* --- DASHBOARD LAYOUT SHAPE --- */
+        /* --- DASHBOARD LAYOUT SHAPE ---
+           Fixed height + hidden overflow on the container turns the
+           sidebar and main-content below into two independent scroll
+           panes on desktop, instead of scrolling the whole page.
+           100vh - 120px accounts for the 40px announcement bar plus the
+           80px sticky header above this container. */
         .dashboard-container {
             display: flex;
             width: 100%;
-            min-height: calc(100vh - 120px);
-            height: auto;
-            overflow: visible;
-            margin-top: 120px;
+            height: calc(100vh - 120px);
+            overflow: hidden;
+            margin-top: 0;
         }
 
         /* --- SIDEBAR PANEL (LEFT) --- */
         .sidebar {
             width: 280px;
-            height: auto;
-            min-height: calc(100vh - 120px);
+            height: 100%;
             background-color: #000000;
             border-right: 1px solid var(--border);
             display: flex;
@@ -642,7 +746,8 @@
         .main-content {
             flex-grow: 1;
             min-height: 0;
-            overflow: visible;
+            height: 100%;
+            overflow-y: auto;
             padding: 24px;
             display: flex;
             flex-direction: column;
@@ -690,6 +795,10 @@
         }
 
         /* ── WELCOME BANNER PANEL ── */
+        .welcome-banner > * {
+            min-width: 0;
+        }
+
         .welcome-banner {
             background-color: var(--panel);
             background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 300 300' fill='none'%3E%3Cpath d='M30 80 L220 270' stroke='rgba(255,255,255,0.035)' stroke-width='38' stroke-linecap='square'/%3E%3Cpath d='M70 40 L260 230' stroke='rgba(255,255,255,0.035)' stroke-width='38' stroke-linecap='square'/%3E%3Cpath d='M220 80 L30 270' stroke='rgba(255,255,255,0.035)' stroke-width='38' stroke-linecap='square'/%3E%3Cpath d='M260 40 L70 230' stroke='rgba(255,255,255,0.035)' stroke-width='38' stroke-linecap='square'/%3E%3C/svg%3E");
@@ -700,14 +809,14 @@
             border-radius: var(--radius-lg);
             padding: 32px;
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: minmax(0, 1fr);
             gap: 32px;
             align-items: center;
         }
 
         @media (min-width: 1024px) {
             .welcome-banner {
-                grid-template-columns: 1.1fr 1.9fr;
+                grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.9fr);
             }
         }
 
@@ -770,13 +879,13 @@
         /* Stats Blocks Row */
         .welcome-stats {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 16px;
         }
 
         @media (min-width: 640px) {
             .welcome-stats {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(4, minmax(0, 1fr));
             }
         }
 
@@ -784,11 +893,20 @@
             background: transparent;
             border: none;
             padding: 0;
+            min-width: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
             text-align: center;
             gap: 8px;
+        }
+
+        .stat-meta span.lbl,
+        .stat-link {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
         }
 
         .stat-icon {
@@ -841,7 +959,7 @@
         /* ── GRID CONTENT COLUMNS LAYOUT ── */
         .dashboard-grid-layout {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: minmax(0, 1fr);
             gap: 20px;
             align-items: start;
             width: 100%;
@@ -849,7 +967,7 @@
 
         @media (min-width: 1024px) {
             .dashboard-grid-layout {
-                grid-template-columns: 1fr 1fr;
+                grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
             }
         }
 
@@ -911,8 +1029,22 @@
             object-fit: cover;
         }
 
+        .row-icon-box {
+            width: 52px;
+            height: 52px;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            color: #fff;
+        }
+
         .order-info {
             flex-grow: 1;
+            min-width: 0;
             display: flex;
             flex-direction: column;
             gap: 3px;
@@ -922,6 +1054,15 @@
             font-size: 0.82rem;
             font-weight: 700;
             color: #fff;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .order-meta {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .order-meta {
@@ -984,13 +1125,13 @@
         /* ── YOUR WISHLIST GRID ── */
         .wishlist-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 12px;
         }
 
         @media (min-width: 640px) {
             .wishlist-grid {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(4, minmax(0, 1fr));
             }
         }
 
@@ -1074,6 +1215,8 @@
         .recent-slider-container {
             overflow-x: auto;
             scroll-behavior: smooth;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
             scrollbar-width: none; /* Hide standard Firefox scrollbar */
         }
 
@@ -1090,6 +1233,7 @@
             width: calc(25% - 9px);
             min-width: 130px;
             flex-shrink: 0;
+            scroll-snap-align: start;
             display: flex;
             flex-direction: column;
             gap: 8px;
@@ -1138,13 +1282,13 @@
         /* ── QUICK ACTIONS GRID ── */
         .quick-actions-grid {
             display: grid;
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
             gap: 12px;
         }
 
         @media (min-width: 640px) {
             .quick-actions-grid {
-                grid-template-columns: repeat(4, 1fr);
+                grid-template-columns: repeat(4, minmax(0, 1fr));
             }
         }
 
@@ -1483,7 +1627,7 @@
                 width: 100%;
                 height: auto;
                 overflow: visible;
-                margin-top: 170px !important;
+                margin-top: 0 !important;
             }
 
             .dashboard-mobile-bar {
@@ -1545,7 +1689,7 @@
             }
 
             .dashboard-container {
-                margin-top: 100px;
+                margin-top: 0;
             }
 
             .main-content {
@@ -1615,7 +1759,7 @@
                     <span class="cart-badge">0</span>
                 </a>
                 <a href="account.html" class="nav-avatar-btn" aria-label="My Account">
-                    <img src="avatar_akash.png" alt="Account" class="nav-avatar-img" />
+                    <img src="images/avatar_akash.png" alt="Account" class="nav-avatar-img" />
                     <span class="nav-avatar-chevron">
                         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="6 9 12 15 18 9"></polyline>
@@ -1630,62 +1774,93 @@
                 </svg>
             </button>
         </div>
+    </header>
 
-        <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
-            <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Mobile navigation">
-                <div class="drawer-top">
-                    <a href="index.html" class="logo" aria-label="EKKVASTRA home">
-                        <div class="logo-mark" style="background:#000;color:#fff;border-color:#000;">
-                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
-                                <path d="M6 6h12l-3 12H9L6 6z" stroke-linecap="round" stroke-linejoin="round"></path>
-                            </svg>
-                        </div>
-                        <span class="logo-text" style="color:#000;">EKKVASTRA</span>
-                    </a>
-                    <button class="icon-btn" id="closeBtn" aria-label="Close menu">
+    <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
+        <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Mobile navigation">
+            <div class="drawer-top">
+                <a href="index.html" class="logo" aria-label="EKKVASTRA home">
+                    <div class="logo-mark">
                         <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
-                            <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"></path>
+                            <path d="M6 6h12l-3 12H9L6 6z" stroke-linecap="round" stroke-linejoin="round"></path>
                         </svg>
-                    </button>
-                </div>
+                    </div>
+                    <span class="logo-text">EKKVASTRA</span>
+                </a>
+                <button class="icon-btn" id="closeBtn" aria-label="Close menu">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
+                        <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"></path>
+                    </svg>
+                </button>
+            </div>
 
-                <div class="drawer-links">
-                    <a href="index.html#new-arrivals">New Arrivals</a>
-                    <a href="shop.html">Shop</a>
-                    <a href="index.html#collections">Collections</a>
-                    <a href="CONTACT.html">Contact Us</a>
-                    <a href="ABOUT.html">About Us</a>
-                </div>
+            <p class="drawer-tagline">Premium Streetwear.<br>Built Different.</p>
 
-                <div class="drawer-actions">
-                    <button class="icon-btn" aria-label="Search">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
-                            <circle cx="11" cy="11" r="7"></circle>
-                            <path d="M20 20l-3.5-3.5" stroke-linecap="round"></path>
-                        </svg>
-                    </button>
-                    <a href="LOGIN.html" class="icon-btn" aria-label="Account">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
-                            <path d="M20 21a8 8 0 0 0-16 0" stroke-linecap="round"></path>
-                            <circle cx="12" cy="8" r="4"></circle>
-                        </svg>
-                    </a>
-                    <a href="wishlist.html" class="icon-btn" aria-label="Wishlist">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
-                            <path d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                    </a>
-                    <a href="cart.html" class="icon-btn" aria-label="Shopping Bag">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                            <circle cx="9" cy="21" r="1"></circle>
-                            <circle cx="20" cy="21" r="1"></circle>
-                            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
-                        </svg>
-                    </a>
-                </div>
+            <hr class="drawer-divider" />
+
+            <nav class="drawer-links">
+                <a href="index.html#new-arrivals" class="drawer-link">
+                    <span class="drawer-link-icon"><span class="drawer-badge-new">NEW</span></span>
+                    <span class="drawer-link-label">New Arrivals</span>
+                    <span class="drawer-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span>
+                </a>
+                <a href="shop.html" class="drawer-link">
+                    <span class="drawer-link-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 14H5L6 7z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg></span>
+                    <span class="drawer-link-label">Shop</span>
+                    <span class="drawer-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span>
+                </a>
+                <a href="index.html#collections" class="drawer-link">
+                    <span class="drawer-link-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg></span>
+                    <span class="drawer-link-label">Collections</span>
+                    <span class="drawer-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span>
+                </a>
+                <a href="CONTACT.html" class="drawer-link">
+                    <span class="drawer-link-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13a9 9 0 0 1 18 0"></path><path d="M21 13v4a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"></path><path d="M3 13v4a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg></span>
+                    <span class="drawer-link-label">Contact Us</span>
+                    <span class="drawer-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span>
+                </a>
+                <a href="ABOUT.html" class="drawer-link">
+                    <span class="drawer-link-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0" stroke-linecap="round"></path><circle cx="12" cy="8" r="4"></circle></svg></span>
+                    <span class="drawer-link-label">About Us</span>
+                    <span class="drawer-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span>
+                </a>
+            </nav>
+
+            <span class="drawer-section-label">Follow Us</span>
+            <div class="drawer-social">
+                <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
+                <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22a9 9 0 0 1-1.91-8.3A7.5 7.5 0 0 1 12 4.5a8.38 8.38 0 0 1 9 9 7.26 7.26 0 0 1-4.25 6.66c-1.12.5-2.24-.29-2.24-1.5v-1a5.83 5.83 0 0 0 .5-3.5c-.32-1.5-1.5-2.5-3-2.5a2.5 2.5 0 0 0-2.5 2.5 6 6 0 0 0 1 3.5c.34.5.21 1.5-.5 2S8.5 17 8 16c-.5-1-1-3-1-5a7 7 0 0 1 7-7 7.5 7.5 0 0 1 7.5 7.5c0 2.5-1.5 5-4.5 5a2 2 0 0 1-2-2"></path></svg></a>
+                <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h-2a5 5 0 0 0-5 5v3H6v4h2v7h4v-7h3l1-4h-4V8a1 1 0 0 1 1-1h3z"></path></svg></a>
+                <a href="#" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M20 4L4 20"></path></svg></a>
+            </div>
+
+            <hr class="drawer-divider" />
+
+            <div class="drawer-quick-actions">
+                <button class="drawer-quick-item" aria-label="Search">
+                    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+                    <span>Search</span>
+                </button>
+                <a href="LOGIN.html" class="drawer-quick-item">
+                    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"></path><circle cx="12" cy="8" r="4"></circle></svg>
+                    <span>Account</span>
+                </a>
+                <a href="wishlist.html" class="drawer-quick-item">
+                    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z"></path></svg>
+                    <span>Wishlist</span>
+                </a>
+                <a href="cart.html" class="drawer-quick-item">
+                    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    <span>Cart (<span id="drawerCartCount">0</span>)</span>
+                </a>
+            </div>
+
+            <div class="drawer-footer-mini">
+                <p>&copy; 2026 Ekkvastra. All Rights Reserved.</p>
+                <p>Privacy Policy &middot; Terms &amp; Conditions</p>
             </div>
         </div>
-    </header>
+    </div>
 
     <!-- Sidebar mobile backdrop -->
     <div class="sidebar-backdrop" id="sidebarBackdrop"></div>
@@ -1709,7 +1884,7 @@
                 <div class="sidebar-profile">
                     <div class="profile-header">
                         <div class="profile-avatar">
-                            <img src="avatar_akash.png" alt="Akash Rai" />
+                            <img src="images/avatar_akash.png" alt="Akash Rai" />
                         </div>
                         <div class="profile-meta">
                             <span class="profile-name" id="sideProfileName">Akash Rai</span>
@@ -1724,7 +1899,7 @@
 
                 <!-- Nav Menu -->
                 <nav class="sidebar-nav">
-                    <a href="#" class="nav-item active" onclick="switchNav(this)">
+                    <a href="#" class="nav-item active" id="navDashboard" onclick="event.preventDefault(); switchNav(this, 'dashboardTop');">
                         <div class="nav-item-left">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="3" width="7" height="7"></rect>
@@ -1735,7 +1910,7 @@
                             <span>Dashboard</span>
                         </div>
                     </a>
-                    <a href="#" class="nav-item" onclick="switchNav(this); showToast('Displaying your orders list');">
+                    <a href="#" class="nav-item" id="navOrders" onclick="event.preventDefault(); switchNav(this, 'recentOrdersCard');">
                         <div class="nav-item-left">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
@@ -1745,7 +1920,7 @@
                             <span>My Orders</span>
                         </div>
                     </a>
-                    <a href="#" class="nav-item" onclick="switchNav(this); showToast('Displaying items saved in wishlist');">
+                    <a href="#" class="nav-item" id="navWishlist" onclick="event.preventDefault(); switchNav(this, 'wishlistCard');">
                         <div class="nav-item-left">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
@@ -1754,7 +1929,7 @@
                         </div>
                         <span class="nav-badge">2</span>
                     </a>
-                    <a href="#" class="nav-item" onclick="openAddressModal()">
+                    <a href="#" class="nav-item" id="navAddresses" onclick="event.preventDefault(); switchNav(this); openAddressModal();">
                         <div class="nav-item-left">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -1763,7 +1938,7 @@
                             <span>Addresses</span>
                         </div>
                     </a>
-                    <a href="#" class="nav-item" onclick="switchNav(this); showToast('Payments module loaded.');">
+                    <a href="#" class="nav-item" id="navPayments" onclick="event.preventDefault(); switchNav(this, 'paymentsCard');">
                         <div class="nav-item-left">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
@@ -1772,7 +1947,7 @@
                             <span>Saved Payments</span>
                         </div>
                     </a>
-                    <a href="#" class="nav-item" onclick="switchNav(this); showToast('Checking recent account notifications.');">
+                    <a href="#" class="nav-item" id="navNotifications" onclick="event.preventDefault(); switchNav(this, 'notificationsCard');">
                         <div class="nav-item-left">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
@@ -1782,7 +1957,7 @@
                         </div>
                         <span class="nav-badge" style="background:var(--accent);">3</span>
                     </a>
-                    <a href="#" class="nav-item" onclick="openProfileModal()">
+                    <a href="#" class="nav-item" id="navSettings" onclick="event.preventDefault(); switchNav(this); openProfileModal();">
                         <div class="nav-item-left">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="3"></circle>
@@ -1807,7 +1982,7 @@
                         <span>Refer & Earn</span>
                     </div>
                     <p class="referral-text">Invite your friends and earn exclusive rewards.</p>
-                    <a href="#" class="referral-link" onclick="showToast('Referral code copied to clipboard!')">Invite Now &rarr;</a>
+                    <a href="#" class="referral-link" onclick="event.preventDefault(); copyReferralCode();">Invite Now &rarr;</a>
                 </div>
 
                 <!-- Log out link -->
@@ -1828,7 +2003,7 @@
         <main class="main-content">
             
             <!-- Welcome Header Card Banner -->
-            <section class="welcome-banner">
+            <section class="welcome-banner" id="dashboardTop">
                 <div class="welcome-left">
                     <div class="welcome-greet">
                         <span class="sub">Welcome Back,</span>
@@ -1912,7 +2087,7 @@
                 <!-- Left Column (Recent Orders & Recently Viewed) -->
                 <div class="dashboard-grid-column">
                     <!-- Recent Orders -->
-                    <div class="dashboard-card">
+                    <div class="dashboard-card" id="recentOrdersCard">
                         <div class="section-header">
                             <h2>Recent Orders</h2>
                             <a href="#" class="section-header-link" onclick="showToast('Viewing full order logs')">View All Orders &rarr;</a>
@@ -1922,7 +2097,7 @@
                             <!-- Placed dynamically or defaults -->
                             <div class="order-row-item">
                                 <div class="order-thumb">
-                                    <img src="ekkvastra_hoodie.png" alt="Signature Hoodie">
+                                    <img src="images/ekkvastra_hoodie.png" alt="Signature Hoodie">
                                 </div>
                                 <div class="order-info">
                                     <span class="order-name">Signature Hoodie - Black</span>
@@ -1942,7 +2117,7 @@
 
                             <div class="order-row-item">
                                 <div class="order-thumb">
-                                    <img src="ekkvastra_front_print_tee.png" alt="Oversized Tee">
+                                    <img src="images/ekkvastra_front_print_tee.png" alt="Oversized Tee">
                                 </div>
                                 <div class="order-info">
                                     <span class="order-name">Oversized Tee - Beige</span>
@@ -1962,7 +2137,7 @@
 
                             <div class="order-row-item">
                                 <div class="order-thumb">
-                                    <img src="ekkvastra_cargo.png" alt="Cargo Pants">
+                                    <img src="images/ekkvastra_cargo.png" alt="Cargo Pants">
                                 </div>
                                 <div class="order-info">
                                     <span class="order-name">Cargo Pants - Black</span>
@@ -1996,28 +2171,28 @@
                             <div class="recent-slider-container" id="recentSlider">
                                 <div class="recent-slider-track">
                                     <div class="recent-slider-item">
-                                        <img src="ekkvastra_back_print_tee.png" alt="Oversized Tee" />
+                                        <img src="images/ekkvastra_back_print_tee.png" alt="Oversized Tee" />
                                         <div class="wishlist-item-meta">
                                             <span class="wishlist-item-name">Oversized Tee - Black</span>
                                             <span class="wishlist-item-price">₹1,195</span>
                                         </div>
                                     </div>
                                     <div class="recent-slider-item">
-                                        <img src="ekkvastra_hoodie.png" alt="Zip Hoodie" />
+                                        <img src="images/ekkvastra_hoodie.png" alt="Zip Hoodie" />
                                         <div class="wishlist-item-meta">
                                             <span class="wishlist-item-name">Zip Hoodie - Washed Black</span>
                                             <span class="wishlist-item-price">₹1,889</span>
                                         </div>
                                     </div>
                                     <div class="recent-slider-item">
-                                        <img src="ekkvastra_cargo.png" alt="Utility Cargo" />
+                                        <img src="images/ekkvastra_cargo.png" alt="Utility Cargo" />
                                         <div class="wishlist-item-meta">
                                             <span class="wishlist-item-name">Utility Cargo - Black</span>
                                             <span class="wishlist-item-price">₹1,999</span>
                                         </div>
                                     </div>
                                     <div class="recent-slider-item">
-                                        <img src="ekkvastra_front_print_tee.png" alt="Graphic Tee" />
+                                        <img src="images/ekkvastra_front_print_tee.png" alt="Graphic Tee" />
                                         <div class="wishlist-item-meta">
                                             <span class="wishlist-item-name">Graphic Tee - Noir</span>
                                             <span class="wishlist-item-price">₹1,195</span>
@@ -2027,21 +2202,68 @@
                             </div>
                         </div>
                     </div>
+
+                    <!-- Notifications -->
+                    <div class="dashboard-card" id="notificationsCard">
+                        <div class="section-header">
+                            <h2>Notifications</h2>
+                            <a href="#" class="section-header-link" onclick="event.preventDefault(); showToast('All notifications marked as read');">Mark all read</a>
+                        </div>
+
+                        <div class="order-list">
+                            <div class="order-row-item">
+                                <div class="row-icon-box">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                                        <path d="M16 10a4 4 0 0 1-8 0"></path>
+                                    </svg>
+                                </div>
+                                <div class="order-info">
+                                    <span class="order-name">Your order #EKK12420 has shipped</span>
+                                    <span class="order-meta">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="order-row-item">
+                                <div class="row-icon-box">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
+                                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
+                                    </svg>
+                                </div>
+                                <div class="order-info">
+                                    <span class="order-name">New drop: Winter Collection is live</span>
+                                    <span class="order-meta">1 day ago</span>
+                                </div>
+                            </div>
+                            <div class="order-row-item">
+                                <div class="row-icon-box">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                    </svg>
+                                </div>
+                                <div class="order-info">
+                                    <span class="order-name">Item in your wishlist is back in stock</span>
+                                    <span class="order-meta">3 days ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Right Column (Your Wishlist, Quick Actions, Member Promo) -->
                 <div class="dashboard-grid-column">
                     <!-- Your Wishlist -->
-                    <div class="dashboard-card">
+                    <div class="dashboard-card" id="wishlistCard">
                         <div class="section-header">
                             <h2>Your Wishlist</h2>
-                            <a href="#" class="section-header-link" onclick="showToast('Loading wishlist page...')">View Wishlist &rarr;</a>
+                            <a href="wishlist.html" class="section-header-link">View Wishlist &rarr;</a>
                         </div>
 
                         <div class="wishlist-grid">
                             <div class="wishlist-item-card">
                                 <div class="wishlist-img-wrap">
-                                    <img src="ekkvastra_back_print_tee.png" alt="Graphic Tee" />
+                                    <img src="images/ekkvastra_back_print_tee.png" alt="Graphic Tee" />
                                 </div>
                                 <button class="wishlist-heart-btn" aria-label="Remove" onclick="showToast('Item removed from wishlist')">
                                     <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
@@ -2056,7 +2278,7 @@
 
                             <div class="wishlist-item-card">
                                 <div class="wishlist-img-wrap">
-                                    <img src="ekkvastra_hoodie.png" alt="Shadow Hoodie" />
+                                    <img src="images/ekkvastra_hoodie.png" alt="Shadow Hoodie" />
                                 </div>
                                 <button class="wishlist-heart-btn" aria-label="Remove" onclick="showToast('Item removed from wishlist')">
                                     <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
@@ -2071,7 +2293,7 @@
 
                             <div class="wishlist-item-card">
                                 <div class="wishlist-img-wrap">
-                                    <img src="ekkvastra_cargo.png" alt="Parachute Pants" />
+                                    <img src="images/ekkvastra_cargo.png" alt="Parachute Pants" />
                                 </div>
                                 <button class="wishlist-heart-btn" aria-label="Remove" onclick="showToast('Item removed from wishlist')">
                                     <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
@@ -2086,7 +2308,7 @@
 
                             <div class="wishlist-item-card">
                                 <div class="wishlist-img-wrap">
-                                    <img src="ekkvastra_front_print_tee.png" alt="Minimal Tee" />
+                                    <img src="images/ekkvastra_front_print_tee.png" alt="Minimal Tee" />
                                 </div>
                                 <button class="wishlist-heart-btn" aria-label="Remove" onclick="showToast('Item removed from wishlist')">
                                     <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
@@ -2101,6 +2323,47 @@
                         </div>
                     </div>
 
+                    <!-- Saved Payments -->
+                    <div class="dashboard-card" id="paymentsCard">
+                        <div class="section-header">
+                            <h2>Saved Payments</h2>
+                            <a href="#" class="section-header-link" onclick="event.preventDefault(); showToast('Add new card coming soon');">+ Add New Card</a>
+                        </div>
+
+                        <div class="order-list">
+                            <div class="order-row-item">
+                                <div class="row-icon-box">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                        <line x1="1" y1="10" x2="23" y2="10"></line>
+                                    </svg>
+                                </div>
+                                <div class="order-info">
+                                    <span class="order-name">Visa &bull;&bull;&bull;&bull; 4242</span>
+                                    <span class="order-meta">Expires 08/27</span>
+                                </div>
+                                <div class="order-item-status-col">
+                                    <span class="status-badge delivered">Default</span>
+                                </div>
+                            </div>
+                            <div class="order-row-item">
+                                <div class="row-icon-box">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                                        <line x1="1" y1="10" x2="23" y2="10"></line>
+                                    </svg>
+                                </div>
+                                <div class="order-info">
+                                    <span class="order-name">Mastercard &bull;&bull;&bull;&bull; 8890</span>
+                                    <span class="order-meta">Expires 03/26</span>
+                                </div>
+                                <div class="order-item-status-col">
+                                    <a href="#" class="section-header-link" style="font-size:.68rem;" onclick="event.preventDefault(); this.closest('.order-row-item').remove(); showToast('Card removed');">Remove</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                     <!-- Quick Actions -->
                     <div class="dashboard-card" style="padding: 24px;">
                         <div class="section-header" style="margin-bottom: 4px;">
@@ -2108,7 +2371,7 @@
                         </div>
 
                         <div class="quick-actions-grid">
-                            <div class="action-box" onclick="showToast('Tracking orders - status is live!')">
+                            <div class="action-box" onclick="switchNav(document.getElementById('navOrders'), 'recentOrdersCard')">
                                 <div class="action-box-icon">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <circle cx="12" cy="12" r="10"></circle>
@@ -2121,7 +2384,7 @@
                                 </div>
                             </div>
 
-                            <div class="action-box" onclick="openAddressModal()">
+                            <div class="action-box" onclick="switchNav(document.getElementById('navAddresses')); openAddressModal();">
                                 <div class="action-box-icon">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -2134,7 +2397,7 @@
                                 </div>
                             </div>
 
-                            <div class="action-box" onclick="showToast('Opening payment cards manager')">
+                            <div class="action-box" onclick="switchNav(document.getElementById('navPayments'), 'paymentsCard')">
                                 <div class="action-box-icon">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
@@ -2147,7 +2410,7 @@
                                 </div>
                             </div>
 
-                            <div class="action-box" onclick="openProfileModal()">
+                            <div class="action-box" onclick="switchNav(document.getElementById('navSettings')); openProfileModal();">
                                 <div class="action-box-icon">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -2165,7 +2428,7 @@
                     <!-- Member Promo Card -->
                     <div class="promo-banner">
                         <div class="promo-image-side">
-                            <img src="ekkvastra_back_print_tee.png" alt="Promo Model">
+                            <img src="images/ekkvastra_back_print_tee.png" alt="Promo Model">
                         </div>
                         <div class="promo-banner-content">
                             <span class="promo-banner-eyebrow">Exclusive For You</span>
@@ -2301,7 +2564,7 @@
             // Prepend new orders from checkout
             const itemsHtml = orders.map(order => {
                 const totalItemsCount = order.items.reduce((sum, item) => sum + (item.quantity || 1), 0);
-                const firstProduct = order.items[0] || { name: "Oversized Tee", image: "ekkvastra_front_print_tee.png", size: "L" };
+                const firstProduct = order.items[0] || { name: "Oversized Tee", image: "images/ekkvastra_front_print_tee.png", size: "L" };
                 return `
                     <div class="order-row-item">
                         <div class="order-thumb">
@@ -2329,7 +2592,7 @@
             list.innerHTML = itemsHtml + `
                 <div class="order-row-item">
                     <div class="order-thumb">
-                        <img src="ekkvastra_hoodie.png" alt="Signature Hoodie">
+                        <img src="images/ekkvastra_hoodie.png" alt="Signature Hoodie">
                     </div>
                     <div class="order-info">
                         <span class="order-name">Signature Hoodie - Black</span>
@@ -2349,7 +2612,7 @@
 
                 <div class="order-row-item">
                     <div class="order-thumb">
-                        <img src="ekkvastra_front_print_tee.png" alt="Oversized Tee">
+                        <img src="images/ekkvastra_front_print_tee.png" alt="Oversized Tee">
                     </div>
                     <div class="order-info">
                         <span class="order-name">Oversized Tee - Beige</span>
@@ -2369,7 +2632,7 @@
 
                 <div class="order-row-item">
                     <div class="order-thumb">
-                        <img src="ekkvastra_cargo.png" alt="Cargo Pants">
+                        <img src="images/ekkvastra_cargo.png" alt="Cargo Pants">
                     </div>
                     <div class="order-info">
                         <span class="order-name">Cargo Pants - Black</span>
@@ -2390,9 +2653,36 @@
         }
 
         // Sidebar click active switch
-        function switchNav(el) {
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            el.classList.add('active');
+        function switchNav(el, targetId) {
+            if (el) {
+                document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+                el.classList.add('active');
+            }
+            if (targetId) {
+                const target = document.getElementById(targetId);
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function copyReferralCode() {
+            const name = (sessionUser.name || 'EKKVASTRA').split(' ')[0].toUpperCase();
+            const code = `${name}10`;
+            const fallbackCopy = () => {
+                const ta = document.createElement('textarea');
+                ta.value = code;
+                ta.style.position = 'fixed';
+                ta.style.opacity = '0';
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); } catch {}
+                document.body.removeChild(ta);
+            };
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(code).catch(fallbackCopy);
+            } else {
+                fallbackCopy();
+            }
+            showToast(`Referral code "${code}" copied to clipboard!`);
         }
 
         // Profile Modal
@@ -2513,15 +2803,23 @@
                 const openSidebar = () => {
                     sidebar.classList.add('open');
                     backdrop.classList.add('open');
+                    document.body.classList.add('drawer-open');
                 };
 
                 const closeSidebar = () => {
                     sidebar.classList.remove('open');
                     backdrop.classList.remove('open');
+                    document.body.classList.remove('drawer-open');
                 };
 
                 toggleBtn.addEventListener('click', openSidebar);
                 backdrop.addEventListener('click', closeSidebar);
+
+                window.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && sidebar.classList.contains('open')) {
+                        closeSidebar();
+                    }
+                });
 
                 // Close sidebar when clicking links inside it on mobile
                 document.querySelectorAll('.nav-item').forEach(item => {
@@ -2540,6 +2838,7 @@
 
         function updateCartBadgeCount() {
             const badges = document.querySelectorAll('.cart-badge');
+            const drawerCount = document.getElementById('drawerCartCount');
             try {
                 const cart = JSON.parse(localStorage.getItem(CART_KEY)) || [];
                 const count = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
@@ -2547,11 +2846,13 @@
                     badge.textContent = count;
                     badge.classList.toggle('visible', count > 0);
                 });
+                if (drawerCount) drawerCount.textContent = count;
             } catch {
                 badges.forEach(badge => {
                     badge.textContent = 0;
                     badge.classList.toggle('visible', false);
                 });
+                if (drawerCount) drawerCount.textContent = 0;
             }
         }
 
@@ -2588,14 +2889,22 @@
             function toggleMobileDrawer(open) {
                 mobileDrawer.classList.toggle('open', open);
                 mobileDrawer.setAttribute('aria-hidden', String(!open));
+                document.body.classList.toggle('drawer-open', open);
+            }
 
+            menuBtn.addEventListener('click', () => toggleMobileDrawer(true));
             closeBtn.addEventListener('click', () => toggleMobileDrawer(false));
             mobileDrawer.addEventListener('click', (e) => {
                 if (e.target === mobileDrawer) {
                     toggleMobileDrawer(false);
                 }
             });
-            document.querySelectorAll('.drawer-links a').forEach(a =>
+            window.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && mobileDrawer.classList.contains('open')) {
+                    toggleMobileDrawer(false);
+                }
+            });
+            document.querySelectorAll('.drawer-links a, .drawer-quick-actions a').forEach(a =>
                 a.addEventListener('click', () => toggleMobileDrawer(false))
             );
         }
@@ -2611,6 +2920,7 @@
                 searchOpenBtns.forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         e.preventDefault();
+                        if (typeof toggleMobileDrawer === 'function') toggleMobileDrawer(false);
                         searchOverlay.classList.add('open');
                         searchOverlay.setAttribute('aria-hidden', 'false');
                         setTimeout(() => searchInput?.focus(), 100);
@@ -2804,7 +3114,7 @@
                         <div class="suggested-products-grid">
                             <div class="suggested-card">
                                 <div class="suggested-img-wrap">
-                                    <img src="ekkvastra_front_print_tee.png" alt="OVERSIZED TEE">
+                                    <img src="images/ekkvastra_front_print_tee.png" alt="OVERSIZED TEE">
                                 </div>
                                 <div class="suggested-info">
                                     <h3>OVERSIZED TEE - NOIR</h3>
@@ -2813,7 +3123,7 @@
                             </div>
                             <div class="suggested-card">
                                 <div class="suggested-img-wrap">
-                                    <img src="ekkvastra_hoodie.png" alt="SIGNATURE HOODIE">
+                                    <img src="images/ekkvastra_hoodie.png" alt="SIGNATURE HOODIE">
                                 </div>
                                 <div class="suggested-info">
                                     <h3>SIGNATURE HOODIE - BLACK</h3>
@@ -2822,7 +3132,7 @@
                             </div>
                             <div class="suggested-card">
                                 <div class="suggested-img-wrap">
-                                    <img src="ekkvastra_cargo.png" alt="CARGO PANTS">
+                                    <img src="images/ekkvastra_cargo.png" alt="CARGO PANTS">
                                 </div>
                                 <div class="suggested-info">
                                     <h3>CARGO PANTS - BLACK</h3>

@@ -4,6 +4,94 @@ html {
     scroll-padding-top: 96px;
 }
 
+/* ============================================================
+   FOOTER — shared premium polish, used on every page.
+   These are new classes with no prior desktop rule (copyright line,
+   trust line, social icons), so their base definition here applies
+   at every breakpoint; only spacing/sizing tweaks are mobile-scoped
+   further down inside the existing @media (max-width: 767px) block.
+   ============================================================ */
+.footer-bottom-legal,
+.footer-bottom-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.footer-bottom-meta {
+    align-items: flex-end;
+}
+
+.footer-copyright {
+    margin: 0;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.footer-trust-line {
+    margin: 0;
+    font-size: 0.74rem;
+    letter-spacing: 0.02em;
+    color: rgba(255, 255, 255, 0.38);
+}
+
+.footer-trust-line .dot {
+    margin: 0 8px;
+    opacity: 0.6;
+}
+
+.footer-social {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.footer-social a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    color: rgba(255, 255, 255, 0.7);
+    flex-shrink: 0;
+    transition: color 0.25s ease, border-color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
+}
+
+.footer-social a:hover {
+    color: #000;
+    background: #fff;
+    border-color: #fff;
+    transform: translateY(-2px);
+}
+
+.footer-social a:active {
+    transform: translateY(0) scale(0.94);
+}
+
+/* Footer link + payment-pill hover/tap polish (subtle, additive -- these
+   elements had no interactive feedback at all before). */
+.footer-links a,
+.footer-bottom a {
+    transition: color 0.25s ease;
+}
+
+.footer-links a:hover,
+.footer-bottom a:hover {
+    color: #ffffff;
+}
+
+.payment-pill {
+    transition: border-color 0.25s ease, color 0.25s ease;
+}
+
+.footer-bottom-meta .payment-pill:hover {
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #fff;
+}
+
 #searchOverlay {
     position: fixed;
     inset: 0;
@@ -441,6 +529,169 @@ html {
 }
 .mobile-drawer.open {
     visibility: visible !important;
+}
+
+/* Body scroll lock while any mobile drawer/overlay is open */
+body.drawer-open {
+    overflow: hidden !important;
+}
+
+/*
+ * Shared horizontal swipe-rail treatment for promotional card sections
+ * (New Arrivals / Best Sellers / Recommendations / Collections / Trending /
+ * search-suggested products) on mobile only. Deliberately targeted by ID/class
+ * so it never touches the main Shop results grid (#productGrid) or the
+ * Wishlist saved-items grid (#wishlistGrid), which stay 2-column grids.
+ */
+@media (max-width: 767px) {
+    #newArrivalsGrid,
+    #bestSellersGrid,
+    #recommendationsGrid,
+    .collection-grid,
+    .trending-grid,
+    .suggested-products-grid {
+        display: flex !important;
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-wrap: nowrap !important;
+        gap: 12px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 4px;
+    }
+    #newArrivalsGrid::-webkit-scrollbar,
+    #bestSellersGrid::-webkit-scrollbar,
+    #recommendationsGrid::-webkit-scrollbar,
+    .collection-grid::-webkit-scrollbar,
+    .trending-grid::-webkit-scrollbar,
+    .suggested-products-grid::-webkit-scrollbar {
+        display: none;
+        height: 0;
+    }
+    #newArrivalsGrid > *,
+    #bestSellersGrid > *,
+    #recommendationsGrid > * {
+        flex: 0 0 72%;
+        max-width: 300px;
+        width: auto;
+        scroll-snap-align: start;
+    }
+    .collection-grid > *,
+    .trending-grid > * {
+        flex: 0 0 60%;
+        max-width: 260px;
+        width: auto;
+        scroll-snap-align: start;
+    }
+    .suggested-products-grid > * {
+        flex: 0 0 46%;
+        max-width: 200px;
+        width: auto;
+        scroll-snap-align: start;
+    }
+
+    /*
+     * The site-wide scroll-reveal fade-in (.reveal / .reveal.visible, driven by
+     * each page's IntersectionObserver) is built for vertical grids. Inside a
+     * horizontally clipped swipe rail, cards not yet scrolled into view may
+     * never cross the observer's visibility threshold and stay stuck hidden.
+     * This neutralizes that ONLY while a card lacks .visible, and is left
+     * non-!important -- so it steps out of the way the instant a card is
+     * revealed (or never applies at all on pages/containers that don't put
+     * .reveal on these cards, e.g. cart's recommendations), and it never
+     * fights the click-triggered 3D lift-rotate animation, which always wins
+     * over a plain (non-!important) declaration regardless of specificity.
+     */
+    #newArrivalsGrid > *:not(.visible),
+    #bestSellersGrid > *:not(.visible),
+    #recommendationsGrid > *:not(.visible),
+    .collection-grid > *:not(.visible),
+    .trending-grid > *:not(.visible),
+    .suggested-products-grid > *:not(.visible) {
+        opacity: 1;
+        transform: none;
+    }
+
+    /* Force equal card height across the row -- without this, a longer
+       product name wraps to a 2nd line and makes just that one card taller
+       than its neighbors in the rail. */
+    #newArrivalsGrid,
+    #bestSellersGrid,
+    #recommendationsGrid {
+        align-items: stretch;
+    }
+
+    #newArrivalsGrid .product-name,
+    #bestSellersGrid .product-name,
+    #recommendationsGrid .product-name {
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    /* Touch devices don't fire :hover, so give cards/promo banners a matching
+       tap-lift via :active. The rail-scoped selectors are ID-based so they
+       reliably win over the :not(.visible) fallback above no matter a card's
+       reveal state (important for e.g. cart.html, whose recommendation cards
+       never receive .visible in the first place). */
+    #newArrivalsGrid .product-card:active,
+    #bestSellersGrid .product-card:active,
+    #recommendationsGrid .product-card:active,
+    #collectionGrid .collection-card:active,
+    .product-card:active,
+    .collection-card:active {
+        transform: translateY(-3px);
+        transition: transform 0.2s ease;
+    }
+
+    .promo-card:active {
+        transform: translateY(-4px) scale(1.01);
+        transition: transform 0.2s ease;
+    }
+
+    /* Footer premium polish (mobile only -- desktop untouched). */
+    .footer-grid {
+        gap: 36px; /* consistent, slightly roomier spacing between categories */
+    }
+
+    .footer-heading {
+        letter-spacing: 0.2em;
+    }
+
+    .footer-links {
+        margin-top: 22px; /* heading -> links breathing room */
+    }
+
+    .footer-links a,
+    .footer-bottom a {
+        line-height: 1.8; /* easier to scan */
+    }
+
+    .footer-bottom-legal,
+    .footer-bottom-meta {
+        align-items: center;
+        text-align: center;
+    }
+
+    .footer-social {
+        justify-content: center;
+    }
+
+    .footer-bottom-meta .payment-pill {
+        padding: 8px 12px;
+        font-size: 0.66rem;
+    }
+
+    /* Smaller, closer-to-edge back-to-top button on phones. */
+    .back-to-top {
+        width: 40px;
+        height: 40px;
+        bottom: 18px;
+        right: 16px;
+    }
 }
 
 .details-modal-overlay {
