@@ -503,197 +503,7 @@
             }
         }
 
-        /* Mobile Drawer */
-        .mobile-drawer {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.72);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            z-index: 999;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-        }
 
-        .mobile-drawer.open {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .drawer-panel {
-            margin-left: auto;
-            width: min(84vw, 360px);
-            height: 100vh;
-            background: rgba(10, 10, 10, 0.98);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            padding: 28px 24px 24px;
-            transform: translateX(100%);
-            transition: transform 0.35s ease;
-            display: flex;
-            flex-direction: column;
-            overflow-y: auto;
-            box-shadow: -18px 0 50px rgba(0, 0, 0, 0.5);
-            border-left: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .mobile-drawer.open .drawer-panel {
-            transform: translateX(0);
-        }
-
-        .drawer-top {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-
-        .drawer-tagline {
-            margin: 20px 0 0;
-            font-size: 0.92rem;
-            line-height: 1.5;
-            color: rgba(255, 255, 255, 0.55);
-        }
-
-        .drawer-divider {
-            border: none;
-            border-top: 1px solid rgba(255, 255, 255, 0.1);
-            margin: 20px 0 4px;
-        }
-
-        .drawer-links {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .drawer-link {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            padding: 16px 2px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            color: #fff;
-            text-decoration: none;
-            transition: opacity 0.2s ease;
-        }
-
-        .drawer-link:active {
-            opacity: 0.6;
-        }
-
-        .drawer-link-icon {
-            width: 20px;
-            height: 20px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-        }
-
-        .drawer-link-label {
-            flex: 1;
-            font-size: 1.02rem;
-            font-weight: 700;
-        }
-
-        .drawer-badge-new {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 5px 10px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.12);
-            color: #fff;
-            font-size: 0.62rem;
-            font-weight: 800;
-            letter-spacing: 0.08em;
-            flex-shrink: 0;
-        }
-
-        .drawer-chevron {
-            flex-shrink: 0;
-            color: rgba(255, 255, 255, 0.35);
-        }
-
-        .drawer-section-label {
-            display: block;
-            margin-top: 20px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            letter-spacing: 0.22em;
-            text-transform: uppercase;
-            color: rgba(255, 255, 255, 0.45);
-        }
-
-        .drawer-social {
-            display: flex;
-            align-items: center;
-            justify-content: flex-start;
-            gap: 26px;
-            margin-top: 18px;
-        }
-
-        .drawer-social a {
-            color: #fff;
-            display: flex;
-        }
-
-        .drawer-social a:active {
-            opacity: 0.6;
-        }
-
-        .drawer-quick-actions {
-            margin-top: auto;
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            border: 1px solid rgba(255, 255, 255, 0.14);
-            border-radius: 18px;
-            overflow: hidden;
-        }
-
-        .drawer-quick-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            padding: 14px 4px;
-            background: transparent;
-            border: none;
-            border-left: 1px solid rgba(255, 255, 255, 0.14);
-            color: #fff;
-            text-decoration: none;
-            font-size: 0.7rem;
-            font-weight: 600;
-            text-align: center;
-        }
-
-        .drawer-quick-item:first-child {
-            border-left: none;
-        }
-
-        .drawer-quick-item:active {
-            background: rgba(255, 255, 255, 0.06);
-        }
-
-        .drawer-footer-mini {
-            margin-top: 24px;
-            padding-top: 20px;
-        }
-
-        .drawer-footer-mini p {
-            margin: 0;
-            text-align: center;
-            font-size: 0.74rem;
-            color: rgba(255, 255, 255, 0.4);
-            line-height: 1.8;
-        }
 
         /* --------------------------------- */
         /* SHOP PAGE STYLING                 */
@@ -2308,6 +2118,7 @@
         }
     </style>
     <link rel="stylesheet" href="search-overlay.css" />
+    <link rel="stylesheet" href="mobile-drawer.css" />
     <script>
         // iOS Safari won't apply :active/:hover styles on tap unless a touch
         // listener exists somewhere on the page -- this is what makes the
@@ -2381,91 +2192,7 @@
         </div>
     </header>
 
-    <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true">
-        <div class="drawer-panel" role="dialog" aria-modal="true" aria-label="Mobile navigation">
-            <div class="drawer-top">
-                <a href="index.html" class="logo" aria-label="EKKVASTRA home">
-                    <div class="logo-mark">
-                        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
-                            <path d="M6 6h12l-3 12H9L6 6z" stroke-linecap="round" stroke-linejoin="round"></path>
-                        </svg>
-                    </div>
-                    <span class="logo-text">EKKVASTRA</span>
-                </a>
-                <button class="icon-btn" id="closeBtn" aria-label="Close menu">
-                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8">
-                        <path d="M6 6l12 12M18 6L6 18" stroke-linecap="round"></path>
-                    </svg>
-                </button>
-            </div>
-
-            <p class="drawer-tagline">Premium Streetwear.<br>Built Different.</p>
-
-            <hr class="drawer-divider" />
-
-            <nav class="drawer-links">
-                <a href="index.html#new-arrivals" class="drawer-link">
-                    <span class="drawer-link-icon"><span class="drawer-badge-new">NEW</span></span>
-                    <span class="drawer-link-label">New Arrivals</span>
-                    <span class="drawer-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span>
-                </a>
-                <a href="shop.html" class="drawer-link">
-                    <span class="drawer-link-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 7h12l1 14H5L6 7z"></path><path d="M9 7a3 3 0 0 1 6 0"></path></svg></span>
-                    <span class="drawer-link-label">Shop</span>
-                    <span class="drawer-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span>
-                </a>
-                <a href="index.html#collections" class="drawer-link">
-                    <span class="drawer-link-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect></svg></span>
-                    <span class="drawer-link-label">Collections</span>
-                    <span class="drawer-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span>
-                </a>
-                <a href="CONTACT.html" class="drawer-link">
-                    <span class="drawer-link-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 13a9 9 0 0 1 18 0"></path><path d="M21 13v4a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3z"></path><path d="M3 13v4a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path></svg></span>
-                    <span class="drawer-link-label">Contact Us</span>
-                    <span class="drawer-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span>
-                </a>
-                <a href="ABOUT.html" class="drawer-link">
-                    <span class="drawer-link-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0" stroke-linecap="round"></path><circle cx="12" cy="8" r="4"></circle></svg></span>
-                    <span class="drawer-link-label">About Us</span>
-                    <span class="drawer-chevron"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"></polyline></svg></span>
-                </a>
-            </nav>
-
-            <span class="drawer-section-label">Follow Us</span>
-            <div class="drawer-social">
-                <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg></a>
-                <a href="#" aria-label="Pinterest"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 22a9 9 0 0 1-1.91-8.3A7.5 7.5 0 0 1 12 4.5a8.38 8.38 0 0 1 9 9 7.26 7.26 0 0 1-4.25 6.66c-1.12.5-2.24-.29-2.24-1.5v-1a5.83 5.83 0 0 0 .5-3.5c-.32-1.5-1.5-2.5-3-2.5a2.5 2.5 0 0 0-2.5 2.5 6 6 0 0 0 1 3.5c.34.5.21 1.5-.5 2S8.5 17 8 16c-.5-1-1-3-1-5a7 7 0 0 1 7-7 7.5 7.5 0 0 1 7.5 7.5c0 2.5-1.5 5-4.5 5a2 2 0 0 1-2-2"></path></svg></a>
-                <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h-2a5 5 0 0 0-5 5v3H6v4h2v7h4v-7h3l1-4h-4V8a1 1 0 0 1 1-1h3z"></path></svg></a>
-                <a href="#" aria-label="X (Twitter)"><svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4l16 16M20 4L4 20"></path></svg></a>
-            </div>
-
-            <hr class="drawer-divider" />
-
-            <div class="drawer-quick-actions">
-                <button class="drawer-quick-item" aria-label="Search">
-                    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
-                    <span>Search</span>
-                </button>
-                <a href="LOGIN.html" class="drawer-quick-item">
-                    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21a8 8 0 0 0-16 0"></path><circle cx="12" cy="8" r="4"></circle></svg>
-                    <span>Account</span>
-                </a>
-                <a href="wishlist.html" class="drawer-quick-item">
-                    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12.1 20.3l-.1.1-.1-.1C6.1 15.2 2.5 11.9 2.5 8A4.5 4.5 0 0 1 7 3.5c1.74 0 3.41.81 4.5 2.09A5.96 5.96 0 0 1 16 3.5 4.5 4.5 0 0 1 20.5 8c0 3.95-3.64 7.24-8.4 12.3z"></path></svg>
-                    <span>Wishlist</span>
-                </a>
-                <a href="cart.html" class="drawer-quick-item">
-                    <svg viewBox="0 0 24 24" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                    <span>Cart (<span id="drawerCartCount">0</span>)</span>
-                </a>
-            </div>
-
-            <div class="drawer-footer-mini">
-                <p>&copy; 2026 Ekkvastra. All Rights Reserved.</p>
-                <p>Privacy Policy &middot; Terms &amp; Conditions</p>
-            </div>
-        </div>
-    </div>
+    <div class="mobile-drawer" id="mobileDrawer" aria-hidden="true"></div>
 
     <main class="shop-page-wrapper" id="content">
         <div class="page-shell">
@@ -3197,9 +2924,6 @@
         let visibleProductCount = 8; // Batch size: show 8 products initially
 
         // DOM elements
-        const menuBtn = document.getElementById("menuBtn");
-        const mobileDrawer = document.getElementById("mobileDrawer");
-        const closeBtn = document.getElementById("closeBtn");
         const header = document.getElementById("siteHeader");
         const priceRange = document.getElementById("priceRange");
         const priceVal = document.getElementById("priceVal");
@@ -3210,34 +2934,6 @@
         const mobileFilterTriggerBtn = document.getElementById("mobileFilterTriggerBtn");
         const closeFilterDrawerBtn = document.getElementById("closeFilterDrawerBtn");
         const filterDrawerBackdrop = document.getElementById("filterDrawerBackdrop");
-
-        // Toggle mobile nav menu drawer
-        if (menuBtn && mobileDrawer && closeBtn) {
-            function toggleMobileDrawer(open) {
-                mobileDrawer.classList.toggle("open", open);
-                mobileDrawer.setAttribute("aria-hidden", String(!open));
-                document.body.classList.toggle("drawer-open", open);
-            }
-
-            menuBtn.addEventListener("click", () => toggleMobileDrawer(true));
-            closeBtn.addEventListener("click", () => toggleMobileDrawer(false));
-
-            mobileDrawer.addEventListener("click", (e) => {
-                if (e.target === mobileDrawer) {
-                    toggleMobileDrawer(false);
-                }
-            });
-
-            document.querySelectorAll(".drawer-links a, .drawer-quick-actions a").forEach((a) =>
-                a.addEventListener("click", () => toggleMobileDrawer(false))
-            );
-
-            window.addEventListener("keydown", (e) => {
-                if (e.key === "Escape" && mobileDrawer.classList.contains("open")) {
-                    toggleMobileDrawer(false);
-                }
-            });
-        }
 
         // Toggle mobile/desktop filter drawer
         if (mobileFilterTriggerBtn && filterSidebar && closeFilterDrawerBtn && filterDrawerBackdrop) {
@@ -4349,6 +4045,7 @@
             }
         })();
     </script>
+    <script src="mobile-drawer.js"></script>
 </body>
 
 </html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html><head><style>body{margin:0;font:11px monospace;background:#fff}</style></head><body>
+<div id="out" style="white-space:pre-wrap;padding:6px;"></div>
+<iframe id="f" src="http://localhost:8080/index.html" style="width:390px;height:400px;border:1px solid red;"></iframe>
+<script>
+var f = document.getElementById('f');
+var seeded = false;
+f.addEventListener('load', function() {
+  if (!seeded) {
+    seeded = true;
+    var win = this.contentWindow;
+    win.localStorage.setItem('ekkvastra_logged_in', 'true');
+    win.localStorage.setItem('ekkvastra_user', JSON.stringify({name:'Akash Rai', email:'akash.rai@email.com'}));
+    win.location.reload();
+    return;
+  }
+  var doc = this.contentDocument;
+  setTimeout(function() {
+    var btn = doc.getElementById('menuBtn');
+    if (btn) btn.click();
+    setTimeout(function() {
+      var out = document.getElementById('out');
+      var labels = doc.querySelectorAll('.drawer-item-label');
+      var lines = ['Item labels found (' + labels.length + '):'];
+      labels.forEach(function(l) { lines.push(' - ' + l.textContent); });
+      var socialLinks = doc.querySelectorAll('.drawer-social a');
+      lines.push('Social icons: ' + socialLinks.length);
+      var logoutBtn = doc.getElementById('drawerLogoutBtn');
+      lines.push('Logout button exists: ' + !!logoutBtn);
+      var footer = doc.querySelector('.drawer-footer-copyright');
+      lines.push('Footer copyright: ' + (footer ? footer.textContent : 'MISSING'));
+      var sectionHeaders = doc.querySelectorAll('.drawer-section-header');
+      lines.push('Section headers: ' + Array.from(sectionHeaders).map(function(s){return s.textContent}).join(', '));
+      out.textContent = lines.join('\n');
+    }, 400);
+  }, 500);
+});
+</script>
+</body></html>
