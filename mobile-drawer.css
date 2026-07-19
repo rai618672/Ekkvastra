@@ -162,7 +162,7 @@
 
 /* Special Gold Badge for NEW */
 .drawer-badge-new-gold {
-    background: #e2a857;
+    background: #ff5e00;
     color: #000000;
     font-size: 0.62rem;
     font-weight: 800;
@@ -548,7 +548,7 @@ body.drawer-open {
         height: 15px !important;
         padding: 0 3px !important;
         border-radius: 999px !important;
-        display: flex !important;
+        display: none !important;
         align-items: center !important;
         justify-content: center !important;
         line-height: 1 !important;
@@ -556,11 +556,8 @@ body.drawer-open {
         box-shadow: 0 1px 3px rgba(0,0,0,0.3) !important;
         z-index: 5 !important;
     }
-    
-    .nav-actions .nav-wishlist-badge {
-        display: none !important;
-    }
-    
+
+    .nav-actions .cart-badge.visible,
     .nav-actions .nav-wishlist-badge.visible {
         display: flex !important;
     }

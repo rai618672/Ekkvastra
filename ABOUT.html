@@ -305,7 +305,7 @@
             position: absolute;
             top: -6px;
             right: -6px;
-            background: #e53935;
+            background: #ff5e00;
             color: #fff;
             font-size: 0.58rem;
             font-weight: 800;
@@ -332,10 +332,14 @@
             width: 17px;
             height: 17px;
             border-radius: 50%;
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             border: 1.5px solid #000;
+        }
+
+        .cart-badge.visible {
+            display: flex;
         }
 
         .mobile-menu-btn {
@@ -1181,9 +1185,11 @@
             position: fixed;
             top: 24px;
             right: 24px;
+            left: 24px;
             z-index: 10000;
             display: flex;
             flex-direction: column;
+            align-items: flex-end;
             gap: 12px;
             pointer-events: none;
         }
@@ -1200,6 +1206,8 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            max-width: 100%;
+            box-sizing: border-box;
             transform: translateX(120%);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             pointer-events: auto;
@@ -1355,14 +1363,14 @@
                 </a>
                 <a href="cart.html" class="icon-btn" aria-label="Shopping Bag">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
                     </svg>
                     <span class="cart-badge">0</span>
                 </a>
                 <a href="account.html" class="nav-avatar-btn" aria-label="My Account">
-                    <img src="images/avatar_akash.png" alt="Account" class="nav-avatar-img" />
+                    <img src="images/avatar_anshika.png" alt="Account" class="nav-avatar-img" />
                     <span class="nav-avatar-chevron">
                         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="6 9 12 15 18 9"></polyline>
@@ -1719,12 +1727,10 @@
                 <div>
                     <h3 class="footer-heading">Collections</h3>
                     <div class="footer-links">
-                        <a href="shop.html">Oversized</a>
-                        <a href="shop.html">Graphic Tees</a>
-                        <a href="shop.html">Essentials</a>
-                        <a href="shop.html">Hoodies</a>
-                        <a href="shop.html">Summer Collection</a>
-                        <a href="shop.html">Winter Collection</a>
+                        <a href="collection.html?name=Oversized">Oversized</a>
+                        <a href="collection.html?name=Graphic%20Tees">Graphic Tees</a>
+                        <a href="collection.html?name=Essentials">Essentials</a>
+                        <a href="collection.html?name=Hoodies">Hoodies</a>
                     </div>
                 </div>
 
@@ -1732,11 +1738,11 @@
                     <h3 class="footer-heading">Customer Care</h3>
                     <div class="footer-links">
                         <a href="CONTACT.html">Contact Us</a>
-                        <a href="#">Track Order</a>
-                        <a href="#">Shipping & Delivery</a>
-                        <a href="#">Returns & Exchanges</a>
-                        <a href="#">FAQs</a>
-                        <a href="#">Size Guide</a>
+                        <a href="#" onclick="event.preventDefault(); showToast('Order tracking is available under My Orders in your account.');">Track Order</a>
+                        <a href="#" onclick="event.preventDefault(); showToast('Free standard shipping on orders over ₹1499. Delivery details are in the checkout process.');">Shipping & Delivery</a>
+                        <a href="#" onclick="event.preventDefault(); showToast('7-day hassle-free returns policy. Contact support to initiate a return.');">Returns & Exchanges</a>
+                        <a href="#" onclick="event.preventDefault(); showToast('Frequently Asked Questions are available under the CONTACT page.');">FAQs</a>
+                        <a href="#" onclick="event.preventDefault(); showToast('Size Guide is available on standard product detail cards.');">Size Guide</a>
                     </div>
                 </div>
 
@@ -1760,9 +1766,9 @@
                     <p class="footer-copyright">&copy; 2026 EKKVASTRA. All Rights Reserved.</p>
                     <p class="footer-trust-line">Secure Payments<span class="dot">&middot;</span>Easy Returns<span class="dot">&middot;</span>Fast Shipping</p>
                     <div style="display:flex;flex-wrap:wrap;gap:20px;">
-                        <a href="#" style="color:rgba(255,255,255,.58);">Privacy Policy</a>
-                        <a href="#" style="color:rgba(255,255,255,.58);">Terms of Service</a>
-                        <a href="#" style="color:rgba(255,255,255,.58);">Refund Policy</a>
+                        <a href="#" style="color:rgba(255,255,255,.58);" onclick="event.preventDefault(); showToast('Privacy Policy coming soon!');">Privacy Policy</a>
+                        <a href="#" style="color:rgba(255,255,255,.58);" onclick="event.preventDefault(); showToast('Terms & Conditions coming soon!');">Terms of Service</a>
+                        <a href="#" style="color:rgba(255,255,255,.58);" onclick="event.preventDefault(); showToast('Refund Policy coming soon!');">Refund Policy</a>
                     </div>
                 </div>
 
@@ -2046,10 +2052,7 @@
                 searchOpenBtns.forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         e.preventDefault();
-                        if (typeof toggleMobileDrawer === 'function') toggleMobileDrawer(false);
-                        searchOverlay.classList.add('open');
-                        searchOverlay.setAttribute('aria-hidden', 'false');
-                        setTimeout(() => searchInput?.focus(), 100);
+                        window.location.href = 'SEARCH.html';
                     });
                 });
 
@@ -2173,6 +2176,7 @@
                 const totalQty = cart.reduce((total, item) => total + (item.quantity || 1), 0);
                 document.querySelectorAll('.cart-badge').forEach(badge => {
                     badge.textContent = totalQty;
+                    badge.classList.toggle('visible', totalQty > 0);
                 });
                 const drawerCount = document.getElementById('drawerCartCount');
                 if (drawerCount) drawerCount.textContent = totalQty;

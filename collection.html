@@ -4,8 +4,8 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>SHOP | EKKVASTRA | Premium Streetwear</title>
-    <meta name="description" content="Shop the premium luxury streetwear collection of EKKVASTRA." />
+    <title id="pageTitle">COLLECTION | EKKVASTRA | Premium Streetwear</title>
+    <meta name="description" content="Shop EKKVASTRA's featured collections of premium streetwear." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -2150,8 +2150,8 @@
 
             <nav class="nav-links" aria-label="Primary">
                 <a href="index.html#new-arrivals">New Arrivals</a>
-                <a href="shop.html" class="active">Shop</a>
-                <a href="index.html#collections">Collections</a>
+                <a href="shop.html">Shop</a>
+                <a href="index.html#collections" class="active">Collections</a>
                 <a href="CONTACT.html">Contact Us</a>
                 <a href="ABOUT.html">About Us</a>
             </nav>
@@ -2207,12 +2207,12 @@
             <!-- Shop Hero Banner -->
             <section class="shop-hero">
                 <div class="shop-hero-content reveal">
-                    <div class="shop-hero-eyebrow">All Products</div>
-                    <h1 class="shop-hero-title">Shop Collection</h1>
-                    <p class="shop-hero-desc">Premium streetwear essentials. Timeless silhouettes, bold cuts, and elevated everyday comfort.</p>
+                    <div class="shop-hero-eyebrow" id="collectionEyebrow">Featured Collection</div>
+                    <h1 class="shop-hero-title" id="collectionTitle">Collection</h1>
+                    <p class="shop-hero-desc" id="collectionDesc">Premium streetwear essentials. Timeless silhouettes, bold cuts, and elevated everyday comfort.</p>
                     <button class="shop-hero-btn" onclick="scrollToShop()">Shop Now</button>
                 </div>
-                <div class="shop-hero-img"></div>
+                <div class="shop-hero-img" id="collectionHeroImg"></div>
             </section>
 
             <!-- Breadcrumbs -->
@@ -2220,9 +2220,9 @@
                 <nav class="breadcrumb" aria-label="Breadcrumb">
                     <a href="index.html">Home</a>
                     <span class="breadcrumb-separator">/</span>
-                    <a href="shop.html">Shop</a>
+                    <a href="index.html#collections">Collections</a>
                     <span class="breadcrumb-separator">/</span>
-                    <span class="breadcrumb-current" id="breadcrumbCurrent">All Products</span>
+                    <span class="breadcrumb-current" id="breadcrumbCurrent">Collection</span>
                 </nav>
             </div>
 
@@ -2565,7 +2565,55 @@
 
     <script src="products.js"></script>
     <script>
-        const products = EKKVASTRA_PRODUCTS;
+        // ── FEATURED COLLECTION CONFIG ──
+        // One shared template page (collection.html?name=X) instead of a
+        // separate static file per collection. Each entry's `match` decides
+        // which products from the shared catalog belong to that collection --
+        // some map to a single category, others (Oversized/Essentials) are a
+        // curated cross-category cut, since the catalog has no "collection" field.
+        const COLLECTIONS = {
+            'Oversized': {
+                eyebrow: 'Featured Collection',
+                title: 'Oversized',
+                desc: 'Bold, relaxed silhouettes built for everyday movement — our signature oversized fits.',
+                image: 'images/ekkvastra_front_print_tee.png',
+                match: p => p.fit === 'Oversized'
+            },
+            'Graphic Tees': {
+                eyebrow: 'Featured Collection',
+                title: 'Graphic Tees',
+                desc: 'Statement prints and bold graphics on premium heavyweight cotton.',
+                image: 'images/ekkvastra_back_print_tee.png',
+                match: p => p.category === 'Graphic Tees'
+            },
+            'Essentials': {
+                eyebrow: 'Featured Collection',
+                title: 'Essentials',
+                desc: 'The foundational pieces every wardrobe needs — clean lines, versatile layers.',
+                image: 'images/ekkvastra_hoodie.png',
+                match: p => ['Oversized Tees', 'Sweatshirts', 'Joggers'].includes(p.category)
+            },
+            'Hoodies': {
+                eyebrow: 'Featured Collection',
+                title: 'Hoodies',
+                desc: 'Heavyweight comfort with a street-ready edge.',
+                image: 'images/ekkvastra_hoodie.png',
+                match: p => p.category === 'Hoodies'
+            }
+        };
+
+        const requestedCollection = new URLSearchParams(window.location.search).get('name');
+        const activeCollection = COLLECTIONS[requestedCollection] || COLLECTIONS['Oversized'];
+
+        const products = EKKVASTRA_PRODUCTS.filter(activeCollection.match);
+
+        // Populate hero + page title immediately from the active collection
+        document.getElementById('pageTitle').textContent = activeCollection.title + ' | EKKVASTRA | Premium Streetwear';
+        document.getElementById('collectionEyebrow').textContent = activeCollection.eyebrow;
+        document.getElementById('collectionTitle').textContent = activeCollection.title;
+        document.getElementById('collectionDesc').textContent = activeCollection.desc;
+        document.getElementById('collectionHeroImg').style.backgroundImage = `url('${activeCollection.image}')`;
+        document.getElementById('breadcrumbCurrent').textContent = activeCollection.title;
 
         // Global State
         let activeFilters = {
@@ -2952,7 +3000,7 @@
             } else if (activeFilters.categories.length > 1) {
                 breadcrumbCurrent.textContent = 'Filtered Products';
             } else {
-                breadcrumbCurrent.textContent = 'All Products';
+                breadcrumbCurrent.textContent = activeCollection.title;
             }
         }
 

@@ -1,0 +1,813 @@
+/* ============================================================
+   SEARCH PAGE — dedicated Search experience (SEARCH.html)
+   Layered on top of each page's own header/footer/product-card
+   CSS (copied verbatim into SEARCH.html) so it inherits the
+   exact same look. This file only adds the search-specific UI.
+   ============================================================ */
+
+.search-page-wrapper {
+    padding-top: 80px;
+    background: var(--bg);
+    padding-bottom: 100px;
+}
+
+/* ── Hero search section ── */
+.search-hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #0d0d0d 0%, #111111 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+    padding: 56px;
+    overflow: hidden;
+    margin-top: 0;
+    box-shadow: var(--hero-shadow);
+}
+
+.search-hero-inner {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+    max-width: 640px;
+}
+
+.search-hero-eyebrow {
+    font-size: 0.72rem;
+    font-weight: 800;
+    letter-spacing: 0.34em;
+    color: rgba(255, 255, 255, 0.5);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+}
+
+.search-hero-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    margin: 0 0 32px;
+    color: #fff;
+}
+
+.search-bar-shell {
+    position: relative;
+}
+
+.search-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: #161616;
+    border: 1.5px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 8px 8px 8px 12px;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.search-bar-wrap:focus-within {
+    border-color: rgba(255, 255, 255, 0.4);
+    box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.05);
+}
+
+/* ── Live search suggestions dropdown ──
+   Positioned fixed + coordinates computed in JS (positionSuggestionsBox) so
+   it always escapes .search-hero's overflow:hidden (needed for the rounded
+   hero image) regardless of where it lives in the DOM. */
+.search-suggestions {
+    position: fixed;
+    background: #161616;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    overflow: hidden;
+    z-index: 500;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55);
+    animation: suggestionsFadeIn 0.2s ease;
+}
+
+@keyframes suggestionsFadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.suggestion-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    padding: 13px 20px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.85);
+    font-size: 0.88rem;
+    font-weight: 500;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.suggestion-row:last-child {
+    border-bottom: none;
+}
+
+.suggestion-row:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.suggestion-row svg {
+    flex-shrink: 0;
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.suggestion-text mark {
+    background: transparent;
+    color: #fff;
+    font-weight: 800;
+}
+
+.search-bar-icon {
+    color: rgba(255, 255, 255, 0.5);
+    flex-shrink: 0;
+    display: flex;
+}
+
+#mainSearchInput {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: 12px 0;
+}
+
+#mainSearchInput::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+.search-clear-x {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255, 255, 255, 0.06);
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.search-clear-x.visible {
+    display: inline-flex;
+}
+
+.search-clear-x:hover {
+    background: #fff;
+    color: #000;
+}
+
+.search-submit-btn {
+    flex-shrink: 0;
+    padding: 14px 32px;
+    border-radius: 12px;
+    border: none;
+    background: #fff;
+    color: #000;
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform 0.25s ease, background 0.25s ease;
+}
+
+.search-submit-btn:hover {
+    background: #e5dfd6;
+    transform: translateY(-2px);
+}
+
+.search-hero-media {
+    position: absolute;
+    inset: 0;
+    left: auto;
+    width: 42%;
+    background-image: linear-gradient(90deg, #0d0d0d 0%, rgba(13, 13, 13, 0) 40%), url("images/ekkvastra_hoodie.png");
+    background-size: cover;
+    background-position: center 20%;
+    opacity: 0.5;
+    z-index: 1;
+}
+
+@media (max-width: 900px) {
+    .search-hero-media {
+        display: none;
+    }
+
+    .search-hero {
+        padding: 40px 28px;
+    }
+}
+
+/* ── Discovery state blocks (Recent / Trending / Categories / Recommended) ── */
+.search-block {
+    margin-top: 56px;
+}
+
+.search-block-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.search-block-header h2 {
+    font-family: var(--font-display);
+    font-size: 0.8rem;
+    font-weight: 800;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: rgba(255, 255, 255, 0.55);
+    margin: 0;
+}
+
+.text-link-btn {
+    background: transparent;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 0.78rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.text-link-btn:hover {
+    color: #fff;
+}
+
+.chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.search-chip-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 18px;
+    border-radius: 999px;
+    background: #161616;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #fff;
+    font-size: 0.82rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: border-color 0.25s ease, background-color 0.25s ease, transform 0.25s ease;
+}
+
+.search-chip-item:hover {
+    border-color: rgba(255, 255, 255, 0.35);
+    transform: translateY(-2px);
+}
+
+.search-chip-item .chip-remove {
+    display: flex;
+    color: rgba(255, 255, 255, 0.4);
+    transition: color 0.2s ease;
+}
+
+.search-chip-item .chip-remove:hover {
+    color: #fff;
+}
+
+.no-recent-text {
+    color: var(--muted);
+    font-size: 0.85rem;
+}
+
+/* Popular categories */
+.popular-cat-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+@media (min-width: 640px) {
+    .popular-cat-row {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+.popular-cat-card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: #111111;
+    display: flex;
+    align-items: flex-end;
+    cursor: pointer;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s ease;
+}
+
+.popular-cat-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+.popular-cat-card img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.popular-cat-card:hover img {
+    transform: scale(1.08);
+}
+
+.popular-cat-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0) 40%, rgba(0, 0, 0, 0.75) 100%);
+}
+
+.popular-cat-name {
+    position: relative;
+    z-index: 2;
+    padding: 18px;
+    color: #fff;
+    font-weight: 800;
+    font-size: 0.95rem;
+    letter-spacing: 0.02em;
+}
+
+/* ── Results state ── */
+.results-header {
+    margin-top: 32px;
+    margin-bottom: 8px;
+    padding-bottom: 28px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.results-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.3rem, 2.4vw, 1.8rem);
+    font-weight: 800;
+    margin: 0 0 6px;
+    color: #fff;
+}
+
+.results-count {
+    color: var(--muted);
+    font-size: 0.85rem;
+    margin: 0 0 22px;
+}
+
+.results-chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.result-pill {
+    padding: 9px 18px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: transparent;
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    white-space: nowrap;
+}
+
+.result-pill:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+    color: #fff;
+}
+
+.result-pill.active {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+}
+
+.search-results-shell {
+    margin-top: 32px;
+}
+
+/* Empty state */
+.empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 70px 20px 20px;
+}
+
+.empty-state-illustration {
+    color: rgba(255, 255, 255, 0.15);
+    margin-bottom: 24px;
+}
+
+.empty-state h3 {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #fff;
+    margin: 0 0 8px;
+}
+
+.empty-state p {
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 0 0 36px;
+}
+
+.empty-state-trending {
+    max-width: 560px;
+    margin: 0 auto;
+}
+
+.empty-state-trending .search-block-header {
+    justify-content: center;
+}
+
+.empty-state-trending .chip-row {
+    justify-content: center;
+}
+
+/* Contact helper card (reused pattern) */
+.search-contact-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 24px;
+    background: rgba(255, 255, 255, 0.02);
+    flex-wrap: wrap;
+    margin-top: 56px;
+}
+
+.search-icon-box {
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    display: grid;
+    place-items: center;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.search-contact-text {
+    flex: 1;
+    min-width: 200px;
+}
+
+.search-contact-text h4 {
+    font-size: 0.85rem;
+    font-weight: 800;
+    margin: 0 0 6px;
+    letter-spacing: 0.05em;
+    color: #fff;
+}
+
+.search-contact-text p {
+    font-size: 0.78rem;
+    color: rgba(255, 255, 255, 0.58);
+    margin: 0;
+}
+
+.search-contact-btn {
+    padding: 12px 24px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    transition: all 0.25s ease;
+}
+
+.search-contact-btn:hover {
+    background: #fff;
+    color: #000;
+    border-color: #fff;
+}
+
+/* ── Fade-in animation (300ms per spec on interactive elements; sections use a slightly longer reveal to match the rest of the site) ── */
+.search-page-wrapper .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.search-page-wrapper .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── Mobile Sort trigger (mirrors .mobile-filter-trigger, hidden until <=767px) ── */
+.mobile-sort-trigger {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border: 1.5px solid rgba(255, 255, 255, 0.15);
+    border-radius: 8px;
+    background: #121212;
+    font-size: 0.8rem;
+    font-weight: 700;
+    cursor: pointer;
+    color: #fff;
+}
+
+.mobile-sort-trigger:hover {
+    border-color: #fff;
+}
+
+/* ── Bottom sheet shared base (Filter + Sort) ── */
+.sheet-handle {
+    display: none;
+}
+
+.sort-sheet {
+    display: none;
+}
+
+.sort-options-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.sort-option-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 16px 4px;
+    background: transparent;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.92rem;
+    font-weight: 600;
+    text-align: left;
+    cursor: pointer;
+    transition: color 0.2s ease;
+}
+
+.sort-option-row:last-child {
+    border-bottom: none;
+}
+
+.sort-option-row::after {
+    content: "";
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(255, 255, 255, 0.25);
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+}
+
+.sort-option-row.active {
+    color: #fff;
+}
+
+.sort-option-row.active::after {
+    border-color: #fff;
+    background: #fff;
+    box-shadow: inset 0 0 0 4px #121212;
+}
+
+.apply-filters-btn {
+    display: none;
+}
+
+/* ── Responsive ── */
+@media (max-width: 767px) {
+    .search-page-wrapper {
+        padding-top: 40px;
+    }
+
+    .search-hero {
+        padding: 32px 20px;
+        border-radius: 16px;
+    }
+
+    .search-bar-wrap {
+        flex-wrap: wrap;
+        padding: 8px 8px 8px 8px;
+    }
+
+    .search-submit-btn {
+        width: 100%;
+        order: 3;
+        margin-top: 4px;
+    }
+
+    .search-block {
+        margin-top: 40px;
+    }
+
+    /* Popular Categories -> horizontal snap-scroll rail */
+    .popular-cat-row {
+        display: flex;
+        grid-template-columns: unset;
+        overflow-x: auto;
+        overflow-y: hidden;
+        gap: 12px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 4px;
+        margin: 0 -16px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    .popular-cat-row::-webkit-scrollbar {
+        display: none;
+    }
+
+    .popular-cat-card {
+        flex: 0 0 42%;
+        max-width: 168px;
+        scroll-snap-align: start;
+        aspect-ratio: 3 / 4;
+    }
+
+    /* Recommended Products -> horizontal snap-scroll rail */
+    #recommendedGrid {
+        display: flex !important;
+        grid-template-columns: unset;
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-wrap: nowrap !important;
+        gap: 14px;
+        scroll-snap-type: x mandatory;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        padding-bottom: 4px;
+        margin: 0 -16px;
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+
+    #recommendedGrid::-webkit-scrollbar {
+        display: none;
+    }
+
+    #recommendedGrid > * {
+        flex: 0 0 62%;
+        max-width: 240px;
+        width: auto;
+        scroll-snap-align: start;
+    }
+
+    /* Results toolbar: pill buttons instead of native select */
+    .mobile-sort-trigger {
+        display: inline-flex;
+    }
+
+    .sort-select {
+        display: none;
+    }
+
+    .toolbar {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+
+    .toolbar-right {
+        width: 100%;
+    }
+
+    .mobile-filter-trigger,
+    .mobile-sort-trigger {
+        flex: 1;
+        justify-content: center;
+    }
+
+    /* Filter sidebar -> bottom sheet */
+    .filter-sidebar {
+        left: 0 !important;
+        right: 0;
+        top: auto !important;
+        bottom: 0;
+        width: 100%;
+        height: auto;
+        max-height: 82vh;
+        border-radius: 24px 24px 0 0;
+        transform: translateY(100%);
+        padding: 12px 20px 20px;
+    }
+
+    .filter-sidebar.open {
+        transform: translateY(0) !important;
+    }
+
+    .filter-sheet-scroll {
+        overflow-y: auto;
+        flex: 1;
+    }
+
+    .sheet-handle {
+        display: block;
+        width: 40px;
+        height: 4px;
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.2);
+        margin: 4px auto 16px;
+        flex-shrink: 0;
+    }
+
+    .filter-sheet-actions {
+        display: flex;
+        gap: 12px;
+        padding-top: 16px;
+        margin-top: 4px;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        flex-shrink: 0;
+    }
+
+    .reset-filters-btn {
+        margin-top: 0;
+        flex: 1;
+        min-height: 50px;
+    }
+
+    .apply-filters-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 1;
+        min-height: 50px;
+        border-radius: 6px;
+        border: none;
+        background: #fff;
+        color: #000;
+        font-weight: 700;
+        font-size: 0.8rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        cursor: pointer;
+        transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    .apply-filters-btn:hover {
+        background: #e5dfd6;
+    }
+
+    /* Sort -> bottom sheet (same mechanics as the filter sheet) */
+    .sort-sheet {
+        display: flex;
+        flex-direction: column;
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 200;
+        background: #121212;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 24px 24px 0 0;
+        box-shadow: 10px 0 40px rgba(0, 0, 0, 0.4);
+        padding: 12px 20px 28px;
+        max-height: 70vh;
+        overflow-y: auto;
+        transform: translateY(100%);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.4s;
+        visibility: hidden;
+    }
+
+    .sort-sheet.open {
+        transform: translateY(0);
+        visibility: visible;
+    }
+
+    #sortSheetBackdrop {
+        z-index: 199;
+    }
+}

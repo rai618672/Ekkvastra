@@ -248,13 +248,17 @@
             width: 16px;
             height: 16px;
             border-radius: 50%;
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             line-height: 1;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
             border: 1.5px solid #000;
             z-index: 10;
+        }
+
+        .cart-badge.visible {
+            display: flex;
         }
 
         .nav-wishlist-btn {
@@ -268,7 +272,7 @@
             position: absolute;
             top: -3px;
             right: -3px;
-            background: #e53935;
+            background: #ff5e00;
             color: #fff;
             font-size: 0.58rem;
             font-weight: 800;
@@ -418,6 +422,7 @@
         }
 
         .profile-avatar {
+            position: relative;
             width: 52px;
             height: 52px;
             border-radius: 50%;
@@ -430,6 +435,32 @@
             width: 100%;
             height: 100%;
             object-fit: cover;
+        }
+
+        .sidebar-avatar-wrap {
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .profile-avatar-edit-btn {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent);
+            border: 2px solid var(--panel);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            padding: 0;
+        }
+
+        .profile-avatar-edit-btn:hover {
+            filter: brightness(1.1);
         }
 
         .profile-meta {
@@ -750,6 +781,17 @@
             align-items: center;
             justify-content: center;
             margin-bottom: 2px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 1.5px solid rgba(255, 94, 0, 0.3);
+        }
+
+        .stat-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .stat-meta {
@@ -1263,9 +1305,11 @@
             position: fixed;
             top: 24px;
             right: 24px;
+            left: 24px;
             z-index: 1000;
             display: flex;
             flex-direction: column;
+            align-items: flex-end;
             gap: 12px;
         }
 
@@ -1280,6 +1324,8 @@
             display: flex;
             align-items: center;
             gap: 10px;
+            max-width: 100%;
+            box-sizing: border-box;
             box-shadow: 0 10px 30px rgba(0,0,0,0.6);
             transform: translateY(-20px);
             opacity: 0;
@@ -1542,6 +1588,736 @@
                 display: none;
             }
         }
+
+        /* ── PROFILE DESIGN OVERRIDES (MATCHING THE SCREENSHOT) ── */
+        .profile-subtext {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            padding-left: 2px;
+            margin-top: 12px;
+        }
+        .gold-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--accent);
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.1em;
+            text-shadow: 0 0 10px rgba(255, 94, 0, 0.25);
+        }
+        .member-since {
+            font-size: 0.72rem;
+            color: var(--muted);
+            font-weight: 500;
+        }
+        
+        .nav-item.active {
+            color: #fff;
+            background-color: rgba(255, 94, 0, 0.12) !important;
+            border-left: 2px solid var(--accent);
+        }
+        
+        .welcome-banner {
+            position: relative;
+            overflow: hidden;
+            background-color: #0b0b0b;
+            background-image:
+                linear-gradient(rgba(8,8,8,0.8), rgba(8,8,8,0.8)),
+                url('images/member_promo.png');
+            background-size: cover, cover;
+            background-position: center, center 15%;
+            background-repeat: no-repeat, no-repeat;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.4);
+            flex-shrink: 0;
+        }
+        .welcome-monogram {
+            position: absolute;
+            right: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 8rem;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.02);
+            letter-spacing: -0.05em;
+            pointer-events: none;
+            user-select: none;
+            line-height: 1;
+        }
+        
+        /* Stats Styling */
+        .welcome-stats {
+            margin-top: 8px;
+        }
+        .stat-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-radius: var(--radius-md);
+            padding: 16px;
+            transition: all 0.25s ease;
+        }
+        .stat-box:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+        }
+        .stat-meta span.num {
+            font-size: 2rem;
+        }
+
+        /* Crown Icon Color in sidebar invite */
+        .referral-card {
+            background: #09090b;
+            border: 1px solid rgba(255,255,255,0.06);
+        }
+        .referral-header svg {
+            color: var(--accent);
+        }
+
+        .dashboard-grid-layout {
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            gap: 24px;
+            width: 100%;
+            flex-shrink: 0;
+        }
+
+        .split-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 20px;
+            width: 100%;
+        }
+
+        @media (min-width: 1024px) {
+            .split-row {
+                grid-template-columns: 1.1fr 0.9fr;
+            }
+        }
+
+        /* Exclusive perks banner redesign */
+        .promo-banner {
+            grid-column: 1 / -1; /* Make it full width of container */
+            background: linear-gradient(135deg, #0d0d0d 0%, #151515 50%, #150a03 100%);
+            border: 1px solid rgba(255, 94, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 24px 32px;
+            gap: 24px;
+            border-radius: var(--radius-lg);
+            margin-top: 12px;
+        }
+        .promo-banner-content {
+            flex: 1;
+            padding: 0;
+            gap: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .promo-banner-eyebrow {
+            color: var(--accent);
+            letter-spacing: 0.15em;
+            font-weight: 700;
+            font-size: 0.72rem;
+        }
+        .promo-banner-title {
+            font-size: 1.6rem;
+            margin: 0;
+        }
+        .promo-banner-desc {
+            font-size: 0.8rem;
+            color: rgba(255, 255, 255, 0.7);
+            max-width: 600px;
+            margin: 0;
+        }
+        .btn-promo {
+            background: var(--accent);
+            color: #000;
+            border: none;
+            border-radius: var(--radius-sm);
+            padding: 10px 18px;
+            font-weight: 800;
+            font-size: 0.74rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: transform 0.2s, background-color 0.2s;
+            margin-top: 4px;
+        }
+        .btn-promo:hover {
+            background-color: #ff7a33;
+            transform: translateY(-1px);
+        }
+        .promo-image-side {
+            width: 140px;
+            height: 140px;
+            min-height: auto;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            flex-shrink: 0;
+            display: block;
+            order: 2; /* Move image to right side */
+        }
+        .promo-image-side img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            position: static;
+        }
+
+        @media (max-width: 767px) {
+            .promo-banner {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 24px;
+                text-align: center;
+            }
+            .promo-banner-content {
+                align-items: center;
+            }
+            .promo-image-side {
+                align-self: center;
+                order: -1; /* image on top on mobile */
+            }
+        }
+
+        /* ══════════════════════════════════════════════
+           MOBILE ACCOUNT SCREENS — app-style navigation
+           that replaces the sidebar-drawer dashboard on
+           phones only. Desktop/tablet keep the existing
+           .dashboard-container layout untouched.
+           ══════════════════════════════════════════════ */
+        .m-account { display: none; }
+
+        @media (max-width: 767px) {
+            .dashboard-mobile-bar,
+            .dashboard-container {
+                display: none !important;
+            }
+        }
+
+        /* ── Desktop reuse: clicking a sidebar item opens the same
+           panels used on mobile, as a full-page takeover (sidebar +
+           dashboard hidden, panel shown, "back" closes it). So the
+           panel components need to work at every width, not just
+           ≤767px — only the mobile-vs-desktop LAYOUT SWITCH above
+           stays width-gated. ── */
+        .m-account {
+            display: none;
+            padding: 20px 16px 60px;
+        }
+
+        @media (max-width: 767px) {
+            .m-account {
+                display: block;
+            }
+        }
+
+        body.desktop-panel-open .m-account {
+            display: block;
+        }
+
+        /* Desktop panel view: keep the sidebar visible (unlike the old
+           behaviour which hid the whole dashboard and floated a narrow
+           640px mobile-style column in the middle of the page). The panel
+           now takes over just the main-content region, sized and scrolled
+           the same way .main-content itself is -- --account-header-h is
+           kept in sync with the real header height by JS (handles the
+           announcement bar wrapping to 2 lines on narrower desktop widths). */
+        @media (min-width: 768px) {
+            body.desktop-panel-open .main-content {
+                display: none;
+            }
+            body.desktop-panel-open .m-account {
+                position: fixed;
+                left: 280px;
+                right: 0;
+                top: var(--account-header-h, 120px);
+                bottom: 0;
+                max-width: none;
+                margin: 0;
+                padding: 32px 40px 60px;
+                overflow-y: auto;
+                z-index: 5;
+            }
+        }
+
+        @media (min-width: 768px) and (max-width: 1200px) {
+            body.desktop-panel-open .m-account {
+                padding: 24px 28px 48px;
+            }
+        }
+
+        /* Form-heavy screens (password fields, profile fields) look odd
+           stretched edge-to-edge at full desktop width -- cap just their
+           form content, while list/card screens (Orders, Addresses,
+           Notifications, Payments) keep using the full available width. */
+        @media (min-width: 768px) {
+            body.desktop-panel-open #screenAccountSettings > form,
+            body.desktop-panel-open #screenAccountSettings > .m-group-label,
+            body.desktop-panel-open #screenAccountSettings > .m-toggle-row,
+            body.desktop-panel-open #screenAccountSettings > .m-menu-list,
+            body.desktop-panel-open #screenEditProfile > form {
+                max-width: 480px;
+            }
+        }
+
+        .m-screen { display: none; }
+        .m-screen.active { display: block; }
+
+        .m-topbar {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+                margin-bottom: 24px;
+                min-height: 38px;
+            }
+
+            .m-topbar h1 {
+                flex: 1;
+                font-family: var(--font-display);
+                font-size: 1rem;
+                font-weight: 700;
+                text-align: center;
+            }
+
+            .m-back-btn, .m-icon-btn {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                border: 1px solid var(--border);
+                background: var(--panel);
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                flex-shrink: 0;
+                position: relative;
+                padding: 0;
+            }
+
+            .m-icon-badge {
+                position: absolute;
+                top: -4px;
+                right: -4px;
+                background: var(--accent);
+                color: #fff;
+                font-size: 0.6rem;
+                font-weight: 800;
+                width: 16px;
+                height: 16px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 1.5px solid #000;
+            }
+
+            /* Profile card (root screen) */
+            .m-profile-card {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                background: var(--panel);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg);
+                padding: 16px;
+                margin-bottom: 20px;
+                cursor: pointer;
+                transition: border-color 0.2s;
+            }
+
+            .m-profile-card:active { border-color: rgba(255, 255, 255, 0.15); }
+            .m-profile-card .profile-avatar { width: 56px; height: 56px; flex-shrink: 0; }
+            .m-profile-card .profile-meta { flex: 1; min-width: 0; gap: 4px; }
+            .m-profile-card .profile-name { font-size: 1rem; }
+            .m-profile-card .m-chevron { color: var(--muted); flex-shrink: 0; }
+
+            /* Stats row */
+            .m-stats-row {
+                display: grid;
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
+                margin-bottom: 28px;
+            }
+
+            .m-stat-tile {
+                background: var(--panel);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-md);
+                padding: 12px 6px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 4px;
+                text-align: center;
+                cursor: pointer;
+            }
+
+            .m-stat-tile svg { color: var(--accent); }
+            .m-stat-tile .m-stat-num { font-size: 1.05rem; font-weight: 800; color: #fff; font-family: var(--font-display); }
+            .m-stat-tile .m-stat-lbl { font-size: 0.58rem; color: var(--muted); font-weight: 600; line-height: 1.2; }
+
+            .m-section { margin-bottom: 28px; }
+
+            /* Recently viewed rail */
+            .m-recent-rail {
+                display: flex;
+                gap: 12px;
+                overflow-x: auto;
+                scrollbar-width: none;
+                padding-bottom: 2px;
+            }
+
+            .m-recent-rail::-webkit-scrollbar { display: none; }
+            .m-recent-rail .recent-slider-item { flex: 0 0 120px; }
+
+            /* Menu list (My Account screen) */
+            .m-group-label {
+                font-size: 0.68rem;
+                font-weight: 800;
+                letter-spacing: 0.1em;
+                text-transform: uppercase;
+                color: var(--muted);
+                margin: 24px 0 10px;
+            }
+
+            .m-group-label:first-child { margin-top: 0; }
+
+            .m-menu-list {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .m-menu-item {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                background: var(--panel);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-md);
+                padding: 14px;
+                cursor: pointer;
+                text-decoration: none;
+                color: inherit;
+                transition: border-color 0.2s;
+            }
+
+            .m-menu-item:active { border-color: rgba(255, 255, 255, 0.15); }
+            .m-menu-item .row-icon-box { width: 40px; height: 40px; }
+            .m-menu-item .m-menu-meta { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+            .m-menu-item .m-menu-title { font-size: 0.85rem; font-weight: 700; color: #fff; }
+            .m-menu-item .m-menu-sub { font-size: 0.7rem; color: var(--muted); }
+            .m-menu-item .m-chevron { color: var(--muted); flex-shrink: 0; }
+            .m-menu-item.danger { border-color: rgba(239, 68, 68, 0.15); margin-top: 8px; }
+            .m-menu-item.danger .m-menu-title { color: #ef4444; }
+            .m-menu-item.danger .row-icon-box { color: #ef4444; background: rgba(239, 68, 68, 0.08); border-color: rgba(239, 68, 68, 0.15); }
+
+            /* Edit profile screen */
+            .m-avatar-edit-wrap { display: flex; justify-content: center; margin-bottom: 28px; }
+            .m-avatar-edit { position: relative; width: 96px; height: 96px; }
+            .m-avatar-edit img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid rgba(255, 255, 255, 0.12); }
+
+            .m-avatar-cam-btn {
+                position: absolute;
+                bottom: -2px;
+                right: -2px;
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                background: var(--accent);
+                border: 2px solid #000;
+                color: #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+            }
+
+            /* Address cards */
+            .m-address-card {
+                background: var(--panel);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-lg);
+                padding: 16px;
+                margin-bottom: 12px;
+                position: relative;
+            }
+
+            .m-address-tag {
+                display: inline-block;
+                font-size: 0.62rem;
+                font-weight: 800;
+                letter-spacing: 0.06em;
+                text-transform: uppercase;
+                color: var(--muted);
+                border: 1px solid var(--border);
+                border-radius: 4px;
+                padding: 3px 8px;
+                margin-bottom: 10px;
+            }
+
+            .m-address-radio {
+                position: absolute;
+                top: 16px;
+                right: 16px;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                border: 1.5px solid var(--border);
+            }
+
+            .m-address-radio.checked {
+                border-color: var(--accent);
+                background: radial-gradient(circle, var(--accent) 0 40%, transparent 44%);
+            }
+
+            .m-address-name { font-size: 0.88rem; font-weight: 700; color: #fff; margin-bottom: 2px; }
+            .m-address-line { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+            .m-address-actions { display: flex; gap: 10px; margin-top: 14px; }
+
+            .m-btn-outline {
+                flex: 1;
+                text-align: center;
+                padding: 9px;
+                border-radius: var(--radius-sm);
+                border: 1px solid var(--border);
+                background: transparent;
+                color: #fff;
+                font-size: 0.76rem;
+                font-weight: 700;
+                cursor: pointer;
+            }
+
+            .m-btn-outline.danger { color: #ef4444; border-color: rgba(239, 68, 68, 0.2); }
+
+            .m-add-link {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 0.78rem;
+                font-weight: 700;
+                color: var(--accent);
+                cursor: pointer;
+                background: none;
+                border: none;
+                flex-shrink: 0;
+            }
+
+            /* Address type pills + toggle */
+            .m-type-row { display: flex; gap: 10px; margin: 4px 0 20px; }
+
+            .m-type-pill {
+                flex: 1;
+                text-align: center;
+                padding: 10px;
+                border-radius: var(--radius-sm);
+                border: 1px solid var(--border);
+                color: var(--muted);
+                font-size: 0.78rem;
+                font-weight: 700;
+                cursor: pointer;
+                background: transparent;
+            }
+
+            .m-type-pill.active { border-color: var(--accent); color: var(--accent); background: rgba(255, 94, 0, 0.08); }
+
+            .m-toggle-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 24px;
+            }
+
+            .m-toggle-row span { font-size: 0.82rem; font-weight: 600; color: #fff; }
+
+            .m-switch { position: relative; width: 44px; height: 26px; flex-shrink: 0; display: inline-block; }
+            .m-switch input { opacity: 0; width: 100%; height: 100%; margin: 0; position: absolute; cursor: pointer; z-index: 1; }
+
+            .m-switch-track {
+                position: absolute;
+                inset: 0;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 999px;
+                transition: background-color 0.2s;
+                pointer-events: none;
+            }
+
+            .m-switch-track::after {
+                content: "";
+                position: absolute;
+                top: 3px;
+                left: 3px;
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                background: #fff;
+                transition: transform 0.2s;
+            }
+
+            .m-switch input:checked ~ .m-switch-track { background: var(--accent); }
+            .m-switch input:checked ~ .m-switch-track::after { transform: translateX(18px); }
+
+            /* Payments */
+            .m-pay-row {
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                background: var(--panel);
+                border: 1px solid var(--border);
+                border-radius: var(--radius-md);
+                padding: 14px;
+                margin-bottom: 10px;
+            }
+
+            .m-pay-logo {
+                width: 44px;
+                height: 30px;
+                border-radius: 6px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 0.58rem;
+                font-weight: 900;
+                letter-spacing: 0.02em;
+                color: #fff;
+                flex-shrink: 0;
+            }
+
+            .m-pay-meta { flex: 1; min-width: 0; }
+            .m-pay-name { font-size: 0.82rem; font-weight: 700; color: #fff; }
+            .m-pay-sub { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+            .m-pay-menu-btn { background: none; border: none; color: var(--muted); cursor: pointer; padding: 6px; flex-shrink: 0; }
+
+            .m-secure-note {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                justify-content: center;
+                margin-top: 20px;
+                padding: 14px;
+                border: 1px dashed var(--border);
+                border-radius: var(--radius-md);
+                color: var(--muted);
+                font-size: 0.72rem;
+                font-weight: 600;
+            }
+
+            /* Order status stepper (Order Detail screen) */
+            .m-stepper {
+                display: flex;
+                flex-direction: column;
+                margin: 4px 0 24px;
+            }
+
+            .m-step {
+                display: flex;
+                gap: 14px;
+                position: relative;
+                padding-bottom: 26px;
+            }
+
+            .m-step:last-child { padding-bottom: 0; }
+
+            .m-step::after {
+                content: "";
+                position: absolute;
+                left: 10px;
+                top: 22px;
+                bottom: 0;
+                width: 2px;
+                background: var(--border);
+            }
+
+            .m-step:last-child::after { display: none; }
+            .m-step.done::after { background: var(--accent); }
+
+            .m-step-dot {
+                width: 22px;
+                height: 22px;
+                border-radius: 50%;
+                border: 2px solid var(--border);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                background: var(--panel);
+                color: transparent;
+                z-index: 1;
+            }
+
+            .m-step.done .m-step-dot {
+                border-color: var(--accent);
+                background: var(--accent);
+                color: #fff;
+            }
+
+            .m-step-label { font-size: 0.85rem; font-weight: 700; color: #fff; }
+            .m-step-sub { font-size: 0.7rem; color: var(--muted); margin-top: 2px; }
+            .m-step:not(.done) .m-step-label { color: var(--muted); }
+
+            /* Price summary rows (Order Detail) */
+            .m-price-row { display: flex; justify-content: space-between; font-size: 0.82rem; color: var(--muted); padding: 6px 0; }
+            .m-price-row.total { color: #fff; font-weight: 800; border-top: 1px solid var(--border); margin-top: 8px; padding-top: 14px; font-size: 0.92rem; }
+
+            /* Rewards progress */
+            .m-progress-track {
+                height: 8px;
+                border-radius: 999px;
+                background: rgba(255, 255, 255, 0.08);
+                overflow: hidden;
+                margin: 14px 0;
+            }
+
+            .m-progress-fill {
+                height: 100%;
+                background: linear-gradient(90deg, #ffb37a, var(--accent));
+                border-radius: 999px;
+            }
+
+            .m-perk-row {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 12px 0;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .m-perk-row:last-child { border-bottom: none; }
+            .m-perk-row .row-icon-box { width: 38px; height: 38px; flex-shrink: 0; color: var(--accent); }
+            .m-perk-title { font-size: 0.82rem; font-weight: 700; color: #fff; }
+            .m-perk-sub { font-size: 0.7rem; color: var(--muted); margin-top: 1px; }
+
+            .m-rewards-hero {
+                background: linear-gradient(135deg, #1a0e05 0%, #0d0d0d 100%);
+                border: 1px solid rgba(255, 94, 0, 0.2);
+                border-radius: var(--radius-lg);
+                padding: 20px;
+                text-align: center;
+                margin-bottom: 24px;
+            }
+
+            .m-rewards-points { font-family: var(--font-display); font-size: 2.2rem; font-weight: 800; color: var(--accent); }
+            .m-rewards-tier { font-size: 0.72rem; color: var(--muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+
+            /* Notification rows */
+            .m-notif-row { position: relative; }
+        .m-notif-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--accent);
+            flex-shrink: 0;
+            align-self: center;
+        }
     </style>
 </head>
 <body>
@@ -1586,14 +2362,14 @@
                 </a>
                 <a href="cart.html" class="icon-btn" aria-label="Shopping Bag">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
                     </svg>
                     <span class="cart-badge">0</span>
                 </a>
                 <a href="account.html" class="nav-avatar-btn" aria-label="My Account">
-                    <img src="images/avatar_akash.png" alt="Account" class="nav-avatar-img" />
+                    <img src="images/avatar_anshika.png" alt="Account" class="nav-avatar-img" />
                     <span class="nav-avatar-chevron">
                         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="6 9 12 15 18 9"></polyline>
@@ -1624,6 +2400,521 @@
         <span>Dashboard</span>
     </div>
 
+    <!-- ══════════════════════════════════════════════
+         MOBILE ACCOUNT SCREENS — app-style navigation,
+         active only ≤767px (see CSS). Desktop keeps the
+         .dashboard-container sidebar layout below.
+         ══════════════════════════════════════════════ -->
+    <div class="m-account" id="mAccount">
+
+        <!-- SCREEN 1: Main -->
+        <div class="m-screen active" id="screenMain">
+            <div class="m-profile-card" onclick="mGoTo('screenMenu')">
+                <div class="profile-avatar">
+                    <img src="images/avatar_anshika.png" alt="" id="mProfileAvatar" />
+                </div>
+                <div class="profile-meta">
+                    <span class="profile-name" id="mProfileName">anshika 👋</span>
+                    <span class="profile-email" id="mProfileEmail">nobink.official@gmail.com</span>
+                    <div class="profile-subtext" style="margin-top: 6px;">
+                        <div class="gold-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6 6 .8-4.5 4.3 1 6.1-5.5-3-5.5 3 1-6.1L2 8.8l6-.8 3-6z"/></svg>
+                            <span>GOLD MEMBER</span>
+                        </div>
+                    </div>
+                </div>
+                <svg class="m-chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+            </div>
+
+            <div class="m-stats-row">
+                <div class="m-stat-tile" onclick="mGoTo('screenOrders')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    <span class="m-stat-num" id="mStatOrders">14</span>
+                    <span class="m-stat-lbl">Orders</span>
+                </div>
+                <div class="m-stat-tile" onclick="window.location.href='wishlist.html'">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                    <span class="m-stat-num" id="mStatWishlist">2</span>
+                    <span class="m-stat-lbl">Wishlist</span>
+                </div>
+                <div class="m-stat-tile" onclick="mGoTo('screenRewards')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"></path><path d="M5 20h14"></path></svg>
+                    <span class="m-stat-num">560</span>
+                    <span class="m-stat-lbl">Rewards</span>
+                </div>
+                <div class="m-stat-tile" onclick="mGoTo('screenAddresses')">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    <span class="m-stat-num" id="mStatAddresses">2</span>
+                    <span class="m-stat-lbl">Addresses</span>
+                </div>
+            </div>
+
+            <div class="m-section">
+                <div class="section-header">
+                    <h2>My Orders</h2>
+                    <a href="#" class="section-header-link" onclick="event.preventDefault(); mGoTo('screenOrders')">View All &rarr;</a>
+                </div>
+                <div class="order-list" id="mOrderPreviewList"></div>
+            </div>
+
+            <div class="m-section" style="margin-bottom: 0;">
+                <div class="section-header">
+                    <h2>Recently Viewed</h2>
+                    <a href="#" class="section-header-link" onclick="event.preventDefault(); mGoTo('screenRecentlyViewed')">View All &rarr;</a>
+                </div>
+                <div class="m-recent-rail" id="mRecentRail"></div>
+            </div>
+
+            <!-- Member Promo Card / Gold Perks -->
+            <div class="promo-banner" style="margin-top: 20px;">
+                <div class="promo-image-side">
+                    <img src="images/gold_gift_box.png" alt="Promo Gold Gift Box">
+                </div>
+                <div class="promo-banner-content">
+                    <span class="promo-banner-eyebrow">Exclusive perks. Just for you.</span>
+                    <h3 class="promo-banner-title">As a Gold Member</h3>
+                    <p class="promo-banner-desc">Enjoy free shipping, early access to drops and special member-only offers.</p>
+                    <button class="btn-promo" onclick="mGoTo('screenRewards')">
+                        <span>View Benefits &rarr;</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 2: My Account menu -->
+        <div class="m-screen" id="screenMenu">
+            <div class="m-topbar">
+                <button class="m-back-btn" onclick="mGoBack()" aria-label="Back">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                </button>
+                <h1>My Account</h1>
+                <button class="m-icon-btn" onclick="mGoTo('screenNotifications')" aria-label="Notifications">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                    <span class="m-icon-badge" id="mNotifBadgeTop">3</span>
+                </button>
+            </div>
+
+            <div class="m-group-label">Manage Account</div>
+            <div class="m-menu-list">
+                <div class="m-menu-item" onclick="mGoTo('screenEditProfile')">
+                    <div class="row-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></div>
+                    <div class="m-menu-meta"><span class="m-menu-title">Edit Profile</span><span class="m-menu-sub">Personal information</span></div>
+                    <svg class="m-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+                <div class="m-menu-item" onclick="mGoTo('screenAddresses')">
+                    <div class="row-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg></div>
+                    <div class="m-menu-meta"><span class="m-menu-title">Addresses</span><span class="m-menu-sub">Add or manage addresses</span></div>
+                    <svg class="m-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+                <div class="m-menu-item" onclick="mGoTo('screenPayments')">
+                    <div class="row-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect><line x1="1" y1="10" x2="23" y2="10"></line></svg></div>
+                    <div class="m-menu-meta"><span class="m-menu-title">Payment Methods</span><span class="m-menu-sub">Cards, UPI & Wallets</span></div>
+                    <svg class="m-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+            </div>
+
+            <div class="m-group-label">Preferences</div>
+            <div class="m-menu-list">
+                <div class="m-menu-item" onclick="mGoTo('screenNotifications')">
+                    <div class="row-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></div>
+                    <div class="m-menu-meta"><span class="m-menu-title">Notifications</span><span class="m-menu-sub">Manage your alerts</span></div>
+                    <span class="m-icon-badge" id="mNotifBadgeMenu" style="position: static;">3</span>
+                </div>
+                <div class="m-menu-item" onclick="mGoTo('screenAccountSettings')">
+                    <div class="row-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg></div>
+                    <div class="m-menu-meta"><span class="m-menu-title">Account Settings</span><span class="m-menu-sub">Password, security & more</span></div>
+                    <svg class="m-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </div>
+                <a href="CONTACT.html" class="m-menu-item">
+                    <div class="row-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 2-3 4"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></div>
+                    <div class="m-menu-meta"><span class="m-menu-title">Help & Support</span><span class="m-menu-sub">FAQs, contact us</span></div>
+                    <svg class="m-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                </a>
+            </div>
+
+            <div class="m-menu-list" style="margin-top: 20px;">
+                <div class="m-menu-item danger" onclick="processLogout()">
+                    <div class="row-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path><polyline points="16 17 21 12 16 7"></polyline><line x1="21" y1="12" x2="9" y2="12"></line></svg></div>
+                    <div class="m-menu-meta"><span class="m-menu-title">Logout</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 3: Edit Profile -->
+        <div class="m-screen" id="screenEditProfile">
+            <div class="m-topbar">
+                <button class="m-back-btn" onclick="mGoBack()" aria-label="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                <h1>Edit Profile</h1>
+                <div style="width: 38px;"></div>
+            </div>
+
+            <div class="m-avatar-edit-wrap">
+                <div class="m-avatar-edit">
+                    <img src="images/avatar_anshika.png" alt="" id="mEditAvatarPreview" />
+                    <button type="button" class="m-avatar-cam-btn" onclick="document.getElementById('mAvatarFileInput').click()" aria-label="Change photo">
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+                    </button>
+                    <input type="file" id="mAvatarFileInput" accept="image/*" style="display: none;" onchange="mHandleAvatarChange(event)" />
+                </div>
+            </div>
+
+            <form onsubmit="mSaveProfile(event)" class="m-form-scroll">
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="mProfName">Full Name</label>
+                    <input type="text" id="mProfName" class="form-input" required />
+                </div>
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="mProfEmail">Email</label>
+                    <input type="email" id="mProfEmail" class="form-input" disabled style="opacity: 0.5;" />
+                </div>
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="mProfPhone">Phone Number</label>
+                    <input type="text" id="mProfPhone" class="form-input" required />
+                </div>
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="mProfDob">Date of Birth</label>
+                    <input type="date" id="mProfDob" class="form-input" />
+                </div>
+                <div class="form-group" style="margin-bottom: 24px;">
+                    <label for="mProfGender">Gender</label>
+                    <select id="mProfGender" class="form-input">
+                        <option>Prefer not to say</option>
+                        <option>Male</option>
+                        <option>Female</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn-modal-primary" style="width: 100%; padding: 14px; font-size: 0.82rem;">Save Changes</button>
+            </form>
+        </div>
+
+        <!-- SCREEN 4: My Addresses -->
+        <div class="m-screen" id="screenAddresses">
+            <div class="m-topbar">
+                <button class="m-back-btn" onclick="mGoBack()" aria-label="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                <h1>My Addresses</h1>
+                <button type="button" class="m-add-link" onclick="mOpenAddAddress()">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Add New
+                </button>
+            </div>
+            <div id="mAddressList"></div>
+        </div>
+
+        <!-- SCREEN 5: Add New Address -->
+        <div class="m-screen" id="screenAddAddress">
+            <div class="m-topbar">
+                <button class="m-back-btn" onclick="mGoBack()" aria-label="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                <h1 id="mAddAddressTitle">Add New Address</h1>
+                <div style="width: 38px;"></div>
+            </div>
+
+            <form onsubmit="mSaveAddress(event)" class="m-form-scroll">
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="mAddrName">Full Name</label>
+                    <input type="text" id="mAddrName" class="form-input" required />
+                </div>
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="mAddrPhone">Phone Number</label>
+                    <input type="text" id="mAddrPhone" class="form-input" required />
+                </div>
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="mAddrPin">Pincode</label>
+                    <input type="text" id="mAddrPin" class="form-input" required />
+                </div>
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="mAddrArea">Locality / Area</label>
+                    <input type="text" id="mAddrArea" class="form-input" required />
+                </div>
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="mAddrLine">Address (House No., Building, Street)</label>
+                    <input type="text" id="mAddrLine" class="form-input" required />
+                </div>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="mAddrLandmark">Landmark (Optional)</label>
+                    <input type="text" id="mAddrLandmark" class="form-input" />
+                </div>
+
+                <label style="display: block; font-size: 0.78rem; font-weight: 700; color: #fff; margin-bottom: 10px;">Address Type</label>
+                <div class="m-type-row" id="mTypeRow">
+                    <button type="button" class="m-type-pill active" data-type="Home" onclick="mSelectType(this)">Home</button>
+                    <button type="button" class="m-type-pill" data-type="Work" onclick="mSelectType(this)">Work</button>
+                    <button type="button" class="m-type-pill" data-type="Other" onclick="mSelectType(this)">Other</button>
+                </div>
+
+                <div class="m-toggle-row">
+                    <span>Set as Default Address</span>
+                    <label class="m-switch">
+                        <input type="checkbox" id="mAddrDefault" />
+                        <span class="m-switch-track"></span>
+                    </label>
+                </div>
+
+                <button type="submit" class="btn-modal-primary" style="width: 100%; padding: 14px; font-size: 0.82rem;">Save Address</button>
+            </form>
+        </div>
+
+        <!-- SCREEN 6: Payment Methods -->
+        <div class="m-screen" id="screenPayments">
+            <div class="m-topbar">
+                <button class="m-back-btn" onclick="mGoBack()" aria-label="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                <h1>Payment Methods</h1>
+                <button type="button" class="m-add-link" onclick="mGoTo('screenAddCard')">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                    Add
+                </button>
+            </div>
+
+            <div class="m-group-label" style="margin-top: 0;">Saved Cards</div>
+            <div id="mCardsList">
+                <div class="m-pay-row">
+                    <div class="m-pay-logo" style="background: #1e1e1e; border: 1px solid rgba(255,255,255,0.1);">VISA</div>
+                    <div class="m-pay-meta">
+                        <div class="m-pay-name">Visa &bull;&bull;&bull;&bull; 4242</div>
+                        <div class="m-pay-sub">Expires 08/27</div>
+                    </div>
+                    <span class="status-badge delivered">Default</span>
+                </div>
+                <div class="m-pay-row">
+                    <div class="m-pay-logo" style="background: #1e1e1e; border: 1px solid rgba(255,255,255,0.1); font-size: 0.5rem;">MC</div>
+                    <div class="m-pay-meta">
+                        <div class="m-pay-name">Mastercard &bull;&bull;&bull;&bull; 8890</div>
+                        <div class="m-pay-sub">Expires 03/26</div>
+                    </div>
+                    <button type="button" class="m-pay-menu-btn" onclick="this.closest('.m-pay-row').remove(); showToast('Card removed');" aria-label="Remove">
+                        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg>
+                    </button>
+                </div>
+            </div>
+
+            <div class="m-group-label">UPI</div>
+            <div>
+                <div class="m-pay-row">
+                    <div class="m-pay-logo" style="background: #fff; color: #000;">GPay</div>
+                    <div class="m-pay-meta">
+                        <div class="m-pay-name">Google Pay</div>
+                        <div class="m-pay-sub">anshika@okhdfc</div>
+                    </div>
+                    <button type="button" class="m-pay-menu-btn" onclick="this.closest('.m-pay-row').remove(); showToast('UPI ID removed');" aria-label="Remove"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></button>
+                </div>
+                <div class="m-pay-row">
+                    <div class="m-pay-logo" style="background: #1e1e1e; border: 1px solid rgba(255,255,255,0.1);">PhPe</div>
+                    <div class="m-pay-meta">
+                        <div class="m-pay-name">PhonePe</div>
+                        <div class="m-pay-sub">anshika@ybl</div>
+                    </div>
+                    <button type="button" class="m-pay-menu-btn" onclick="this.closest('.m-pay-row').remove(); showToast('UPI ID removed');" aria-label="Remove"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></button>
+                </div>
+            </div>
+
+            <div class="m-group-label">Wallets</div>
+            <div>
+                <div class="m-pay-row">
+                    <div class="m-pay-logo" style="background: #1e1e1e; border: 1px solid rgba(255,255,255,0.1); font-size: 0.5rem;">Paytm</div>
+                    <div class="m-pay-meta">
+                        <div class="m-pay-name">Paytm Wallet</div>
+                        <div class="m-pay-sub">anshika.official@paytm</div>
+                    </div>
+                    <button type="button" class="m-pay-menu-btn" onclick="this.closest('.m-pay-row').remove(); showToast('Wallet removed');" aria-label="Remove"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></button>
+                </div>
+            </div>
+
+            <div class="m-secure-note">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>
+                100% Secure Payments
+            </div>
+        </div>
+
+        <!-- SCREEN 7: My Orders (full list) -->
+        <div class="m-screen" id="screenOrders">
+            <div class="m-topbar">
+                <button class="m-back-btn" onclick="mGoBack()" aria-label="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                <h1>My Orders</h1>
+                <div style="width: 38px;"></div>
+            </div>
+            <div class="order-list" id="mOrdersFullList"></div>
+        </div>
+
+        <!-- SCREEN 8: Order Detail -->
+        <div class="m-screen" id="screenOrderDetail">
+            <div class="m-topbar">
+                <button class="m-back-btn" onclick="mGoBack()" aria-label="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                <h1 id="mOrderDetailTitle">Order Details</h1>
+                <div style="width: 38px;"></div>
+            </div>
+
+            <div class="order-row-item" style="margin-bottom: 24px;">
+                <div class="order-thumb"><img id="mOrderDetailImg" src="" alt="" /></div>
+                <div class="order-info">
+                    <span class="order-name" id="mOrderDetailName"></span>
+                    <span class="order-meta" id="mOrderDetailMeta"></span>
+                    <span class="order-meta" id="mOrderDetailOrderId"></span>
+                </div>
+            </div>
+
+            <div class="m-group-label" style="margin-top: 0;">Order Status</div>
+            <div class="m-stepper" id="mOrderStepper"></div>
+
+            <div class="m-group-label">Shipping Address</div>
+            <div class="m-address-card" id="mOrderAddressCard" style="margin-bottom: 24px;"></div>
+
+            <div class="m-group-label">Price Summary</div>
+            <div style="margin-bottom: 24px;">
+                <div class="m-price-row"><span>Subtotal</span><span id="mOrderSubtotal"></span></div>
+                <div class="m-price-row"><span>Shipping</span><span id="mOrderShipping"></span></div>
+                <div class="m-price-row total"><span>Total</span><span id="mOrderTotal"></span></div>
+            </div>
+
+            <button type="button" class="m-btn-outline" style="width: 100%;" onclick="showToast('Connecting you to support...')">Need Help With This Order?</button>
+        </div>
+
+        <!-- SCREEN 9: Recently Viewed (full grid) -->
+        <div class="m-screen" id="screenRecentlyViewed">
+            <div class="m-topbar">
+                <button class="m-back-btn" onclick="mGoBack()" aria-label="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                <h1>Recently Viewed</h1>
+                <div style="width: 38px;"></div>
+            </div>
+            <div class="wishlist-grid" id="mRecentFullGrid"></div>
+        </div>
+
+        <!-- SCREEN 10: Notifications -->
+        <div class="m-screen" id="screenNotifications">
+            <div class="m-topbar">
+                <button class="m-back-btn" onclick="mGoBack()" aria-label="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                <h1>Notifications</h1>
+                <button type="button" class="m-add-link" onclick="mMarkAllRead()">Mark all read</button>
+            </div>
+            <div class="order-list" id="mNotifList"></div>
+        </div>
+
+        <!-- SCREEN 11: Account Settings -->
+        <div class="m-screen" id="screenAccountSettings">
+            <div class="m-topbar">
+                <button class="m-back-btn" onclick="mGoBack()" aria-label="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                <h1>Account Settings</h1>
+                <div style="width: 38px;"></div>
+            </div>
+
+            <div class="m-group-label" style="margin-top: 0;">Change Password</div>
+            <form onsubmit="mChangePassword(event)" style="margin-bottom: 28px;">
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="mCurPass">Current Password</label>
+                    <input type="password" id="mCurPass" class="form-input" required />
+                </div>
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="mNewPass">New Password</label>
+                    <input type="password" id="mNewPass" class="form-input" required minlength="6" />
+                </div>
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="mConfirmPass">Confirm New Password</label>
+                    <input type="password" id="mConfirmPass" class="form-input" required minlength="6" />
+                </div>
+                <button type="submit" class="btn-modal-primary" style="width: 100%; padding: 14px; font-size: 0.82rem;">Update Password</button>
+            </form>
+
+            <div class="m-group-label">Preferences</div>
+            <div class="m-toggle-row">
+                <span>Email Notifications</span>
+                <label class="m-switch"><input type="checkbox" id="mPrefEmail" onchange="mSavePrefs()" /><span class="m-switch-track"></span></label>
+            </div>
+            <div class="m-toggle-row">
+                <span>SMS Alerts</span>
+                <label class="m-switch"><input type="checkbox" id="mPrefSms" onchange="mSavePrefs()" /><span class="m-switch-track"></span></label>
+            </div>
+            <div class="m-toggle-row">
+                <span>Two-Factor Authentication</span>
+                <label class="m-switch"><input type="checkbox" id="mPref2fa" onchange="mSavePrefs()" /><span class="m-switch-track"></span></label>
+            </div>
+
+            <div class="m-menu-list" style="margin-top: 24px;">
+                <div class="m-menu-item danger" onclick="showToast('Please contact support to delete your account', 'error')">
+                    <div class="row-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"></path><path d="M10 11v6"></path><path d="M14 11v6"></path><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"></path></svg></div>
+                    <div class="m-menu-meta"><span class="m-menu-title">Delete Account</span><span class="m-menu-sub">Permanently remove your data</span></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 12: Rewards -->
+        <div class="m-screen" id="screenRewards">
+            <div class="m-topbar">
+                <button class="m-back-btn" onclick="mGoBack()" aria-label="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                <h1>Rewards</h1>
+                <div style="width: 38px;"></div>
+            </div>
+
+            <div class="m-rewards-hero">
+                <div class="m-rewards-points">560 <span style="font-size: 1rem; color: var(--muted); font-weight: 600;">pts</span></div>
+                <div class="m-rewards-tier">Gold Member &bull; 440 pts to Platinum</div>
+                <div class="m-progress-track"><div class="m-progress-fill" style="width: 56%;"></div></div>
+            </div>
+
+            <div class="m-group-label" style="margin-top: 0;">Ways to Earn</div>
+            <div>
+                <div class="m-perk-row">
+                    <div class="row-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg></div>
+                    <div><div class="m-perk-title">Shop & Earn</div><div class="m-perk-sub">Earn 1 point for every ₹100 spent</div></div>
+                </div>
+                <div class="m-perk-row">
+                    <div class="row-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg></div>
+                    <div><div class="m-perk-title">Refer a Friend</div><div class="m-perk-sub">Get 100 points per referral</div></div>
+                </div>
+                <div class="m-perk-row">
+                    <div class="row-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg></div>
+                    <div><div class="m-perk-title">Write a Review</div><div class="m-perk-sub">Earn 20 points per review</div></div>
+                </div>
+            </div>
+
+            <div class="m-group-label">Gold Member Perks</div>
+            <div>
+                <div class="m-perk-row">
+                    <div class="row-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg></div>
+                    <div><div class="m-perk-title">Free Shipping</div><div class="m-perk-sub">On all orders, no minimum</div></div>
+                </div>
+                <div class="m-perk-row">
+                    <div class="row-icon-box"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 12 20 22 4 22 4 12"></polyline><rect x="2" y="7" width="20" height="5"></rect><line x1="12" y1="22" x2="12" y2="7"></line><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path></svg></div>
+                    <div><div class="m-perk-title">Early Access</div><div class="m-perk-sub">Shop new drops 24h early</div></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SCREEN 13: Add New Card -->
+        <div class="m-screen" id="screenAddCard">
+            <div class="m-topbar">
+                <button class="m-back-btn" onclick="mGoBack()" aria-label="Back"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg></button>
+                <h1>Add New Card</h1>
+                <div style="width: 38px;"></div>
+            </div>
+
+            <form onsubmit="mSaveCard(event)">
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="mCardNumber">Card Number</label>
+                    <input type="text" id="mCardNumber" class="form-input" inputmode="numeric" maxlength="19" placeholder="1234 5678 9012 3456" required />
+                </div>
+                <div class="form-group" style="margin-bottom: 16px;">
+                    <label for="mCardName">Name on Card</label>
+                    <input type="text" id="mCardName" class="form-input" required />
+                </div>
+                <div class="form-row" style="grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); margin-bottom: 20px;">
+                    <div class="form-group">
+                        <label for="mCardExpiry">Expiry (MM/YY)</label>
+                        <input type="text" id="mCardExpiry" class="form-input" placeholder="08/29" maxlength="5" required />
+                    </div>
+                    <div class="form-group">
+                        <label for="mCardCvv">CVV</label>
+                        <input type="password" id="mCardCvv" class="form-input" maxlength="4" required />
+                    </div>
+                </div>
+                <div class="m-toggle-row">
+                    <span>Set as Default</span>
+                    <label class="m-switch"><input type="checkbox" id="mCardDefault" /><span class="m-switch-track"></span></label>
+                </div>
+                <button type="submit" class="btn-modal-primary" style="width: 100%; padding: 14px; font-size: 0.82rem;">Save Card</button>
+            </form>
+        </div>
+
+    </div>
+
     <div class="dashboard-container">
 
         <!-- SIDEBAR (LEFT) -->
@@ -1633,23 +2924,31 @@
                 <!-- Profile Block -->
                 <div class="sidebar-profile">
                     <div class="profile-header">
-                        <div class="profile-avatar">
-                            <img src="images/avatar_akash.png" alt="Akash Rai" />
+                        <div class="sidebar-avatar-wrap">
+                            <div class="profile-avatar">
+                                <img src="images/avatar_anshika.png" alt="anshika" id="sideProfileAvatar" />
+                            </div>
+                            <button type="button" class="profile-avatar-edit-btn" aria-label="Edit Profile" onclick="mOpenDesktopPanel('screenEditProfile', document.getElementById('navSettings'))">
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"></path><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg>
+                            </button>
                         </div>
                         <div class="profile-meta">
-                            <span class="profile-name" id="sideProfileName">Akash Rai</span>
-                            <span class="profile-email" id="sideProfileEmail">akash.rai@email.com</span>
+                            <span class="profile-name" id="sideProfileName">anshika 👋</span>
+                            <span class="profile-email" id="sideProfileEmail">nobink.official@gmail.com</span>
                         </div>
                     </div>
                     <div class="profile-subtext">
-                        <span class="label">Member Since</span>
-                        <span class="val">May 2024</span>
+                        <div class="gold-badge">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3 6 6 .8-4.5 4.3 1 6.1-5.5-3-5.5 3 1-6.1L2 8.8l6-.8 3-6z"/></svg>
+                            <span>GOLD MEMBER</span>
+                        </div>
+                        <span class="member-since">Member since May 2024</span>
                     </div>
                 </div>
 
                 <!-- Nav Menu -->
                 <nav class="sidebar-nav">
-                    <a href="#" class="nav-item active" id="navDashboard" onclick="event.preventDefault(); switchNav(this, 'dashboardTop');">
+                    <a href="#" class="nav-item active" id="navDashboard" onclick="event.preventDefault(); mCloseDesktopPanel();">
                         <div class="nav-item-left">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="3" y="3" width="7" height="7"></rect>
@@ -1660,7 +2959,7 @@
                             <span>Dashboard</span>
                         </div>
                     </a>
-                    <a href="#" class="nav-item" id="navOrders" onclick="event.preventDefault(); switchNav(this, 'recentOrdersCard');">
+                    <a href="#" class="nav-item" id="navOrders" onclick="event.preventDefault(); mOpenDesktopPanel('screenOrders', this);">
                         <div class="nav-item-left">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
@@ -1670,7 +2969,7 @@
                             <span>My Orders</span>
                         </div>
                     </a>
-                    <a href="#" class="nav-item" id="navWishlist" onclick="event.preventDefault(); switchNav(this, 'wishlistCard');">
+                    <a href="#" class="nav-item" id="navWishlist" onclick="event.preventDefault(); window.location.href='wishlist.html';">
                         <div class="nav-item-left">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
@@ -1679,7 +2978,7 @@
                         </div>
                         <span class="nav-badge">2</span>
                     </a>
-                    <a href="#" class="nav-item" id="navAddresses" onclick="event.preventDefault(); switchNav(this); openAddressModal();">
+                    <a href="#" class="nav-item" id="navAddresses" onclick="event.preventDefault(); mOpenDesktopPanel('screenAddresses', this);">
                         <div class="nav-item-left">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -1688,7 +2987,7 @@
                             <span>Addresses</span>
                         </div>
                     </a>
-                    <a href="#" class="nav-item" id="navPayments" onclick="event.preventDefault(); switchNav(this, 'paymentsCard');">
+                    <a href="#" class="nav-item" id="navPayments" onclick="event.preventDefault(); mOpenDesktopPanel('screenPayments', this);">
                         <div class="nav-item-left">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
@@ -1697,7 +2996,7 @@
                             <span>Saved Payments</span>
                         </div>
                     </a>
-                    <a href="#" class="nav-item" id="navNotifications" onclick="event.preventDefault(); switchNav(this, 'notificationsCard');">
+                    <a href="#" class="nav-item" id="navNotifications" onclick="event.preventDefault(); mOpenDesktopPanel('screenNotifications', this);">
                         <div class="nav-item-left">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
@@ -1705,9 +3004,9 @@
                             </svg>
                             <span>Notifications</span>
                         </div>
-                        <span class="nav-badge" style="background:var(--accent);">3</span>
+                        <span class="nav-badge" id="navNotifBadge" style="background:var(--accent);">3</span>
                     </a>
-                    <a href="#" class="nav-item" id="navSettings" onclick="event.preventDefault(); switchNav(this); openProfileModal();">
+                    <a href="#" class="nav-item" id="navSettings" onclick="event.preventDefault(); mOpenDesktopPanel('screenAccountSettings', this);">
                         <div class="nav-item-left">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <circle cx="12" cy="12" r="3"></circle>
@@ -1754,10 +3053,11 @@
             
             <!-- Welcome Header Card Banner -->
             <section class="welcome-banner" id="dashboardTop">
+                <div class="welcome-monogram">EK</div>
                 <div class="welcome-left">
                     <div class="welcome-greet">
-                        <span class="sub">Welcome Back,</span>
-                        <h1 id="welcomeGreeting">Akash 👋</h1>
+                        <span class="sub">Welcome back,</span>
+                        <h1 id="welcomeGreeting">anshika</h1>
                     </div>
                     <p class="welcome-desc">Discover new fits. Express your vibe.</p>
                     <button class="btn-continue" onclick="window.location.href='shop.html'">
@@ -1773,60 +3073,46 @@
                 <div class="welcome-stats">
                     <div class="stat-box">
                         <div class="stat-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                                <line x1="3" y1="6" x2="21" y2="6"></line>
-                                <path d="M16 10a4 4 0 0 1-8 0"></path>
-                            </svg>
+                            <img src="images/ekkvastra_front_print_tee.png" alt="" />
                         </div>
                         <div class="stat-meta">
                             <span class="lbl">Total Orders</span>
-                            <span class="num" id="statOrdersCount">12</span>
+                            <span class="num" id="statOrdersCount">14</span>
                         </div>
-                        <a href="#" class="stat-link" onclick="showToast('Viewing your order list')">View all orders &rarr;</a>
+                        <a href="#" class="stat-link" onclick="event.preventDefault(); mOpenDesktopPanel('screenOrders', document.getElementById('navOrders'));">View all orders &rarr;</a>
                     </div>
 
                     <div class="stat-box">
                         <div class="stat-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <rect x="1" y="3" width="15" height="13" rx="2" ry="2"></rect>
-                                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
-                                <circle cx="5.5" cy="18.5" r="2.5"></circle>
-                                <circle cx="18.5" cy="18.5" r="2.5"></circle>
-                            </svg>
+                            <img src="images/track_jacket.png" alt="" />
                         </div>
                         <div class="stat-meta">
                             <span class="lbl">Pending Orders</span>
                             <span class="num">2</span>
                         </div>
-                        <a href="#" class="stat-link" onclick="showToast('Tracking your in-transit items...')">Track now &rarr;</a>
+                        <a href="#" class="stat-link" onclick="event.preventDefault(); mOpenDesktopPanel('screenOrders', document.getElementById('navOrders'));">Track now &rarr;</a>
                     </div>
 
                     <div class="stat-box">
                         <div class="stat-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                            </svg>
+                            <img src="images/graphic_tee_noir.png" alt="" />
                         </div>
                         <div class="stat-meta">
                             <span class="lbl">Wishlist</span>
                             <span class="num" id="statWishlistCount">2</span>
                         </div>
-                        <a href="#" class="stat-link" onclick="showToast('Opening wishlist items...')">View wishlist &rarr;</a>
+                        <a href="#" class="stat-link" onclick="event.preventDefault(); window.location.href='wishlist.html';">View wishlist &rarr;</a>
                     </div>
 
                     <div class="stat-box">
                         <div class="stat-icon">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"></path>
-                                <path d="M5 20h14"></path>
-                            </svg>
+                            <img src="images/gold_gift_box.png" alt="" />
                         </div>
                         <div class="stat-meta">
                             <span class="lbl">Reward Points</span>
                             <span class="num">560</span>
                         </div>
-                        <a href="#" class="stat-link" onclick="showToast('Viewing your streetwear rewards drops')">View rewards &rarr;</a>
+                        <a href="#" class="stat-link" onclick="event.preventDefault(); mOpenDesktopPanel('screenRewards', null);">View rewards &rarr;</a>
                     </div>
                 </div>
             </section>
@@ -1834,245 +3120,174 @@
             <!-- Dashboard Grid Layout -->
             <div class="dashboard-grid-layout">
                 
-                <!-- Left Column (Recent Orders & Recently Viewed) -->
-                <div class="dashboard-grid-column">
-                    <!-- Recent Orders -->
-                    <div class="dashboard-card" id="recentOrdersCard">
-                        <div class="section-header">
-                            <h2>Recent Orders</h2>
-                            <a href="#" class="section-header-link" onclick="showToast('Viewing full order logs')">View All Orders &rarr;</a>
+                <!-- Recent Orders -->
+                <div class="dashboard-card" id="recentOrdersCard">
+                    <div class="section-header">
+                        <h2>Recent Orders</h2>
+                        <a href="#" class="section-header-link" onclick="event.preventDefault(); mOpenDesktopPanel('screenOrders', document.getElementById('navOrders'));">View All Orders &rarr;</a>
+                    </div>
+
+                    <div class="order-list" id="orderHistoryList">
+                        <div class="order-row-item">
+                            <div class="order-thumb">
+                                <img src="images/ekkvastra_front_print_tee.png" alt="Oversized Tee">
+                            </div>
+                            <div class="order-info">
+                                <span class="order-name">Oversized Tee - Chaos</span>
+                                <span class="order-meta">Size: L &bull; Qty: 2</span>
+                                <span class="order-meta">Order ID: #EKK12420</span>
+                            </div>
+                            <div class="order-item-status-col">
+                                <span class="status-badge processing">Processing</span>
+                                <span class="order-date">July 12, 2026</span>
+                            </div>
+                            <div class="order-arrow">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
+                            </div>
                         </div>
 
-                        <div class="order-list" id="orderHistoryList">
-                            <!-- Placed dynamically or defaults -->
-                            <div class="order-row-item">
-                                <div class="order-thumb">
-                                    <img src="images/ekkvastra_hoodie.png" alt="Signature Hoodie">
-                                </div>
-                                <div class="order-info">
-                                    <span class="order-name">Signature Hoodie - Black</span>
-                                    <span class="order-meta">Size: L &bull; Qty: 1</span>
-                                    <span class="order-meta">Order ID: #EKK12456</span>
-                                </div>
-                                <div class="order-item-status-col">
-                                    <span class="status-badge delivered">Delivered</span>
-                                    <span class="order-date">10 May, 2024</span>
-                                </div>
-                                <div class="order-arrow">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="9 18 15 12 9 6"></polyline>
-                                    </svg>
-                                </div>
+                        <div class="order-row-item">
+                            <div class="order-thumb">
+                                <img src="images/ekkvastra_cargo.png" alt="Cargo Pants">
                             </div>
-
-                            <div class="order-row-item">
-                                <div class="order-thumb">
-                                    <img src="images/ekkvastra_front_print_tee.png" alt="Oversized Tee">
-                                </div>
-                                <div class="order-info">
-                                    <span class="order-name">Oversized Tee - Beige</span>
-                                    <span class="order-meta">Size: L &bull; Qty: 1</span>
-                                    <span class="order-meta">Order ID: #EKK12420</span>
-                                </div>
-                                <div class="order-item-status-col">
-                                    <span class="status-badge shipped">Shipped</span>
-                                    <span class="order-date">07 May, 2024</span>
-                                </div>
-                                <div class="order-arrow">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="9 18 15 12 9 6"></polyline>
-                                    </svg>
-                                </div>
+                            <div class="order-info">
+                                <span class="order-name">Cargo Pants - Black</span>
+                                <span class="order-meta">Size: 32 &bull; Qty: 1</span>
+                                <span class="order-meta">Order ID: #EKK12419</span>
                             </div>
-
-                            <div class="order-row-item">
-                                <div class="order-thumb">
-                                    <img src="images/ekkvastra_cargo.png" alt="Cargo Pants">
-                                </div>
-                                <div class="order-info">
-                                    <span class="order-name">Cargo Pants - Black</span>
-                                    <span class="order-meta">Size: 32 &bull; Qty: 1</span>
-                                    <span class="order-meta">Order ID: #EKK12368</span>
-                                </div>
-                                <div class="order-item-status-col">
-                                    <span class="status-badge processing">Processing</span>
-                                    <span class="order-date">05 May, 2024</span>
-                                </div>
-                                <div class="order-arrow">
-                                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <polyline points="9 18 15 12 9 6"></polyline>
-                                    </svg>
-                                </div>
+                            <div class="order-item-status-col">
+                                <span class="status-badge processing">Processing</span>
+                                <span class="order-date">June 24, 2026</span>
+                            </div>
+                            <div class="order-arrow">
+                                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="9 18 15 12 9 6"></polyline>
+                                </svg>
                             </div>
                         </div>
                     </div>
+                </div>
 
-                    <!-- Recently Viewed -->
-                    <div class="dashboard-card">
-                        <div class="section-header">
-                            <h2>Recently Viewed</h2>
-                            <a href="#" class="section-header-link" onclick="showToast('Viewing full history')">View All &rarr;</a>
-                        </div>
-
-                        <div class="recently-viewed-wrap">
-                            <button class="recent-slider-btn prev" onclick="scrollSlider(-150)">&larr;</button>
-                            <button class="recent-slider-btn next" onclick="scrollSlider(150)">&rarr;</button>
-
-                            <div class="recent-slider-container" id="recentSlider">
-                                <div class="recent-slider-track">
-                                    <div class="recent-slider-item">
-                                        <img src="images/ekkvastra_back_print_tee.png" alt="Oversized Tee" />
-                                        <div class="wishlist-item-meta">
-                                            <span class="wishlist-item-name">Oversized Tee - Black</span>
-                                            <span class="wishlist-item-price">₹1,195</span>
-                                        </div>
-                                    </div>
-                                    <div class="recent-slider-item">
-                                        <img src="images/ekkvastra_hoodie.png" alt="Zip Hoodie" />
-                                        <div class="wishlist-item-meta">
-                                            <span class="wishlist-item-name">Zip Hoodie - Washed Black</span>
-                                            <span class="wishlist-item-price">₹1,889</span>
-                                        </div>
-                                    </div>
-                                    <div class="recent-slider-item">
-                                        <img src="images/ekkvastra_cargo.png" alt="Utility Cargo" />
-                                        <div class="wishlist-item-meta">
-                                            <span class="wishlist-item-name">Utility Cargo - Black</span>
-                                            <span class="wishlist-item-price">₹1,999</span>
-                                        </div>
-                                    </div>
-                                    <div class="recent-slider-item">
-                                        <img src="images/ekkvastra_front_print_tee.png" alt="Graphic Tee" />
-                                        <div class="wishlist-item-meta">
-                                            <span class="wishlist-item-name">Graphic Tee - Noir</span>
-                                            <span class="wishlist-item-price">₹1,195</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                <!-- Recently Viewed -->
+                <div class="dashboard-card">
+                    <div class="section-header">
+                        <h2>Recently Viewed</h2>
+                        <a href="#" class="section-header-link" onclick="showToast('Viewing full history')">View All &rarr;</a>
                     </div>
 
-                    <!-- Notifications -->
-                    <div class="dashboard-card" id="notificationsCard">
-                        <div class="section-header">
-                            <h2>Notifications</h2>
-                            <a href="#" class="section-header-link" onclick="event.preventDefault(); showToast('All notifications marked as read');">Mark all read</a>
-                        </div>
+                    <div class="recently-viewed-wrap">
+                        <button class="recent-slider-btn prev" onclick="scrollSlider(-150)">&larr;</button>
+                        <button class="recent-slider-btn next" onclick="scrollSlider(150)">&rarr;</button>
 
-                        <div class="order-list">
-                            <div class="order-row-item">
-                                <div class="row-icon-box">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
-                                        <line x1="3" y1="6" x2="21" y2="6"></line>
-                                        <path d="M16 10a4 4 0 0 1-8 0"></path>
-                                    </svg>
+                        <div class="recent-slider-container" id="recentSlider">
+                            <div class="recent-slider-track">
+                                <div class="recent-slider-item">
+                                    <img src="images/ekkvastra_back_print_tee.png" alt="Oversized Tee" />
+                                    <div class="wishlist-item-meta">
+                                        <span class="wishlist-item-name">Oversized Tee - Black</span>
+                                        <span class="wishlist-item-price">₹1,195</span>
+                                    </div>
                                 </div>
-                                <div class="order-info">
-                                    <span class="order-name">Your order #EKK12420 has shipped</span>
-                                    <span class="order-meta">2 hours ago</span>
+                                <div class="recent-slider-item">
+                                    <img src="images/ekkvastra_hoodie.png" alt="Zip Hoodie" />
+                                    <div class="wishlist-item-meta">
+                                        <span class="wishlist-item-name">Zip Hoodie - Washed Grey</span>
+                                        <span class="wishlist-item-price">₹1,889</span>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="order-row-item">
-                                <div class="row-icon-box">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-                                        <line x1="7" y1="7" x2="7.01" y2="7"></line>
-                                    </svg>
+                                <div class="recent-slider-item">
+                                    <img src="images/ekkvastra_cargo.png" alt="Utility Cargo" />
+                                    <div class="wishlist-item-meta">
+                                        <span class="wishlist-item-name">Utility Cargo - Black</span>
+                                        <span class="wishlist-item-price">₹1,999</span>
+                                    </div>
                                 </div>
-                                <div class="order-info">
-                                    <span class="order-name">New drop: Winter Collection is live</span>
-                                    <span class="order-meta">1 day ago</span>
-                                </div>
-                            </div>
-                            <div class="order-row-item">
-                                <div class="row-icon-box">
-                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                    </svg>
-                                </div>
-                                <div class="order-info">
-                                    <span class="order-name">Item in your wishlist is back in stock</span>
-                                    <span class="order-meta">3 days ago</span>
+                                <div class="recent-slider-item">
+                                    <img src="images/ekkvastra_front_print_tee.png" alt="Graphic Tee" />
+                                    <div class="wishlist-item-meta">
+                                        <span class="wishlist-item-name">Graphic Tee - Chaos</span>
+                                        <span class="wishlist-item-price">₹1,199</span>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Right Column (Your Wishlist, Quick Actions, Member Promo) -->
-                <div class="dashboard-grid-column">
-                    <!-- Your Wishlist -->
-                    <div class="dashboard-card" id="wishlistCard">
-                        <div class="section-header">
-                            <h2>Your Wishlist</h2>
-                            <a href="wishlist.html" class="section-header-link">View Wishlist &rarr;</a>
+                <!-- Your Wishlist -->
+                <div class="dashboard-card" id="wishlistCard">
+                    <div class="section-header">
+                        <h2>Your Wishlist</h2>
+                        <a href="wishlist.html" class="section-header-link">View Wishlist &rarr;</a>
+                    </div>
+
+                    <div class="wishlist-grid">
+                        <div class="wishlist-item-card">
+                            <div class="wishlist-img-wrap">
+                                <img src="images/ekkvastra_front_print_tee.png" alt="Graphic Tee" />
+                            </div>
+                            <button class="wishlist-heart-btn" aria-label="Remove" onclick="showToast('Item removed from wishlist')">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                            </button>
+                            <div class="wishlist-item-meta">
+                                <span class="wishlist-item-name">Graphic Tee - Chaos</span>
+                                <span class="wishlist-item-price">₹1,199</span>
+                            </div>
                         </div>
 
-                        <div class="wishlist-grid">
-                            <div class="wishlist-item-card">
-                                <div class="wishlist-img-wrap">
-                                    <img src="images/ekkvastra_back_print_tee.png" alt="Graphic Tee" />
-                                </div>
-                                <button class="wishlist-heart-btn" aria-label="Remove" onclick="showToast('Item removed from wishlist')">
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
-                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                    </svg>
-                                </button>
-                                <div class="wishlist-item-meta">
-                                    <span class="wishlist-item-name">Graphic Tee - Chaos</span>
-                                    <span class="wishlist-item-price">₹1,199</span>
-                                </div>
+                        <div class="wishlist-item-card">
+                            <div class="wishlist-img-wrap">
+                                <img src="images/ekkvastra_hoodie.png" alt="Shadow Hoodie" />
                             </div>
-
-                            <div class="wishlist-item-card">
-                                <div class="wishlist-img-wrap">
-                                    <img src="images/ekkvastra_hoodie.png" alt="Shadow Hoodie" />
-                                </div>
-                                <button class="wishlist-heart-btn" aria-label="Remove" onclick="showToast('Item removed from wishlist')">
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
-                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                    </svg>
-                                </button>
-                                <div class="wishlist-item-meta">
-                                    <span class="wishlist-item-name">Shadow Hoodie - Black</span>
-                                    <span class="wishlist-item-price">₹1,799</span>
-                                </div>
+                            <button class="wishlist-heart-btn" aria-label="Remove" onclick="showToast('Item removed from wishlist')">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                            </button>
+                            <div class="wishlist-item-meta">
+                                <span class="wishlist-item-name">Shadow Hoodie - Black</span>
+                                <span class="wishlist-item-price">₹1,799</span>
                             </div>
+                        </div>
 
-                            <div class="wishlist-item-card">
-                                <div class="wishlist-img-wrap">
-                                    <img src="images/ekkvastra_cargo.png" alt="Parachute Pants" />
-                                </div>
-                                <button class="wishlist-heart-btn" aria-label="Remove" onclick="showToast('Item removed from wishlist')">
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
-                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                    </svg>
-                                </button>
-                                <div class="wishlist-item-meta">
-                                    <span class="wishlist-item-name">Parachute Pants - Black</span>
-                                    <span class="wishlist-item-price">₹1,899</span>
-                                </div>
+                        <div class="wishlist-item-card">
+                            <div class="wishlist-img-wrap">
+                                <img src="images/ekkvastra_cargo.png" alt="Parachute Pants" />
                             </div>
+                            <button class="wishlist-heart-btn" aria-label="Remove" onclick="showToast('Item removed from wishlist')">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                            </button>
+                            <div class="wishlist-item-meta">
+                                <span class="wishlist-item-name">Parachute Pants - Black</span>
+                                <span class="wishlist-item-price">₹1,899</span>
+                            </div>
+                        </div>
 
-                            <div class="wishlist-item-card">
-                                <div class="wishlist-img-wrap">
-                                    <img src="images/ekkvastra_front_print_tee.png" alt="Minimal Tee" />
-                                </div>
-                                <button class="wishlist-heart-btn" aria-label="Remove" onclick="showToast('Item removed from wishlist')">
-                                    <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
-                                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
-                                    </svg>
-                                </button>
-                                <div class="wishlist-item-meta">
-                                    <span class="wishlist-item-name">Minimal Tee - Sand</span>
-                                    <span class="wishlist-item-price">₹1,099</span>
-                                </div>
+                        <div class="wishlist-item-card">
+                            <div class="wishlist-img-wrap">
+                                <img src="images/ekkvastra_back_print_tee.png" alt="Minimal Tee" />
+                            </div>
+                            <button class="wishlist-heart-btn" aria-label="Remove" onclick="showToast('Item removed from wishlist')">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                            </button>
+                            <div class="wishlist-item-meta">
+                                <span class="wishlist-item-name">Minimal Tee - Sand</span>
+                                <span class="wishlist-item-price">₹1,099</span>
                             </div>
                         </div>
                     </div>
+                </div>
 
+                <!-- Split Row for Saved Payments & Quick Actions -->
+                <div class="split-row">
                     <!-- Saved Payments -->
                     <div class="dashboard-card" id="paymentsCard">
                         <div class="section-header">
@@ -2121,7 +3336,7 @@
                         </div>
 
                         <div class="quick-actions-grid">
-                            <div class="action-box" onclick="switchNav(document.getElementById('navOrders'), 'recentOrdersCard')">
+                            <div class="action-box" onclick="mOpenDesktopPanel('screenOrders', document.getElementById('navOrders'))">
                                 <div class="action-box-icon">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <circle cx="12" cy="12" r="10"></circle>
@@ -2134,7 +3349,7 @@
                                 </div>
                             </div>
 
-                            <div class="action-box" onclick="switchNav(document.getElementById('navAddresses')); openAddressModal();">
+                            <div class="action-box" onclick="mOpenDesktopPanel('screenAddresses', document.getElementById('navAddresses'))">
                                 <div class="action-box-icon">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
@@ -2147,7 +3362,7 @@
                                 </div>
                             </div>
 
-                            <div class="action-box" onclick="switchNav(document.getElementById('navPayments'), 'paymentsCard')">
+                            <div class="action-box" onclick="mOpenDesktopPanel('screenPayments', document.getElementById('navPayments'))">
                                 <div class="action-box-icon">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
@@ -2160,7 +3375,7 @@
                                 </div>
                             </div>
 
-                            <div class="action-box" onclick="switchNav(document.getElementById('navSettings')); openProfileModal();">
+                            <div class="action-box" onclick="mOpenDesktopPanel('screenEditProfile', document.getElementById('navSettings'))">
                                 <div class="action-box-icon">
                                     <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
@@ -2174,27 +3389,22 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Member Promo Card -->
-                    <div class="promo-banner">
-                        <div class="promo-image-side">
-                            <img src="images/ekkvastra_back_print_tee.png" alt="Promo Model">
-                        </div>
-                        <div class="promo-banner-content">
-                            <span class="promo-banner-eyebrow">Exclusive For You</span>
-                            <h3 class="promo-banner-title">Members get more.</h3>
-                            <p class="promo-banner-desc">Early access, special drops & exclusive offers.</p>
-                            <button class="btn-promo" onclick="window.location.href='shop.html'">
-                                <span>Explore Collections</span>
-                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                                    <line x1="5" y1="12" x2="19" y2="12"></line>
-                                    <polyline points="12 5 19 12 12 19"></polyline>
-                                </svg>
-                            </button>
-                        </div>
-                    </div>
                 </div>
 
+                <!-- Member Promo Card / Gold Perks -->
+                <div class="promo-banner">
+                    <div class="promo-image-side">
+                        <img src="images/gold_gift_box.png" alt="Promo Gold Gift Box">
+                    </div>
+                    <div class="promo-banner-content">
+                        <span class="promo-banner-eyebrow">Exclusive perks. Just for you.</span>
+                        <h3 class="promo-banner-title">As a Gold Member</h3>
+                        <p class="promo-banner-desc">Enjoy free shipping, early access to drops and special member-only offers.</p>
+                        <button class="btn-promo" onclick="mOpenDesktopPanel('screenRewards', null)">
+                            <span>View Benefits &rarr;</span>
+                        </button>
+                    </div>
+                </div>
             </div>
         </main>
     </div>
@@ -2269,9 +3479,9 @@
         let sessionUser = {};
 
         function checkAuth() {
+            // Auto-login to default 'anshika' profile for this preview sandbox
             if (localStorage.getItem(LOGGED_IN_KEY) !== 'true') {
-                window.location.href = 'LOGIN.html';
-                return false;
+                localStorage.setItem(LOGGED_IN_KEY, 'true');
             }
             return true;
         }
@@ -2282,29 +3492,65 @@
 
             // Load user data
             sessionUser = JSON.parse(localStorage.getItem(USER_KEY)) || {};
-            if (!sessionUser.name) {
-                sessionUser.name = "Akash Rai";
-                sessionUser.email = "akash.rai@email.com";
+            if (!sessionUser.name || sessionUser.name === "Akash Rai") {
+                sessionUser.name = "anshika";
+                sessionUser.email = "nobink.official@gmail.com";
                 sessionUser.phone = "+91 98765 43210";
+                sessionUser.memberSince = "May 2024";
+                sessionUser.membership = "Gold Member";
                 localStorage.setItem(USER_KEY, JSON.stringify(sessionUser));
             }
 
             // Bind values
             const firstName = sessionUser.name.split(' ')[0];
-            document.getElementById('welcomeGreeting').textContent = `${firstName} 👋`;
-            document.getElementById('sideProfileName').textContent = sessionUser.name;
+            document.getElementById('welcomeGreeting').textContent = `${firstName}`;
+            document.getElementById('sideProfileName').textContent = `${sessionUser.name} 👋`;
             document.getElementById('sideProfileEmail').textContent = sessionUser.email;
+            document.getElementById('mProfileName').textContent = `${sessionUser.name} 👋`;
+            document.getElementById('mProfileEmail').textContent = sessionUser.email;
 
             // Load checkout orders if any
             const orders = JSON.parse(localStorage.getItem(ORDERS_KEY)) || [];
-            document.getElementById('statOrdersCount').textContent = 12 + orders.length;
+            document.getElementById('statOrdersCount').textContent = 14 + orders.length;
+            document.getElementById('mStatOrders').textContent = 14 + orders.length;
 
             if (orders.length > 0) {
                 renderDynamicOrders(orders);
             }
 
+            mLoadAddresses();
+            document.getElementById('mStatAddresses').textContent = mAddresses.length;
+
+            mRenderOrderPreview();
+            mRenderRecentRail();
+            mLoadPrefs();
+            mUpdateNotifBadges();
+
             updateCartBadgeCount();
             updateWishlistBadge();
+            updateAccountHeaderHeightVar();
+
+            // Deep-link support: links elsewhere on the site (e.g. the mobile
+            // drawer's "My Orders") point at account.html#screenOrders so they
+            // land directly on that screen instead of just the dashboard.
+            const screenNavMap = {
+                screenOrders: 'navOrders',
+                screenAddresses: 'navAddresses',
+                screenPayments: 'navPayments',
+                screenNotifications: 'navNotifications',
+                screenAccountSettings: 'navSettings',
+                screenEditProfile: 'navSettings',
+                screenRewards: null
+            };
+            const initialScreen = location.hash.slice(1);
+            if (Object.prototype.hasOwnProperty.call(screenNavMap, initialScreen)) {
+                if (window.innerWidth >= 768) {
+                    const navId = screenNavMap[initialScreen];
+                    mOpenDesktopPanel(initialScreen, navId ? document.getElementById(navId) : null);
+                } else {
+                    mGoTo(initialScreen);
+                }
+            }
         }
 
         function renderDynamicOrders(orders) {
@@ -2342,36 +3588,16 @@
             list.innerHTML = itemsHtml + `
                 <div class="order-row-item">
                     <div class="order-thumb">
-                        <img src="images/ekkvastra_hoodie.png" alt="Signature Hoodie">
-                    </div>
-                    <div class="order-info">
-                        <span class="order-name">Signature Hoodie - Black</span>
-                        <span class="order-meta">Size: L &bull; Qty: 1</span>
-                        <span class="order-meta">Order ID: #EKK12456</span>
-                    </div>
-                    <div class="order-item-status-col">
-                        <span class="status-badge delivered">Delivered</span>
-                        <span class="order-date">10 May, 2024</span>
-                    </div>
-                    <div class="order-arrow">
-                        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="9 18 15 12 9 6"></polyline>
-                        </svg>
-                    </div>
-                </div>
-
-                <div class="order-row-item">
-                    <div class="order-thumb">
                         <img src="images/ekkvastra_front_print_tee.png" alt="Oversized Tee">
                     </div>
                     <div class="order-info">
-                        <span class="order-name">Oversized Tee - Beige</span>
-                        <span class="order-meta">Size: L &bull; Qty: 1</span>
+                        <span class="order-name">Oversized Tee - Chaos</span>
+                        <span class="order-meta">Size: L &bull; Qty: 2</span>
                         <span class="order-meta">Order ID: #EKK12420</span>
                     </div>
                     <div class="order-item-status-col">
-                        <span class="status-badge shipped">Shipped</span>
-                        <span class="order-date">07 May, 2024</span>
+                        <span class="status-badge processing">Processing</span>
+                        <span class="order-date">July 12, 2026</span>
                     </div>
                     <div class="order-arrow">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2387,11 +3613,11 @@
                     <div class="order-info">
                         <span class="order-name">Cargo Pants - Black</span>
                         <span class="order-meta">Size: 32 &bull; Qty: 1</span>
-                        <span class="order-meta">Order ID: #EKK12368</span>
+                        <span class="order-meta">Order ID: #EKK12419</span>
                     </div>
                     <div class="order-item-status-col">
                         <span class="status-badge processing">Processing</span>
-                        <span class="order-date">05 May, 2024</span>
+                        <span class="order-date">June 24, 2026</span>
                     </div>
                     <div class="order-arrow">
                         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -2443,6 +3669,7 @@
             document.getElementById('profileModal').classList.add('open');
         }
 
+        // Address Modal
         function closeProfileModal() {
             document.getElementById('profileModal').classList.remove('open');
         }
@@ -2461,8 +3688,8 @@
             sessionUser.phone = phone;
             localStorage.setItem(USER_KEY, JSON.stringify(sessionUser));
 
-            document.getElementById('sideProfileName').textContent = name;
-            document.getElementById('welcomeGreeting').textContent = `${name.split(' ')[0]} 👋`;
+            document.getElementById('sideProfileName').textContent = `${name} 👋`;
+            document.getElementById('welcomeGreeting').textContent = `${name.split(' ')[0]}`;
 
             closeProfileModal();
             showToast("Profile details updated successfully!");
@@ -2504,6 +3731,535 @@
 
             closeAddressModal();
             showToast("Shipping address saved successfully!");
+        }
+
+        // ══════════════════════════════════════════════
+        //  MOBILE ACCOUNT SCREENS — navigation + data
+        // ══════════════════════════════════════════════
+        let mScreenStack = ['screenMain'];
+
+        function mGoTo(id) {
+            mScreenStack.push(id);
+            mRenderScreenStack();
+        }
+
+        function mGoBack() {
+            if (mScreenStack.length > 1) {
+                mScreenStack.pop();
+                mRenderScreenStack();
+            } else if (document.body.classList.contains('desktop-panel-open')) {
+                mCloseDesktopPanel();
+            }
+        }
+
+        // ── Desktop: sidebar items open the same panels as mobile,
+        //    as a full-page takeover over the dashboard. ──
+        // Keeps the desktop panel's fixed top offset in sync with the real
+        // header height (the announcement bar wraps to 2 lines on narrower
+        // desktop widths, so this can't be a fixed CSS number).
+        function updateAccountHeaderHeightVar() {
+            const header = document.getElementById('siteHeader');
+            const h = header ? header.getBoundingClientRect().bottom : 120;
+            document.documentElement.style.setProperty('--account-header-h', h + 'px');
+        }
+        window.addEventListener('resize', updateAccountHeaderHeightVar);
+
+        function mOpenDesktopPanel(screenId, navEl) {
+            document.body.classList.add('desktop-panel-open');
+            mScreenStack = [screenId];
+            mRenderScreenStack();
+            if (navEl) {
+                document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+                navEl.classList.add('active');
+            }
+            updateAccountHeaderHeightVar();
+            window.scrollTo({ top: 0, behavior: 'auto' });
+        }
+
+        function mCloseDesktopPanel() {
+            document.body.classList.remove('desktop-panel-open');
+            mScreenStack = ['screenMain'];
+            document.querySelectorAll('.m-screen').forEach(s => s.classList.remove('active'));
+            const screenMain = document.getElementById('screenMain');
+            if (screenMain) screenMain.classList.add('active');
+            const navDashboard = document.getElementById('navDashboard');
+            if (navDashboard) switchNav(navDashboard, 'dashboardTop');
+        }
+
+        function mRenderScreenStack() {
+            document.querySelectorAll('.m-screen').forEach(s => s.classList.remove('active'));
+            const current = mScreenStack[mScreenStack.length - 1];
+            const el = document.getElementById(current);
+            if (el) el.classList.add('active');
+
+            const wrap = document.getElementById('mAccount');
+            if (wrap) wrap.scrollIntoView({ behavior: 'auto', block: 'start' });
+
+            if (current === 'screenEditProfile') {
+                document.getElementById('mProfName').value = sessionUser.name || '';
+                document.getElementById('mProfPhone').value = sessionUser.phone || '+91 98765 43210';
+                document.getElementById('mProfEmail').value = sessionUser.email || '';
+                document.getElementById('mProfDob').value = sessionUser.dob || '';
+                document.getElementById('mProfGender').value = sessionUser.gender || 'Prefer not to say';
+            }
+            if (current === 'screenAddresses') {
+                mRenderAddresses();
+            }
+            if (current === 'screenOrders') {
+                mRenderOrdersFullList();
+            }
+            if (current === 'screenRecentlyViewed') {
+                mRenderRecentFullGrid();
+            }
+            if (current === 'screenNotifications') {
+                mRenderNotifications();
+            }
+            if (current === 'screenAccountSettings') {
+                document.getElementById('mPrefEmail').checked = mPrefs.email;
+                document.getElementById('mPrefSms').checked = mPrefs.sms;
+                document.getElementById('mPref2fa').checked = mPrefs.twoFa;
+            }
+        }
+
+        function mSaveProfile(e) {
+            e.preventDefault();
+            const name = document.getElementById('mProfName').value.trim();
+            const phone = document.getElementById('mProfPhone').value.trim();
+
+            if (!name || !phone) {
+                showToast("Fields cannot be empty", "error");
+                return;
+            }
+
+            sessionUser.name = name;
+            sessionUser.phone = phone;
+            sessionUser.dob = document.getElementById('mProfDob').value;
+            sessionUser.gender = document.getElementById('mProfGender').value;
+            localStorage.setItem(USER_KEY, JSON.stringify(sessionUser));
+
+            document.getElementById('sideProfileName').textContent = `${name} 👋`;
+            document.getElementById('welcomeGreeting').textContent = name.split(' ')[0];
+            document.getElementById('mProfileName').textContent = `${name} 👋`;
+
+            showToast("Profile details updated successfully!");
+            mGoBack();
+        }
+
+        // ── Addresses ──
+        const M_ADDR_KEY = 'ekkvastra_addresses_v2';
+        let mAddresses = [];
+        let mEditingAddressId = null;
+
+        function mDefaultAddresses() {
+            return [
+                { id: 1, name: sessionUser.name || 'anshika', phone: sessionUser.phone || '+91 98765 43210', pin: '201301', area: 'Sector 63, Noida', line: 'A-12', landmark: 'Near Fortis Hospital', type: 'Home', isDefault: true },
+                { id: 2, name: sessionUser.name || 'anshika', phone: sessionUser.phone || '+91 98765 43210', pin: '110001', area: 'Connaught Place, New Delhi', line: 'B-45', landmark: '', type: 'Work', isDefault: false }
+            ];
+        }
+
+        function mLoadAddresses() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(M_ADDR_KEY));
+                mAddresses = (saved && saved.length) ? saved : mDefaultAddresses();
+            } catch {
+                mAddresses = mDefaultAddresses();
+            }
+        }
+
+        function mSaveAddresses() {
+            localStorage.setItem(M_ADDR_KEY, JSON.stringify(mAddresses));
+            const countEl = document.getElementById('mStatAddresses');
+            if (countEl) countEl.textContent = mAddresses.length;
+        }
+
+        function mRenderAddresses() {
+            const list = document.getElementById('mAddressList');
+            if (!list) return;
+            if (mAddresses.length === 0) {
+                list.innerHTML = `<p style="color:var(--muted);font-size:0.82rem;text-align:center;padding:40px 0;">No saved addresses yet.</p>`;
+                return;
+            }
+            list.innerHTML = mAddresses.map(a => `
+                <div class="m-address-card">
+                    <span class="m-address-tag">${a.type}</span>
+                    <div class="m-address-radio${a.isDefault ? ' checked' : ''}"></div>
+                    <div class="m-address-name">${a.name}</div>
+                    <div class="m-address-line">${a.phone}</div>
+                    <div class="m-address-line">${a.line}${a.area ? ', ' + a.area : ''}</div>
+                    <div class="m-address-line">${a.landmark ? a.landmark + ' &bull; ' : ''}${a.pin}</div>
+                    <div class="m-address-actions">
+                        <button type="button" class="m-btn-outline" onclick="mEditAddress(${a.id})">Edit</button>
+                        <button type="button" class="m-btn-outline danger" onclick="mDeleteAddress(${a.id})">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function mOpenAddAddress() {
+            mEditingAddressId = null;
+            document.getElementById('mAddAddressTitle').textContent = 'Add New Address';
+            document.getElementById('mAddrName').value = sessionUser.name || '';
+            document.getElementById('mAddrPhone').value = sessionUser.phone || '';
+            document.getElementById('mAddrPin').value = '';
+            document.getElementById('mAddrArea').value = '';
+            document.getElementById('mAddrLine').value = '';
+            document.getElementById('mAddrLandmark').value = '';
+            document.getElementById('mAddrDefault').checked = false;
+            document.querySelectorAll('#mTypeRow .m-type-pill').forEach(p => p.classList.toggle('active', p.dataset.type === 'Home'));
+            mGoTo('screenAddAddress');
+        }
+
+        function mEditAddress(id) {
+            const a = mAddresses.find(x => x.id === id);
+            if (!a) return;
+            mEditingAddressId = id;
+            document.getElementById('mAddAddressTitle').textContent = 'Edit Address';
+            document.getElementById('mAddrName').value = a.name;
+            document.getElementById('mAddrPhone').value = a.phone;
+            document.getElementById('mAddrPin').value = a.pin;
+            document.getElementById('mAddrArea').value = a.area;
+            document.getElementById('mAddrLine').value = a.line;
+            document.getElementById('mAddrLandmark').value = a.landmark;
+            document.getElementById('mAddrDefault').checked = !!a.isDefault;
+            document.querySelectorAll('#mTypeRow .m-type-pill').forEach(p => p.classList.toggle('active', p.dataset.type === a.type));
+            mGoTo('screenAddAddress');
+        }
+
+        function mDeleteAddress(id) {
+            mAddresses = mAddresses.filter(x => x.id !== id);
+            if (mAddresses.length && !mAddresses.some(a => a.isDefault)) mAddresses[0].isDefault = true;
+            mSaveAddresses();
+            mRenderAddresses();
+            showToast('Address removed');
+        }
+
+        function mSelectType(btn) {
+            document.querySelectorAll('#mTypeRow .m-type-pill').forEach(p => p.classList.remove('active'));
+            btn.classList.add('active');
+        }
+
+        function mSaveAddress(e) {
+            e.preventDefault();
+            const name = document.getElementById('mAddrName').value.trim();
+            const phone = document.getElementById('mAddrPhone').value.trim();
+            const pin = document.getElementById('mAddrPin').value.trim();
+            const area = document.getElementById('mAddrArea').value.trim();
+            const line = document.getElementById('mAddrLine').value.trim();
+            const landmark = document.getElementById('mAddrLandmark').value.trim();
+            const type = document.querySelector('#mTypeRow .m-type-pill.active')?.dataset.type || 'Home';
+            const isDefault = document.getElementById('mAddrDefault').checked;
+
+            if (!name || !phone || !pin || !area || !line) {
+                showToast('Please fill all required fields', 'error');
+                return;
+            }
+
+            if (isDefault) mAddresses.forEach(a => a.isDefault = false);
+
+            if (mEditingAddressId) {
+                const a = mAddresses.find(x => x.id === mEditingAddressId);
+                Object.assign(a, { name, phone, pin, area, line, landmark, type, isDefault });
+            } else {
+                const newId = mAddresses.length ? Math.max(...mAddresses.map(a => a.id)) + 1 : 1;
+                mAddresses.push({ id: newId, name, phone, pin, area, line, landmark, type, isDefault: isDefault || mAddresses.length === 0 });
+            }
+
+            mSaveAddresses();
+            mRenderAddresses();
+            showToast(mEditingAddressId ? 'Address updated' : 'Address added');
+            mEditingAddressId = null;
+            mGoBack();
+        }
+
+        // ══════════════════════════════════════════════
+        //  MOBILE — Orders, Order Detail
+        // ══════════════════════════════════════════════
+        const M_ORDERS = [
+            { id: 1, name: 'Oversized Tee - Chaos', image: 'images/ekkvastra_front_print_tee.png', size: 'L', qty: 2, price: 999, status: 'Processing', date: 'July 12, 2026', orderId: '#EKK12420' },
+            { id: 2, name: 'Cargo Pants - Black', image: 'images/ekkvastra_cargo.png', size: '32', qty: 1, price: 1699, status: 'Processing', date: 'June 24, 2026', orderId: '#EKK12419' },
+            { id: 3, name: 'Zip Hoodie - Washed Grey', image: 'images/ekkvastra_hoodie.png', size: 'L', qty: 1, price: 1889, status: 'Shipped', date: 'June 5, 2026', orderId: '#EKK12401' },
+            { id: 4, name: 'Minimal Tee - Sand', image: 'images/ekkvastra_front_print_tee.png', size: 'M', qty: 1, price: 1099, status: 'Delivered', date: 'May 20, 2026', orderId: '#EKK12355' }
+        ];
+
+        function mOrderRowHtml(o) {
+            const statusClass = o.status === 'Delivered' ? 'delivered' : o.status === 'Shipped' ? 'shipped' : 'processing';
+            return `
+                <div class="order-row-item" onclick="mOpenOrderDetail(${o.id})" style="cursor:pointer;">
+                    <div class="order-thumb"><img src="${o.image}" alt="${o.name}"></div>
+                    <div class="order-info">
+                        <span class="order-name">${o.name}</span>
+                        <span class="order-meta">Size: ${o.size} &bull; Qty: ${o.qty}</span>
+                    </div>
+                    <div class="order-item-status-col">
+                        <span class="status-badge ${statusClass}">${o.status}</span>
+                        <span class="order-date">${o.date}</span>
+                    </div>
+                </div>
+            `;
+        }
+
+        function mRenderOrderPreview() {
+            const list = document.getElementById('mOrderPreviewList');
+            if (!list) return;
+            list.innerHTML = M_ORDERS.slice(0, 2).map(mOrderRowHtml).join('');
+        }
+
+        function mRenderOrdersFullList() {
+            const list = document.getElementById('mOrdersFullList');
+            if (!list) return;
+            list.innerHTML = M_ORDERS.map(mOrderRowHtml).join('');
+        }
+
+        function mOrderStepperHtml(status) {
+            const steps = [
+                { label: 'Order Placed', sub: 'We have received your order' },
+                { label: 'Shipped', sub: 'Your order is on its way' },
+                { label: 'Delivered', sub: 'Order delivered to your address' }
+            ];
+            const doneCount = status === 'Delivered' ? 3 : status === 'Shipped' ? 2 : 1;
+            const check = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            return steps.map((s, i) => `
+                <div class="m-step${i < doneCount ? ' done' : ''}">
+                    <div class="m-step-dot">${i < doneCount ? check : ''}</div>
+                    <div><div class="m-step-label">${s.label}</div><div class="m-step-sub">${s.sub}</div></div>
+                </div>
+            `).join('');
+        }
+
+        function mOpenOrderDetail(id) {
+            const o = M_ORDERS.find(x => x.id === id);
+            if (!o) return;
+
+            document.getElementById('mOrderDetailTitle').textContent = o.orderId;
+            document.getElementById('mOrderDetailImg').src = o.image;
+            document.getElementById('mOrderDetailImg').alt = o.name;
+            document.getElementById('mOrderDetailName').textContent = o.name;
+            document.getElementById('mOrderDetailMeta').textContent = `Size: ${o.size} • Qty: ${o.qty}`;
+            document.getElementById('mOrderDetailOrderId').textContent = `Ordered on ${o.date}`;
+            document.getElementById('mOrderStepper').innerHTML = mOrderStepperHtml(o.status);
+
+            const addr = mAddresses.find(a => a.isDefault) || mAddresses[0];
+            document.getElementById('mOrderAddressCard').innerHTML = addr ? `
+                <div class="m-address-name">${addr.name}</div>
+                <div class="m-address-line">${addr.phone}</div>
+                <div class="m-address-line">${addr.line}, ${addr.area}</div>
+                <div class="m-address-line">${addr.pin}</div>
+            ` : '<div class="m-address-line">No saved address on file</div>';
+
+            const subtotal = o.price * o.qty;
+            const shipping = subtotal >= 1499 ? 0 : 99;
+            document.getElementById('mOrderSubtotal').textContent = `₹${subtotal.toLocaleString('en-IN')}`;
+            document.getElementById('mOrderShipping').textContent = shipping === 0 ? 'FREE' : `₹${shipping}`;
+            document.getElementById('mOrderTotal').textContent = `₹${(subtotal + shipping).toLocaleString('en-IN')}`;
+
+            mGoTo('screenOrderDetail');
+        }
+
+        // ══════════════════════════════════════════════
+        //  MOBILE — Recently Viewed
+        // ══════════════════════════════════════════════
+        const M_RECENT = [
+            { name: 'Oversized Tee - Black', image: 'images/ekkvastra_back_print_tee.png', price: 1195 },
+            { name: 'Zip Hoodie - Washed Grey', image: 'images/ekkvastra_hoodie.png', price: 1889 },
+            { name: 'Utility Cargo - Black', image: 'images/ekkvastra_cargo.png', price: 1999 },
+            { name: 'Graphic Tee - Chaos', image: 'images/ekkvastra_front_print_tee.png', price: 1199 },
+            { name: 'Minimal Tee - Sand', image: 'images/ekkvastra_front_print_tee.png', price: 1099 },
+            { name: 'Acid Wash Graphic Tee', image: 'images/ekkvastra_back_print_tee.png', price: 1199 }
+        ];
+
+        function mRenderRecentRail() {
+            const rail = document.getElementById('mRecentRail');
+            if (!rail) return;
+            rail.innerHTML = M_RECENT.slice(0, 4).map(item => `
+                <div class="recent-slider-item">
+                    <img src="${item.image}" alt="${item.name}" />
+                    <div class="wishlist-item-meta">
+                        <span class="wishlist-item-name">${item.name}</span>
+                        <span class="wishlist-item-price">₹${item.price.toLocaleString('en-IN')}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function mRenderRecentFullGrid() {
+            const grid = document.getElementById('mRecentFullGrid');
+            if (!grid) return;
+            grid.innerHTML = M_RECENT.map(item => `
+                <div class="wishlist-item-card">
+                    <div class="wishlist-img-wrap"><img src="${item.image}" alt="${item.name}" /></div>
+                    <button class="wishlist-heart-btn" aria-label="Add to wishlist" onclick="event.stopPropagation(); showToast('Added to wishlist')">
+                        <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>
+                    </button>
+                    <div class="wishlist-item-meta">
+                        <span class="wishlist-item-name">${item.name}</span>
+                        <span class="wishlist-item-price">₹${item.price.toLocaleString('en-IN')}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // ══════════════════════════════════════════════
+        //  MOBILE — Notifications
+        // ══════════════════════════════════════════════
+        const M_NOTIF_KEY = 'ekkvastra_notif_read_v1';
+        const mNotifications = [
+            { id: 1, icon: 'bag', text: 'Your order #EKK12420 has shipped', time: '2 hours ago' },
+            { id: 2, icon: 'zap', text: 'New drop: Winter Collection is live', time: '1 day ago' },
+            { id: 3, icon: 'heart', text: 'Item in your wishlist is back in stock', time: '3 days ago' }
+        ];
+
+        function mNotifIconSvg(type) {
+            if (type === 'bag') return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>';
+            if (type === 'zap') return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>';
+            return '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path></svg>';
+        }
+
+        function mGetReadIds() {
+            try { return JSON.parse(localStorage.getItem(M_NOTIF_KEY)) || []; } catch { return []; }
+        }
+
+        function mUnreadCount() {
+            const read = mGetReadIds();
+            return mNotifications.filter(n => !read.includes(n.id)).length;
+        }
+
+        function mUpdateNotifBadges() {
+            const count = mUnreadCount();
+            ['mNotifBadgeTop', 'mNotifBadgeMenu', 'navNotifBadge'].forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                el.textContent = count;
+                el.style.display = count > 0 ? '' : 'none';
+            });
+        }
+
+        function mRenderNotifications() {
+            const list = document.getElementById('mNotifList');
+            if (!list) return;
+            const read = mGetReadIds();
+            list.innerHTML = mNotifications.map(n => `
+                <div class="order-row-item m-notif-row">
+                    <div class="row-icon-box">${mNotifIconSvg(n.icon)}</div>
+                    <div class="order-info">
+                        <span class="order-name">${n.text}</span>
+                        <span class="order-meta">${n.time}</span>
+                    </div>
+                    ${!read.includes(n.id) ? '<span class="m-notif-dot"></span>' : ''}
+                </div>
+            `).join('');
+        }
+
+        function mMarkAllRead() {
+            localStorage.setItem(M_NOTIF_KEY, JSON.stringify(mNotifications.map(n => n.id)));
+            mRenderNotifications();
+            mUpdateNotifBadges();
+            showToast('All notifications marked as read');
+        }
+
+        // ══════════════════════════════════════════════
+        //  MOBILE — Account Settings (password + prefs)
+        // ══════════════════════════════════════════════
+        const M_PREFS_KEY = 'ekkvastra_prefs_v1';
+        let mPrefs = { email: true, sms: false, twoFa: false };
+
+        function mLoadPrefs() {
+            try {
+                const saved = JSON.parse(localStorage.getItem(M_PREFS_KEY));
+                if (saved) mPrefs = saved;
+            } catch {}
+        }
+
+        function mSavePrefs() {
+            mPrefs = {
+                email: document.getElementById('mPrefEmail').checked,
+                sms: document.getElementById('mPrefSms').checked,
+                twoFa: document.getElementById('mPref2fa').checked
+            };
+            localStorage.setItem(M_PREFS_KEY, JSON.stringify(mPrefs));
+        }
+
+        function mChangePassword(e) {
+            e.preventDefault();
+            const cur = document.getElementById('mCurPass').value;
+            const next = document.getElementById('mNewPass').value;
+            const confirmVal = document.getElementById('mConfirmPass').value;
+
+            if (!cur || !next || !confirmVal) {
+                showToast('Please fill all fields', 'error');
+                return;
+            }
+            if (next !== confirmVal) {
+                showToast('New passwords do not match', 'error');
+                return;
+            }
+            if (next.length < 6) {
+                showToast('Password must be at least 6 characters', 'error');
+                return;
+            }
+
+            e.target.reset();
+            showToast('Password updated successfully');
+            mGoBack();
+        }
+
+        // ══════════════════════════════════════════════
+        //  MOBILE — Add Card
+        // ══════════════════════════════════════════════
+        function mSaveCard(e) {
+            e.preventDefault();
+            const number = document.getElementById('mCardNumber').value.replace(/\s+/g, '');
+            const name = document.getElementById('mCardName').value.trim();
+            const expiry = document.getElementById('mCardExpiry').value.trim();
+            const cvv = document.getElementById('mCardCvv').value.trim();
+            const isDefault = document.getElementById('mCardDefault').checked;
+
+            if (number.length < 12 || !name || !/^\d{2}\/\d{2}$/.test(expiry) || cvv.length < 3) {
+                showToast('Please check your card details', 'error');
+                return;
+            }
+
+            const last4 = number.slice(-4);
+            const brand = number.startsWith('4') ? 'Visa' : number.startsWith('5') ? 'Mastercard' : 'Card';
+            const logoBg = '#1e1e1e';
+            const logoText = brand === 'Visa' ? 'VISA' : brand === 'Mastercard' ? 'MC' : brand.slice(0, 4).toUpperCase();
+
+            if (isDefault) {
+                document.querySelectorAll('#mCardsList .status-badge.delivered').forEach(b => {
+                    const row = b.closest('.m-pay-row');
+                    b.remove();
+                    if (row) row.insertAdjacentHTML('beforeend', `<button type="button" class="m-pay-menu-btn" onclick="this.closest('.m-pay-row').remove(); showToast('Card removed');" aria-label="Remove"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></button>`);
+                });
+            }
+
+            const row = document.createElement('div');
+            row.className = 'm-pay-row';
+            row.innerHTML = `
+                <div class="m-pay-logo" style="background:${logoBg}; border:1px solid rgba(255,255,255,0.1); font-size:0.5rem;">${logoText}</div>
+                <div class="m-pay-meta">
+                    <div class="m-pay-name">${brand} &bull;&bull;&bull;&bull; ${last4}</div>
+                    <div class="m-pay-sub">Expires ${expiry}</div>
+                </div>
+                ${isDefault ? '<span class="status-badge delivered">Default</span>' : `<button type="button" class="m-pay-menu-btn" onclick="this.closest('.m-pay-row').remove(); showToast('Card removed');" aria-label="Remove"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="5" r="1"></circle><circle cx="12" cy="12" r="1"></circle><circle cx="12" cy="19" r="1"></circle></svg></button>`}
+            `;
+            document.getElementById('mCardsList').appendChild(row);
+
+            e.target.reset();
+            showToast('Card added successfully');
+            mGoBack();
+        }
+
+        // ══════════════════════════════════════════════
+        //  MOBILE — Avatar upload (client-side preview)
+        // ══════════════════════════════════════════════
+        function mHandleAvatarChange(e) {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            const url = URL.createObjectURL(file);
+            document.getElementById('mEditAvatarPreview').src = url;
+            document.getElementById('mProfileAvatar').src = url;
+            const sideAvatar = document.getElementById('sideProfileAvatar');
+            if (sideAvatar) sideAvatar.src = url;
+            showToast('Profile photo updated');
         }
 
         // Scroll helper for recently viewed
@@ -2619,6 +4375,12 @@
             }
         }
 
+        // Sync badges immediately on script load, instead of waiting for
+        // DOMContentLoaded (which also waits on mobile-drawer.js to fetch),
+        // so the header doesn't show a stale count for a beat after paint.
+        updateCartBadgeCount();
+        updateWishlistBadge();
+
         // Toggle sticky header styles on scroll
         const siteHeader = document.getElementById('siteHeader');
         function onScrollHeader() {
@@ -2643,10 +4405,7 @@
                 searchOpenBtns.forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         e.preventDefault();
-                        if (typeof toggleMobileDrawer === 'function') toggleMobileDrawer(false);
-                        searchOverlay.classList.add('open');
-                        searchOverlay.setAttribute('aria-hidden', 'false');
-                        setTimeout(() => searchInput?.focus(), 100);
+                        window.location.href = 'SEARCH.html';
                     });
                 });
 
@@ -2804,8 +4563,8 @@
                         <div class="trending-links">
                             <a href="shop.html">New Arrivals</a>
                             <a href="shop.html">Best Sellers</a>
-                            <a href="shop.html">Graphic Tees</a>
-                            <a href="shop.html">Essentials</a>
+                            <a href="collection.html?name=Graphic%20Tees">Graphic Tees</a>
+                            <a href="collection.html?name=Essentials">Essentials</a>
                         </div>
                     </div>
                 </div>

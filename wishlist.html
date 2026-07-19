@@ -16,7 +16,7 @@
             --text: #ffffff;
             --muted: #888888;
             --accent: #ffffff;
-            --red: #e53935;
+            --red: #ff5e00;
             --max: 1400px;
         }
         
@@ -278,13 +278,17 @@
             width: 16px;
             height: 16px;
             border-radius: 50%;
-            display: flex;
+            display: none;
             align-items: center;
             justify-content: center;
             line-height: 1;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
             border: 1.5px solid #000;
             z-index: 10;
+        }
+
+        .cart-badge.visible {
+            display: flex;
         }
 
         .nav-wishlist-btn {
@@ -298,7 +302,7 @@
             position: absolute;
             top: -3px;
             right: -3px;
-            background: #e53935;
+            background: #ff5e00;
             color: #fff;
             font-size: 0.58rem;
             font-weight: 800;
@@ -333,7 +337,7 @@
         .page-wrapper {
             max-width: var(--max);
             width: 100%;
-            margin: 120px auto 0;
+            margin: 0 auto;
             padding: 40px 24px 80px;
             flex-grow: 1;
         }
@@ -392,6 +396,18 @@
             align-items: center;
             gap: 12px;
         }
+        @media (max-width: 600px) {
+            .wishlist-actions {
+                width: 100%;
+                flex-wrap: wrap;
+            }
+            .wishlist-actions .btn-outline,
+            .wishlist-actions .btn-solid {
+                flex: 1 1 auto;
+                justify-content: center;
+                white-space: nowrap;
+            }
+        }
         .btn-outline {
             background: transparent;
             color: #fff;
@@ -442,7 +458,7 @@
         }
         @media (max-width: 1200px) { .product-grid { grid-template-columns: repeat(3, 1fr); } }
         @media (max-width: 768px)  { .product-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; } }
-        @media (max-width: 480px)  { .product-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 480px)  { .product-grid { gap: 10px; } }
 
         /* ── PRODUCT CARD ── */
         .product-card {
@@ -774,16 +790,16 @@
             color: #000;
         }
         .card-wishlist-btn.active {
-            background: rgba(229, 57, 53, 0.15);
-            color: #e53935;
+            background: rgba(255, 94, 0, 0.15);
+            color: #ff5e00;
         }
         .card-wishlist-btn svg {
             transition: fill 0.2s, stroke 0.2s;
             pointer-events: none;
         }
         .card-wishlist-btn.active svg {
-            fill: #e53935;
-            stroke: #e53935;
+            fill: #ff5e00;
+            stroke: #ff5e00;
         }
 
         /* Hover Quick Add overlay button */
@@ -936,7 +952,7 @@
             border-radius: 50%;
         }
         .stock-dot.in-stock { background: #4caf50; }
-        .stock-dot.out-of-stock { background: #e53935; }
+        .stock-dot.out-of-stock { background: #ef4444; }
 
         /* Card bottom move to bag outline button */
         .btn-move-bag {
@@ -1222,9 +1238,11 @@
             position: fixed;
             top: 24px;
             right: 24px;
+            left: 24px;
             z-index: 10000;
             display: flex;
             flex-direction: column;
+            align-items: flex-end;
             gap: 12px;
             pointer-events: none;
         }
@@ -1241,6 +1259,8 @@
             display: flex;
             align-items: center;
             gap: 12px;
+            max-width: 100%;
+            box-sizing: border-box;
             transform: translateX(120%);
             transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             pointer-events: auto;
@@ -1331,7 +1351,7 @@
 
     <!-- Announcement Bar -->
     <div class="announcement-bar">
-        <span>FREE SHIPPING ON ORDERS ABOVE ₹1499</span>
+        
         <span>EASY 14-DAY RETURNS</span>
         <span>COD AVAILABLE</span>
     </div>
@@ -1366,14 +1386,14 @@
                 </a>
                 <a href="cart.html" class="icon-btn" aria-label="Shopping Bag">
                     <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="9" cy="21" r="1"></circle>
-                        <circle cx="20" cy="21" r="1"></circle>
-                        <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
+                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                        <line x1="3" y1="6" x2="21" y2="6"></line>
+                        <path d="M16 10a4 4 0 0 1-8 0"></path>
                     </svg>
                     <span class="cart-badge">0</span>
                 </a>
                 <a href="account.html" class="nav-avatar-btn" aria-label="My Account">
-                    <img src="images/avatar_akash.png" alt="Account" class="nav-avatar-img" />
+                    <img src="images/avatar_anshika.png" alt="Account" class="nav-avatar-img" />
                     <span class="nav-avatar-chevron">
                         <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <polyline points="6 9 12 15 18 9"></polyline>
@@ -1527,12 +1547,10 @@
                 <div>
                     <h3 class="footer-heading">Collections</h3>
                     <div class="footer-links">
-                        <a href="index.html#collections">Oversized</a>
-                        <a href="index.html#collections">Graphic Tees</a>
-                        <a href="index.html#collections">Essentials</a>
-                        <a href="index.html#collections">Hoodies</a>
-                        <a href="index.html#collections">Summer Collection</a>
-                        <a href="index.html#collections">Winter Collection</a>
+                        <a href="collection.html?name=Oversized">Oversized</a>
+                        <a href="collection.html?name=Graphic%20Tees">Graphic Tees</a>
+                        <a href="collection.html?name=Essentials">Essentials</a>
+                        <a href="collection.html?name=Hoodies">Hoodies</a>
                     </div>
                 </div>
 
@@ -1540,11 +1558,11 @@
                     <h3 class="footer-heading">Customer Care</h3>
                     <div class="footer-links">
                         <a href="CONTACT.html">Contact Us</a>
-                        <a href="#">Track Order</a>
-                        <a href="#">Shipping & Delivery</a>
-                        <a href="#">Returns & Exchanges</a>
-                        <a href="#">FAQs</a>
-                        <a href="#">Size Guide</a>
+                        <a href="#" onclick="event.preventDefault(); showToast('Order tracking is available under My Orders in your account.');">Track Order</a>
+                        <a href="#" onclick="event.preventDefault(); showToast('Free standard shipping on orders over ₹1499. Delivery details are in the checkout process.');">Shipping & Delivery</a>
+                        <a href="#" onclick="event.preventDefault(); showToast('7-day hassle-free returns policy. Contact support to initiate a return.');">Returns & Exchanges</a>
+                        <a href="#" onclick="event.preventDefault(); showToast('Frequently Asked Questions are available under the CONTACT page.');">FAQs</a>
+                        <a href="#" onclick="event.preventDefault(); showToast('Size Guide is available on standard product detail cards.');">Size Guide</a>
                     </div>
                 </div>
 
@@ -1569,9 +1587,9 @@
                     <p class="footer-copyright">&copy; 2026 EKKVASTRA. All Rights Reserved.</p>
                     <p class="footer-trust-line">Secure Payments<span class="dot">&middot;</span>Easy Returns<span class="dot">&middot;</span>Fast Shipping</p>
                     <div style="display:flex;flex-wrap:wrap;gap:20px;">
-                        <a href="#" style="color:rgba(255,255,255,.58);">Privacy Policy</a>
-                        <a href="#" style="color:rgba(255,255,255,.58);">Terms of Service</a>
-                        <a href="#" style="color:rgba(255,255,255,.58);">Refund Policy</a>
+                        <a href="#" style="color:rgba(255,255,255,.58);" onclick="event.preventDefault(); showToast('Privacy Policy coming soon!');">Privacy Policy</a>
+                        <a href="#" style="color:rgba(255,255,255,.58);" onclick="event.preventDefault(); showToast('Terms & Conditions coming soon!');">Terms of Service</a>
+                        <a href="#" style="color:rgba(255,255,255,.58);" onclick="event.preventDefault(); showToast('Refund Policy coming soon!');">Refund Policy</a>
                     </div>
                 </div>
 
@@ -1634,6 +1652,7 @@
                 }
 
                 // Force local image and property replacements for legacy items
+                let normalized = false;
                 items.forEach(p => {
                     if (!p.colors) {
                         p.colors = ["#111111", "#888888", "#e9e4dd"];
@@ -1649,11 +1668,29 @@
                         if (p.name.toLowerCase().includes('hoodie')) p.image = 'images/ekkvastra_hoodie.png';
                         else if (p.name.toLowerCase().includes('cargo') || p.name.toLowerCase().includes('pants')) p.image = 'images/ekkvastra_cargo.png';
                         else p.image = 'images/ekkvastra_front_print_tee.png';
+                        normalized = true;
                     }
                     if (p.hoverImage && p.hoverImage.startsWith('http')) {
                         p.hoverImage = 'images/ekkvastra_back_print_tee.png';
+                        normalized = true;
+                    }
+                    // Older/stale entries sometimes stored just the filename
+                    // (no "images/" folder), which 404s -- patch those up too.
+                    if (p.image && !p.image.startsWith('http') && !p.image.startsWith('images/')) {
+                        p.image = 'images/' + p.image;
+                        normalized = true;
+                    }
+                    if (p.hoverImage && !p.hoverImage.startsWith('http') && !p.hoverImage.startsWith('images/')) {
+                        p.hoverImage = 'images/' + p.hoverImage;
+                        normalized = true;
                     }
                 });
+
+                // Persist the cleaned-up paths so this doesn't need re-patching
+                // (and any other page reading this key gets the fixed data too).
+                if (normalized) {
+                    localStorage.setItem(STORAGE_KEY, JSON.stringify(items));
+                }
 
                 return items;
             }
@@ -1752,8 +1789,10 @@
         }
         function updateCartBadgeCount() {
             const count = getCart().reduce((sum, item) => sum + (item.quantity || 0), 0);
-            const badge = document.querySelector('.cart-badge');
-            if (badge) badge.textContent = count;
+            document.querySelectorAll('.cart-badge').forEach(badge => {
+                badge.textContent = count;
+                badge.classList.toggle('visible', count > 0);
+            });
             const drawerCount = document.getElementById('drawerCartCount');
             if (drawerCount) drawerCount.textContent = count;
         }
@@ -1796,7 +1835,7 @@
                     </div>
                 </div>` : '';
             const ratingHtml = product.rating ? `
-                <div style="display:flex;align-items:center;gap:6px;color:#f5a623;font-size:0.85rem;">
+                <div style="display:flex;align-items:center;gap:6px;color:#ff5e00;font-size:0.85rem;">
                     <span>${"★".repeat(product.rating.stars)}${"☆".repeat(5 - product.rating.stars)}</span>
                     <span style="color:#888;font-size:0.75rem;">(${product.rating.count} reviews)</span>
                 </div>` : '';
@@ -2062,10 +2101,7 @@
                 searchOpenBtns.forEach(btn => {
                     btn.addEventListener('click', (e) => {
                         e.preventDefault();
-                        if (typeof toggleMobileDrawer === 'function') toggleMobileDrawer(false);
-                        searchOverlay.classList.add('open');
-                        searchOverlay.setAttribute('aria-hidden', 'false');
-                        setTimeout(() => searchInput?.focus(), 100);
+                        window.location.href = 'SEARCH.html';
                     });
                 });
 
@@ -2225,8 +2261,8 @@
                         <div class="trending-links">
                             <a href="shop.html">New Arrivals</a>
                             <a href="shop.html">Best Sellers</a>
-                            <a href="shop.html">Graphic Tees</a>
-                            <a href="shop.html">Essentials</a>
+                            <a href="collection.html?name=Graphic%20Tees">Graphic Tees</a>
+                            <a href="collection.html?name=Essentials">Essentials</a>
                         </div>
                     </div>
                 </div>

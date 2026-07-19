@@ -7,7 +7,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // Detect if we are on the homepage to toggle anchors vs. index.html-prefixed urls
     const isHomePage = !!document.getElementById("heroGrid") || !!document.getElementById("new-arrivals");
     const arrivalsUrl = isHomePage ? "#new-arrivals" : "index.html#new-arrivals";
-    const collectionsUrl = isHomePage ? "#collections" : "index.html#collections";
 
     // Read session state directly from localStorage (shared across all pages)
     let isLoggedIn = false;
@@ -19,7 +18,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const profileBlockHtml = isLoggedIn ? `
         <a href="account.html" class="drawer-profile-row">
-            <img src="images/avatar_akash.png" alt="${sessionUser.name || 'Account'}" class="drawer-profile-avatar" />
+            <img src="images/avatar_anshika.png" alt="${sessionUser.name || 'Account'}" class="drawer-profile-avatar" />
             <div class="drawer-profile-meta">
                 <span class="drawer-profile-name">${sessionUser.name || 'My Account'}</span>
                 <span class="drawer-profile-email">${sessionUser.email || ''}</span>
@@ -104,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <a href="${arrivalsUrl}" class="drawer-sublink">New Arrivals</a>
                         <a href="shop.html?category=hoodies" class="drawer-sublink">Hoodies & Sweatshirts</a>
                         <a href="shop.html?category=t-shirts" class="drawer-sublink">T-Shirts</a>
-                        <a href="shop.html?category=cargos" class="drawer-sublink">Cargo Pants</a>
+                        <a href="shop.html?category=Cargo%20Pants" class="drawer-sublink">Cargo Pants</a>
                         <a href="shop.html?category=accessories" class="drawer-sublink">Accessories</a>
                     </div>
                 </div>
@@ -123,15 +122,16 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                     </div>
                     <div class="drawer-submenu">
-                        <a href="${collectionsUrl}" class="drawer-sublink">Summer Drop '26</a>
-                        <a href="${collectionsUrl}" class="drawer-sublink">Winter Essentials</a>
-                        <a href="${collectionsUrl}" class="drawer-sublink">Urban Active</a>
+                        <a href="collection.html?name=Oversized" class="drawer-sublink">Oversized</a>
+                        <a href="collection.html?name=Graphic%20Tees" class="drawer-sublink">Graphic Tees</a>
+                        <a href="collection.html?name=Essentials" class="drawer-sublink">Essentials</a>
+                        <a href="collection.html?name=Hoodies" class="drawer-sublink">Hoodies</a>
                     </div>
                 </div>
 
                 <!-- My Orders -->
                 <div class="drawer-item-container">
-                    <a href="account.html#recentOrdersCard" class="drawer-item-row">
+                    <a href="account.html#screenOrders" class="drawer-item-row">
                         <div class="drawer-item-left">
                             <span class="drawer-item-icon">
                                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
@@ -315,17 +315,22 @@ document.addEventListener("DOMContentLoaded", () => {
     const links = mobileDrawer.querySelectorAll(".drawer-panel a");
     links.forEach((link) => {
         link.addEventListener("click", (e) => {
+            const isSocial = link.closest(".drawer-social");
             const isAlert = link.id && ["drawerShipping", "drawerReturns", "drawerFaqs", "drawerSizeGuide", "drawerPrivacy", "drawerTerms"].includes(link.id);
-            if (isAlert) {
+            if (isAlert || isSocial) {
                 e.preventDefault();
                 let message = "";
-                switch (link.id) {
-                    case "drawerShipping": message = "Free standard shipping on orders over ₹1499. Delivery details are in the checkout process."; break;
-                    case "drawerReturns": message = "7-day hassle-free returns policy. Contact support to initiate a return."; break;
-                    case "drawerFaqs": message = "Frequently Asked Questions are available under the CONTACT page."; break;
-                    case "drawerSizeGuide": message = "Size Guide is available on standard product detail cards."; break;
-                    case "drawerPrivacy": message = "Privacy Policy coming soon!"; break;
-                    case "drawerTerms": message = "Terms & Conditions coming soon!"; break;
+                if (isSocial) {
+                    message = `${link.getAttribute("aria-label") || "This"} page is coming soon!`;
+                } else {
+                    switch (link.id) {
+                        case "drawerShipping": message = "Free standard shipping on orders over ₹1499. Delivery details are in the checkout process."; break;
+                        case "drawerReturns": message = "7-day hassle-free returns policy. Contact support to initiate a return."; break;
+                        case "drawerFaqs": message = "Frequently Asked Questions are available under the CONTACT page."; break;
+                        case "drawerSizeGuide": message = "Size Guide is available on standard product detail cards."; break;
+                        case "drawerPrivacy": message = "Privacy Policy coming soon!"; break;
+                        case "drawerTerms": message = "Terms & Conditions coming soon!"; break;
+                    }
                 }
 
                 if (typeof showToast === 'function') {
@@ -353,8 +358,12 @@ document.addEventListener("DOMContentLoaded", () => {
         try {
             const cart = JSON.parse(localStorage.getItem("ekkvastra_cart")) || [];
             const count = cart.reduce((sum, item) => sum + (item.quantity || 0), 0);
-            const navCartBadge = document.querySelector(".cart-badge");
-            if (navCartBadge) navCartBadge.textContent = count;
+            document.querySelectorAll(".cart-badge").forEach((badge) => {
+                badge.textContent = count;
+                badge.classList.toggle("visible", count > 0);
+            });
+            const drawerCount = document.getElementById("drawerCartCount");
+            if (drawerCount) drawerCount.textContent = count;
         } catch (e) {}
 
         try {
@@ -366,25 +375,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         } catch (e) {}
     }
-
-    // Replace standard shopping cart SVG in mobile header with a premium shopping bag SVG to match the mockup
-    function styleHeaderMobileIcons() {
-        try {
-            const cartLink = document.querySelector('a[href="cart.html"]');
-            if (cartLink) {
-                const cartSvg = cartLink.querySelector('svg');
-                if (cartSvg) {
-                    cartSvg.setAttribute("viewBox", "0 0 24 24");
-                    cartSvg.innerHTML = `
-                        <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-                        <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></line>
-                        <path d="M16 10a4 4 0 0 1-8 0" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"></path>
-                    `;
-                }
-            }
-        } catch (e) {}
-    }
-    styleHeaderMobileIcons();
 
     updateHeaderBadges();
 
