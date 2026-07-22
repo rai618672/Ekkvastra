@@ -531,210 +531,368 @@
             padding: 0;
             overflow: hidden;
             width: 100%;
+            background: #080808;
         }
 
-        .hero-grid {
-            display: grid;
-            grid-template-columns: 1.15fr 1fr;
-            gap: 0;
-            background: #0d0d0d;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 28px;
-            margin: 24px auto 0;
-            max-width: calc(var(--max) - 80px);
-            min-height: 720px;
-            padding: 32px;
+        .hero-container {
             position: relative;
+            width: calc(100% - 48px);
+            max-width: calc(var(--max) - 80px);
+            margin: 24px auto 0;
+            min-height: 700px;
+            height: 720px;
+            background: #161616;
+            border-radius: 28px;
             overflow: hidden;
-            box-shadow: var(--soft-shadow);
-            align-items: stretch;
+            isolation: isolate;
+            -webkit-mask-image: -webkit-radial-gradient(white, black);
+            mask-image: radial-gradient(white, black);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
         }
 
-        .hero-copy {
+        .hero-image-bg {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            background: #161616;
+            border-radius: inherit;
+            overflow: hidden;
+        }
+
+        .hero-image-bg img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            object-position: right center;
+        }
+
+        .hero-left-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            width: 54%;
+            background: linear-gradient(160deg, #1c1c1c 0%, #121212 100%);
+            clip-path: polygon(0 0, 100% 0, 62% 100%, 0 100%);
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            padding: 48px 40px 48px clamp(24px, 4vw, 80px);
+        }
+
+        .hero-copy-inner {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            gap: 18px;
-            padding: clamp(24px, 4vw, 72px);
+            max-width: 520px;
+            width: 100%;
             color: #fff;
-            z-index: 2;
         }
 
-        .hero-copy .eyebrow {
-            font-size: 0.78rem;
-            font-weight: 700;
-            letter-spacing: 0.34em;
-            color: var(--muted);
-        }
-
-        .hero-copy .title-lg {
-            font-family: var(--font-display);
-            font-size: clamp(3.2rem, 6.6vw, 6.4rem);
-            line-height: 0.9;
+        .hero-eyebrow {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 0.75rem;
             font-weight: 800;
-            letter-spacing: -0.08em;
-            color: #fff;
-            margin: 0;
-            max-width: 720px;
+            letter-spacing: 0.22em;
+            color: #ff5e00;
+            text-transform: uppercase;
+            margin-bottom: 16px;
         }
 
-        .hero-copy .copy {
-            font-size: 1.05rem;
-            line-height: 1.7;
-            color: rgba(255, 255, 255, 0.65);
-            max-width: 560px;
-            margin: 8px 0 0;
+        .hero-gold-dash {
+            width: 24px;
+            height: 2px;
+            background: #ff5e00;
+            flex-shrink: 0;
+        }
+
+        .hero-title {
+            font-family: var(--font-display);
+            font-size: clamp(3.2rem, 5.5vw, 5.6rem);
+            line-height: 0.94;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            color: #ffffff;
+            margin: 0 0 16px;
+            text-transform: uppercase;
+        }
+
+        .hero-subtitle {
+            font-size: 1.02rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.68);
+            margin: 0 0 28px;
+            max-width: 420px;
         }
 
         .hero-actions {
             display: flex;
             gap: 14px;
-            margin-top: 14px;
+            align-items: center;
             flex-wrap: wrap;
         }
 
-        .hero-actions .btn-primary,
-        .hero-actions .btn-secondary {
+        .btn-hero-primary {
             display: inline-flex;
             align-items: center;
-            justify-content: center;
-            min-height: 60px;
-            padding: 0 28px;
-            border-radius: 999px;
-            font-size: 0.95rem;
-            font-weight: 700;
-            letter-spacing: 0;
-            text-transform: none;
-            transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+            gap: 10px;
+            padding: 14px 28px;
+            background: #ffffff;
+            color: #000000;
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
         }
 
-        .hero-actions .btn-primary {
-            background: #232323;
-            color: #fff;
-            border: 1px solid #232323;
-            box-shadow: 0 10px 24px rgba(0, 0, 0, 0.14);
+        .btn-hero-primary:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
         }
 
-        .hero-actions .btn-secondary {
+        .btn-hero-secondary {
+            display: inline-flex;
+            align-items: center;
+            padding: 14px 28px;
             background: transparent;
-            color: #fff;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            transition: all 0.3s ease;
         }
 
-        .hero-meta-chips {
+        .btn-hero-secondary:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-2px);
+        }
+
+        .hero-divider {
+            width: 100%;
+            max-width: 440px;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 32px 0 24px;
+        }
+
+        .hero-features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            max-width: 440px;
+        }
+
+        .hero-feature-item {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .hero-feature-icon {
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .hero-feature-title {
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            color: #ffffff;
+            margin-top: 4px;
+        }
+
+        .hero-feature-sub {
+            font-size: 0.68rem;
+            color: rgba(255, 255, 255, 0.5);
+            line-height: 1.35;
+        }
+
+        .hero-slider-nav {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            margin-top: 32px;
+        }
+
+        .hero-slide-counter {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: rgba(255, 255, 255, 0.4);
+            letter-spacing: 0.05em;
+        }
+
+        .hero-current-num {
+            color: #ff5e00;
+            font-weight: 800;
+        }
+
+        .hero-arrow-btns {
             display: flex;
             gap: 10px;
-            margin-top: 4px;
-            flex-wrap: wrap;
         }
 
-        .hero-meta-chip {
-            background: rgba(255, 255, 255, 0.08);
-            color: #fff;
-            font-size: 0.68rem;
-            font-weight: 800;
-            padding: 10px 16px;
-            border-radius: 999px;
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
+        .hero-arrow-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: transparent;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.25s ease;
+        }
+
+        .hero-arrow-btn:hover {
+            border-color: #ff5e00;
+            color: #ff5e00;
+            transform: scale(1.05);
+        }
+
+        .hero-badge-corner {
+            position: absolute;
+            bottom: 24px;
+            right: 28px;
+            background: rgba(10, 10, 10, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
-        }
-
-        .hero-image {
-            position: relative;
-            border-radius: 24px;
-            overflow: hidden;
-            min-height: 100%;
-            background: #1a1a1a;
-        }
-
-        .hero-image img {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .hero-badge {
-            position: absolute;
-            bottom: 18px;
-            left: 18px;
-            background: rgba(0, 0, 0, 0.7);
-            color: #fff;
-            font-size: 0.72rem;
+            padding: 10px 18px;
+            border-radius: 6px;
+            color: #ffffff;
+            font-size: 0.7rem;
             font-weight: 800;
+            letter-spacing: 0.1em;
             text-transform: uppercase;
-            letter-spacing: 0.18em;
-            padding: 12px 18px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-        }
-
-        .hero-tag {
-            position: absolute;
-            bottom: 18px;
-            right: 18px;
-            background: rgba(0, 0, 0, 0.75);
-            color: #fff;
-            font-size: 0.72rem;
-            font-weight: 800;
-            text-transform: uppercase;
-            letter-spacing: 0.18em;
-            padding: 12px 18px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-        }
-
-        .hero-dots {
-            position: absolute;
-            bottom: 18px;
-            left: 50%;
-            transform: translateX(-50%);
             display: flex;
             align-items: center;
             gap: 8px;
-            z-index: 10;
-        }
-
-        .hero-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.25);
-            opacity: 1;
-            border: none;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            padding: 0;
-        }
-
-        .hero-dot.active {
-            width: 30px;
-            height: 10px;
-            border-radius: 999px;
-            background: #fff;
+            z-index: 5;
         }
 
         @media (max-width: 1023px) {
-            .hero-grid {
-                grid-template-columns: 1fr;
-                padding: 18px;
+            .hero-container {
+                height: auto;
                 min-height: auto;
+                display: flex;
+                flex-direction: column;
+                background: #161616;
+                width: calc(100% - 28px);
+                max-width: none;
+                margin: 14px auto 0;
+                border-radius: 22px;
             }
 
-            .hero-copy {
-                padding: 34px 22px 8px;
+            .hero-image-bg {
+                position: relative;
+                height: clamp(340px, 48vh, 440px);
+                width: 100%;
+                border-radius: 22px 22px 0 0;
+                overflow: hidden;
             }
 
-            .hero-copy .title-lg {
-                font-size: clamp(2.8rem, 10vw, 4.6rem);
+            .hero-image-bg img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                object-position: center top;
             }
 
-            .hero-image {
-                min-height: 420px;
+            .hero-left-panel {
+                position: relative;
+                width: 100%;
+                margin-top: -48px;
+                background: linear-gradient(160deg, #1c1c1c 0%, #121212 100%);
+                clip-path: polygon(0 0, 100% 36px, 100% 100%, 0 100%);
+                padding: 52px 20px 36px;
+                z-index: 3;
+            }
+
+            .hero-copy-inner {
+                max-width: 100%;
+            }
+
+            .hero-eyebrow {
+                font-size: 0.72rem;
+                margin-bottom: 12px;
+            }
+
+            .hero-title {
+                font-size: clamp(2.4rem, 9.5vw, 3.4rem);
+                line-height: 0.94;
+                margin-bottom: 12px;
+            }
+
+            .hero-subtitle {
+                font-size: 0.9rem;
+                line-height: 1.55;
+                margin-bottom: 24px;
+            }
+
+            .hero-actions {
+                flex-direction: column;
+                gap: 10px;
+                width: 100%;
+            }
+
+            .btn-hero-primary,
+            .btn-hero-secondary {
+                width: 100%;
+                justify-content: center;
+                padding: 14px 20px;
+                font-size: 0.78rem;
+            }
+
+            .hero-divider {
+                max-width: 100%;
+                margin: 28px 0 20px;
+            }
+
+            .hero-features {
+                max-width: 100%;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 12px;
+                text-align: center;
+            }
+
+            .hero-feature-item {
+                align-items: center;
+                text-align: center;
+            }
+
+            .hero-feature-title {
+                font-size: 0.65rem;
+                text-align: center;
+                line-height: 1.25;
+            }
+
+            .hero-feature-sub {
+                display: none;
+            }
+
+            .hero-slider-nav {
+                display: none;
+            }
+
+            .hero-badge-corner {
+                display: none;
             }
         }
 
@@ -755,6 +913,7 @@
             .hero-copy {
                 gap: 0; /* replaced by explicit margins below for finer control */
                 padding: 18px 22px 0; /* premium mobile gutter */
+                min-height: 430px; /* reserves space for the longest slide's title+copy so the box doesn't resize as slides with shorter text rotate in */
             }
 
             .hero-copy .eyebrow {
@@ -791,52 +950,49 @@
                 font-weight: 600; /* slightly less visual weight than primary */
             }
 
-            .hero-meta-chips {
-                gap: 6px;
-                margin-top: 16px; /* buttons -> badges */
+            .hero-divider {
+                margin-top: 18px; /* buttons -> divider */
             }
 
-            .hero-meta-chip {
-                padding: 8px 12px;
-                font-size: 0.64rem;
+            .hero-features {
+                gap: 16px;
+                margin-top: 16px;
+            }
+
+            .hero-feature-icon {
+                width: 26px;
+                height: 26px;
+            }
+
+            .hero-feature-label {
+                font-size: 0.62rem;
+            }
+
+            .hero-feature-sub {
+                display: none; /* keep the mobile row compact -- icon + label only */
+            }
+
+            .hero-nav-row {
+                margin-top: 18px;
             }
 
             .hero-image {
-                min-height: 380px; /* larger visible image area */
+                min-height: 320px; /* image sits above the copy on mobile, so it needs less height */
             }
 
             .hero-image img {
                 object-position: center top; /* keeps the model's face/upper body in frame */
             }
 
-            .hero-badge,
-            .hero-tag {
+            .hero-diagonal-notch {
+                width: clamp(60px, 22%, 120px);
+            }
+
+            .hero-badge-corner {
                 bottom: 14px;
-                padding: 10px 14px;
-                font-size: 0.66rem;
-            }
-
-            .hero-badge {
-                left: 14px;
-            }
-
-            .hero-tag {
                 right: 14px;
-            }
-
-            .hero-dots {
-                bottom: 14px; /* aligned with badge/tag */
-                gap: 6px;
-            }
-
-            .hero-dot {
-                width: 8px;
-                height: 8px;
-            }
-
-            .hero-dot.active {
-                width: 24px;
-                height: 8px;
+                padding: 10px 14px;
+                font-size: 0.62rem;
             }
         }
 
@@ -1496,81 +1652,165 @@
             flex-shrink: 0;
         }
 
-        /* --- SHOP BY CATEGORY (card row, below marquee) --- */
+        /* --- SHOP BY CATEGORY (dark banner, photo-card row) --- */
         .category-icons-section {
-            padding: 40px 0;
+            padding: 60px 0;
+            background: #0a0a0a;
         }
 
         @media (min-width: 640px) {
             .category-icons-section {
-                padding: 56px 0;
+                padding: 76px 0;
             }
         }
 
         .category-icons-head {
-            margin-bottom: 28px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            gap: 24px;
+            flex-wrap: wrap;
+            margin-bottom: 32px;
+        }
+
+        .category-icons-subtitle {
+            color: var(--muted);
+            font-size: 0.95rem;
+            margin: 10px 0 0;
+        }
+
+        .category-view-all-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 11px 22px;
+            border: 1px solid rgba(255, 94, 0, 0.4);
+            color: #ffffff;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            white-space: nowrap;
+            transition: all 0.3s ease;
+        }
+
+        .category-view-all-btn:hover,
+        .category-view-all-btn:focus-visible {
+            border-color: #ff5e00;
+            color: #ff5e00;
+            transform: translateY(-2px);
         }
 
         .category-icons-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            grid-template-columns: repeat(8, minmax(0, 1fr));
             gap: 14px;
         }
 
         .category-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 10px;
-            text-align: center;
-            background: #111;
+            position: relative;
+            display: block;
+            aspect-ratio: 3 / 4.3;
+            border-radius: 16px;
+            overflow: hidden;
+            background: #161616;
             border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 14px;
-            padding: 22px 12px;
-            transition: transform 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
         }
 
-        .category-card-icon {
-            width: 38px;
-            height: 38px;
+        .category-card img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .category-card-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.88) 100%);
+        }
+
+        .category-card-info {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            padding: 16px 12px;
             display: flex;
-            align-items: center;
-            justify-content: center;
-            color: #fff;
-            transition: color 0.25s ease;
+            flex-direction: column;
+            gap: 4px;
         }
 
         .category-card-title {
-            font-size: 0.78rem;
+            font-size: 0.85rem;
             font-weight: 800;
-            letter-spacing: 0.03em;
-            text-transform: uppercase;
+            letter-spacing: 0.02em;
             color: #fff;
         }
 
         .category-card-count {
-            font-size: 0.65rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.66rem;
             font-weight: 600;
-            letter-spacing: 0.04em;
-            text-transform: uppercase;
-            color: #73736f;
+            letter-spacing: 0.03em;
+            color: rgba(255, 255, 255, 0.62);
         }
 
-        .category-card:hover,
-        .category-card:active,
-        .category-card:focus-visible {
-            transform: translateY(-4px);
-            border-color: #ff5e00;
-            background: rgba(255, 94, 0, 0.06);
+        .category-card-count svg {
+            transition: transform 0.25s ease;
         }
 
-        .category-card:hover .category-card-icon,
-        .category-card:active .category-card-icon,
-        .category-card:focus-visible .category-card-icon {
+        .category-card:hover img,
+        .category-card:active img,
+        .category-card:focus-visible img {
+            transform: scale(1.08);
+        }
+
+        .category-card:hover .category-card-count,
+        .category-card:active .category-card-count,
+        .category-card:focus-visible .category-card-count {
             color: #ff5e00;
         }
 
+        .category-card:hover .category-card-count svg,
+        .category-card:active .category-card-count svg,
+        .category-card:focus-visible .category-card-count svg {
+            transform: translateX(3px);
+        }
+
+        @media (max-width: 1023px) {
+            .category-icons-grid {
+                grid-template-columns: repeat(5, minmax(0, 1fr));
+            }
+        }
+
+        .category-scroll-progress {
+            display: none;
+        }
+
         @media (max-width: 767px) {
+            .category-icons-head {
+                align-items: flex-start;
+            }
+
+            .category-icons-head .title-md {
+                font-size: 1.3rem !important;
+            }
+
+            .category-icons-subtitle {
+                font-size: 0.85rem;
+            }
+
+            .category-view-all-btn {
+                padding: 11px 18px;
+                font-size: 0.66rem;
+            }
+
             .category-icons-grid {
                 display: flex;
                 flex-wrap: nowrap;
@@ -1590,8 +1830,29 @@
             }
 
             .category-card {
-                flex: 0 0 116px;
+                flex: 0 0 136px;
+                aspect-ratio: 3 / 4.3;
                 scroll-snap-align: start;
+            }
+
+            .category-scroll-progress {
+                display: flex;
+                justify-content: center;
+                gap: 6px;
+                margin-top: 16px;
+            }
+
+            .category-scroll-progress .progress-line {
+                flex: 1;
+                max-width: 44px;
+                height: 3px;
+                border-radius: 999px;
+                background: rgba(255, 255, 255, 0.15);
+                transition: background-color 0.25s ease;
+            }
+
+            .category-scroll-progress .progress-line.active {
+                background: #ff5e00;
             }
         }
 
@@ -2659,37 +2920,80 @@
 
     <main id="content">
         <section class="hero-wrap">
-            <div class="hero-grid" id="heroGrid">
-                <div class="hero-copy reveal" id="heroCopy">
-                    <div class="eyebrow" id="heroEyebrow">PREMIUM STREETWEAR</div>
-                    <h1 class="title-lg" id="heroTitle">STYLE WITH EDGE</h1>
-                    <p class="copy" id="heroText">Quiet luxury streetwear designed to feel sharp and effortless.</p>
-
-                    <div class="hero-actions">
-                        <a href="shop.html" class="btn-primary">Shop Now</a>
-                        <a href="#collections" class="btn-secondary">Explore Collection</a>
-                    </div>
-
-                    <div class="hero-meta-chips">
-                        <span class="hero-meta-chip">Limited Drop</span>
-                        <span class="hero-meta-chip">Premium Fits</span>
-                        <span class="hero-meta-chip">Everyday Wear</span>
+            <div class="hero-container">
+                <!-- Background Image on the right -->
+                <div class="hero-image-bg">
+                    <img id="heroImage" src="images/hero_built_different.png" alt="EKKVASTRA Premium Streetwear" />
+                    <div class="hero-badge-corner">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="#ff5e00"><path d="M12 2l2.9 6.9L22 9.7l-5.5 4.8L18 22l-6-4-6 4 1.5-7.5L2 9.7l7.1-.8z"/></svg>
+                        <span>NEW SEASON / SS '26</span>
                     </div>
                 </div>
 
-                <div class="hero-image">
-                    <img id="heroImage"
-                        src="images/ekkvastra_hoodie.png"
-                        alt="Premium streetwear hero image" />
-                    <div class="hero-badge">New Season</div>
-                    <div class="hero-tag">EMG / 2026</div>
-                </div>
+                <!-- Left Dark Panel with Angled Cut -->
+                <div class="hero-left-panel">
+                    <div class="hero-copy-inner">
+                        <div class="hero-eyebrow">
+                            <span class="hero-gold-dash"></span>
+                            <span id="heroEyebrowText">NEW SEASON</span>
+                        </div>
 
-                <div class="hero-dots" id="heroDots">
-                    <button class="hero-dot" aria-label="Slide 1"></button>
-                    <button class="hero-dot" aria-label="Slide 2"></button>
-                    <button class="hero-dot active" aria-label="Slide 3"></button>
-                    <button class="hero-dot" aria-label="Slide 4"></button>
+                        <h1 class="hero-title" id="heroTitle">
+                            BUILT<br />DIFFERENT.
+                        </h1>
+
+                        <p class="hero-subtitle" id="heroText">
+                            Premium pieces made for elevated everyday wear.
+                        </p>
+
+                        <div class="hero-actions">
+                            <a href="shop.html" class="btn-hero-primary">
+                                SHOP NOW
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                            </a>
+                            <a href="#collections" class="btn-hero-secondary">EXPLORE COLLECTION</a>
+                        </div>
+
+                        <div class="hero-divider"></div>
+
+                        <div class="hero-features">
+                            <div class="hero-feature-item">
+                                <div class="hero-feature-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 8l-9-5-9 5 9 5 9-5z"/><path d="M3 8v8l9 5 9-5V8"/><path d="M12 13v8"/></svg>
+                                </div>
+                                <div class="hero-feature-title">LIMITED DROP</div>
+                                <div class="hero-feature-sub">Grab it before it's gone.</div>
+                            </div>
+                            <div class="hero-feature-item">
+                                <div class="hero-feature-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20.38 3.46L16 2a4 4 0 01-8 0L3.62 3.46a2 2 0 00-1.34 2.23l.58 3.47a1 1 0 00.99.84H6v10a2 2 0 002 2h8a2 2 0 002-2V10h2.15a1 1 0 00.99-.84l.58-3.47a2 2 0 00-1.34-2.23z"/></svg>
+                                </div>
+                                <div class="hero-feature-title">PREMIUM FITS</div>
+                                <div class="hero-feature-sub">Designed for comfort. Made to last.</div>
+                            </div>
+                            <div class="hero-feature-item">
+                                <div class="hero-feature-icon">
+                                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                                </div>
+                                <div class="hero-feature-title">EVERYDAY WEAR</div>
+                                <div class="hero-feature-sub">For wherever the day takes you.</div>
+                            </div>
+                        </div>
+
+                        <div class="hero-slider-nav">
+                            <div class="hero-slide-counter">
+                                <span id="heroSlideCurrent" class="hero-current-num">01</span> / <span id="heroSlideTotal" class="hero-total-num">03</span>
+                            </div>
+                            <div class="hero-arrow-btns">
+                                <button class="hero-arrow-btn" id="heroPrevBtn" aria-label="Previous slide">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+                                </button>
+                                <button class="hero-arrow-btn" id="heroNextBtn" aria-label="Next slide">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </section>
@@ -2718,77 +3022,90 @@
             </div>
         </div>
 
-        <!-- Shop by Category (icon row) -->
+        <!-- Shop by Category (dark banner, photo-card row) -->
         <section class="category-icons-section">
             <div class="page-shell">
                 <div class="category-icons-head reveal">
-                    <div class="eyebrow">Browse</div>
-                    <h2 class="title-md" style="margin-top:12px;">Shop by Category</h2>
+                    <div>
+                        <div class="eyebrow" style="color: #ff5e00; letter-spacing: 0.15em; font-weight: 700;">DISCOVER</div>
+                        <h2 class="title-md" style="margin-top:8px; font-weight: 900; font-size: 2.2rem; letter-spacing: -0.02em;">Explore All Categories</h2>
+                        <p class="category-icons-subtitle" style="margin-top:6px; color: #888;">Timeless styles. Premium quality. Built for you.</p>
+                    </div>
+                    <a href="categories.html" class="category-view-all-btn">
+                        VIEW ALL categories
+                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </a>
                 </div>
                 <div class="category-icons-grid" id="categoryIconsGrid">
                     <a href="shop.html?category=Hoodies" class="category-card">
-                        <span class="category-card-icon">
-                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5L3 8l2.5 3L7 10v10h10V10l1.5 1L21 8l-4-3c-.3 1.1-1.1 1.9-2.2 2.4L14 5h-4l-.8 2.4C8.1 6.9 7.3 6.1 7 5z"/><path d="M9 14h6"/></svg>
-                        </span>
-                        <span class="category-card-title">Hoodies</span>
-                        <span class="category-card-count" data-cat="Hoodies">Styles</span>
+                        <img src="images/cat_hoodies.png" alt="Hoodies" loading="lazy" />
+                        <div class="category-card-overlay"></div>
+                        <div class="category-card-info">
+                            <span class="category-card-title">HOODIES</span>
+                            <span class="category-card-count" data-cat="Hoodies"><span class="category-card-count-text">Styles</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                        </div>
                     </a>
                     <a href="shop.html?category=Oversized%20Tees" class="category-card">
-                        <span class="category-card-icon">
-                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4L3 7l2.5 3L7 9v11h10V9l1.5 1L21 7l-4-3c-.5 1.6-2.6 2.7-5 2.7S7.5 5.6 7 4z"/></svg>
-                        </span>
-                        <span class="category-card-title">Oversized Tees</span>
-                        <span class="category-card-count" data-cat="Oversized Tees">Styles</span>
+                        <img src="images/cat_oversized_tees.png" alt="Oversized Tees" loading="lazy" />
+                        <div class="category-card-overlay"></div>
+                        <div class="category-card-info">
+                            <span class="category-card-title">OVERSIZED TEES</span>
+                            <span class="category-card-count" data-cat="Oversized Tees"><span class="category-card-count-text">Styles</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                        </div>
                     </a>
                     <a href="collection.html?name=Graphic%20Tees" class="category-card">
-                        <span class="category-card-icon">
-                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4L3 7l2.5 3L7 9v11h10V9l1.5 1L21 7l-4-3c-.5 1.6-2.6 2.7-5 2.7S7.5 5.6 7 4z"/><path d="M12 10.3l1 2 2.1 1-2.1 1-1 2-1-2-2.1-1 2.1-1z"/></svg>
-                        </span>
-                        <span class="category-card-title">Graphic Tees</span>
-                        <span class="category-card-count" data-cat="Graphic Tees">Styles</span>
-                    </a>
-                    <a href="shop.html?category=Sweatshirts" class="category-card">
-                        <span class="category-card-icon">
-                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4L3 7l2.5 3L7 9v11h10V9l1.5 1L21 7l-4-3c-.5 1.6-2.6 2.7-5 2.7S7.5 5.6 7 4z"/><path d="M9 17h6"/></svg>
-                        </span>
-                        <span class="category-card-title">Sweatshirts</span>
-                        <span class="category-card-count" data-cat="Sweatshirts">Styles</span>
+                        <img src="images/cat_graphic_tees.png" alt="Graphic Tees" loading="lazy" />
+                        <div class="category-card-overlay"></div>
+                        <div class="category-card-info">
+                            <span class="category-card-title">GRAPHIC TEES</span>
+                            <span class="category-card-count" data-cat="Graphic Tees"><span class="category-card-count-text">Styles</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                        </div>
                     </a>
                     <a href="shop.html?category=Cargo%20Pants" class="category-card">
-                        <span class="category-card-icon">
-                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h10l1 5-2 1 1 12h-4l-1-10-1 10H7l1-12-2-1z"/></svg>
-                        </span>
-                        <span class="category-card-title">Cargo Pants</span>
-                        <span class="category-card-count" data-cat="Cargo Pants">Styles</span>
+                        <img src="images/cat_cargo_pants.png" alt="Cargo Pants" loading="lazy" />
+                        <div class="category-card-overlay"></div>
+                        <div class="category-card-info">
+                            <span class="category-card-title">CARGO PANTS</span>
+                            <span class="category-card-count" data-cat="Cargo Pants"><span class="category-card-count-text">Styles</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                        </div>
                     </a>
                     <a href="shop.html?category=Joggers" class="category-card">
-                        <span class="category-card-icon">
-                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3h8l.5 5-1 12h-3l-.5-9-.5 9h-3l-1-12z"/></svg>
-                        </span>
-                        <span class="category-card-title">Joggers</span>
-                        <span class="category-card-count" data-cat="Joggers">Styles</span>
+                        <img src="images/cat_joggers.png" alt="Joggers" loading="lazy" />
+                        <div class="category-card-overlay"></div>
+                        <div class="category-card-info">
+                            <span class="category-card-title">JOGGERS</span>
+                            <span class="category-card-count" data-cat="Joggers"><span class="category-card-count-text">Styles</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                        </div>
                     </a>
                     <a href="shop.html?category=Shorts" class="category-card">
-                        <span class="category-card-icon">
-                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 4h10l.5 4-1 .5 1 6h-4l-.5-4-.5 4H8.5l1-6-1-.5z"/></svg>
-                        </span>
-                        <span class="category-card-title">Shorts</span>
-                        <span class="category-card-count" data-cat="Shorts">Styles</span>
+                        <img src="images/cat_shorts.png" alt="Shorts" loading="lazy" />
+                        <div class="category-card-overlay"></div>
+                        <div class="category-card-info">
+                            <span class="category-card-title">SHORTS</span>
+                            <span class="category-card-count" data-cat="Shorts"><span class="category-card-count-text">Styles</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                        </div>
                     </a>
                     <a href="shop.html?category=Jackets" class="category-card">
-                        <span class="category-card-icon">
-                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5L3 8l2.5 3L7 10v10h10V10l1.5 1L21 8l-4-3-3 2h-4l-3-2z"/><path d="M12 7v13"/></svg>
-                        </span>
-                        <span class="category-card-title">Jackets</span>
-                        <span class="category-card-count" data-cat="Jackets">Styles</span>
+                        <img src="images/cat_jackets.png" alt="Jackets" loading="lazy" />
+                        <div class="category-card-overlay"></div>
+                        <div class="category-card-info">
+                            <span class="category-card-title">JACKETS</span>
+                            <span class="category-card-count" data-cat="Jackets"><span class="category-card-count-text">Styles</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                        </div>
                     </a>
                     <a href="shop.html?category=Accessories" class="category-card">
-                        <span class="category-card-icon">
-                            <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41L11 3.83A2 2 0 0 0 9.59 3.24L3 3v6.59a2 2 0 0 0 .59 1.41l9.58 9.58a2 2 0 0 0 2.82 0l4.6-4.6a2 2 0 0 0 0-2.82z"/><path d="M7 7h.01"/></svg>
-                        </span>
-                        <span class="category-card-title">Accessories</span>
-                        <span class="category-card-count" data-cat="Accessories">Styles</span>
+                        <img src="images/cat_accessories.png" alt="Accessories" loading="lazy" />
+                        <div class="category-card-overlay"></div>
+                        <div class="category-card-info">
+                            <span class="category-card-title">ACCESSORIES</span>
+                            <span class="category-card-count" data-cat="Accessories"><span class="category-card-count-text">Styles</span> <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></span>
+                        </div>
                     </a>
+                </div>
+                <div class="category-scroll-progress" id="categoryScrollProgress">
+                    <span class="progress-line active"></span>
+                    <span class="progress-line"></span>
+                    <span class="progress-line"></span>
                 </div>
             </div>
         </section>
@@ -3061,28 +3378,22 @@
     <script>
         const heroSlides = [
             {
-                eyebrow: "PREMIUM STREETWEAR",
-                title: "STYLE WITH EDGE.",
-                text: "Quiet luxury streetwear designed to feel sharp and effortless.",
-                image: "images/ekkvastra_hoodie.png"
+                eyebrow: "NEW SEASON",
+                title: "BUILT\nDIFFERENT.",
+                text: "Premium pieces made for elevated everyday wear.",
+                image: "images/hero_built_different.png"
             },
             {
                 eyebrow: "LIMITED DROP",
                 title: "OWN THE LOOK.",
                 text: "Clean silhouettes, strong layers, and everyday essentials.",
-                image: "images/ekkvastra_front_print_tee.png"
-            },
-            {
-                eyebrow: "NEW SEASON",
-                title: "BUILT DIFFERENT.",
-                text: "Premium pieces made for elevated everyday wear.",
-                image: "images/ekkvastra_cargo.png"
+                image: "images/cat_hoodies.png"
             },
             {
                 eyebrow: "ESSENTIALS",
-                title: "EKKVASTRA DROP.",
-                text: "Discover the latest oversized trends and premium graphic tees.",
-                image: "images/ekkvastra_back_print_tee.png"
+                title: "STYLE WITH EDGE.",
+                text: "Quiet luxury streetwear designed to feel sharp and effortless.",
+                image: "images/cat_oversized_tees.png"
             }
         ];
 
@@ -3263,19 +3574,22 @@
 
         const heroTitle = document.getElementById("heroTitle");
         const heroText = document.getElementById("heroText");
-        const heroEyebrow = document.getElementById("heroEyebrow");
+        const heroEyebrowText = document.getElementById("heroEyebrowText");
         const heroImage = document.getElementById("heroImage");
-        const heroDots = document.getElementById("heroDots");
+        const heroSlideCurrent = document.getElementById("heroSlideCurrent");
+        const heroSlideTotal = document.getElementById("heroSlideTotal");
+        const heroPrevBtn = document.getElementById("heroPrevBtn");
+        const heroNextBtn = document.getElementById("heroNextBtn");
 
         let activeSlide = 0;
 
         function setSlide(i) {
             activeSlide = i;
-            heroTitle.textContent = heroSlides[i].title;
+            heroTitle.innerHTML = heroSlides[i].title.replace("\n", "<br/>");
             heroText.textContent = heroSlides[i].text;
-            heroEyebrow.textContent = heroSlides[i].eyebrow;
+            heroEyebrowText.textContent = heroSlides[i].eyebrow;
             heroImage.src = heroSlides[i].image;
-            [...heroDots.children].forEach((dot, idx) => dot.classList.toggle("active", idx === i));
+            heroSlideCurrent.textContent = String(i + 1).padStart(2, "0");
         }
 
         let slideInterval = setInterval(nextSlide, 5000);
@@ -3285,18 +3599,27 @@
             setSlide(nextIndex);
         }
 
+        function prevSlide() {
+            let prevIndex = (activeSlide - 1 + heroSlides.length) % heroSlides.length;
+            setSlide(prevIndex);
+        }
+
         function resetSlideInterval() {
             clearInterval(slideInterval);
             slideInterval = setInterval(nextSlide, 5000);
         }
 
-        [...heroDots.children].forEach((dot, idx) => {
-            dot.addEventListener("click", () => {
-                setSlide(idx);
-                resetSlideInterval();
-            });
+        heroNextBtn.addEventListener("click", () => {
+            nextSlide();
+            resetSlideInterval();
         });
 
+        heroPrevBtn.addEventListener("click", () => {
+            prevSlide();
+            resetSlideInterval();
+        });
+
+        heroSlideTotal.textContent = String(heroSlides.length).padStart(2, "0");
         setSlide(0);
 
 
@@ -3359,8 +3682,22 @@
             document.querySelectorAll(".category-card-count[data-cat]").forEach(el => {
                 const cat = el.dataset.cat;
                 const count = EKKVASTRA_PRODUCTS.filter(p => p.category === cat).length;
-                el.textContent = count + (count === 1 ? " Style" : " Styles");
+                const textEl = el.querySelector(".category-card-count-text");
+                if (textEl) textEl.textContent = count + (count === 1 ? " Style" : " Styles");
             });
+
+            // Mobile category rail — segmented scroll-progress indicator
+            const catGrid = document.getElementById("categoryIconsGrid");
+            const catProgress = document.getElementById("categoryScrollProgress");
+            if (catGrid && catProgress) {
+                const lines = catProgress.querySelectorAll(".progress-line");
+                catGrid.addEventListener("scroll", () => {
+                    const maxScroll = catGrid.scrollWidth - catGrid.clientWidth;
+                    const ratio = maxScroll > 0 ? catGrid.scrollLeft / maxScroll : 0;
+                    const activeIndex = Math.min(lines.length - 1, Math.floor(ratio * lines.length));
+                    lines.forEach((line, i) => line.classList.toggle("active", i === activeIndex));
+                }, { passive: true });
+            }
 
             // Trust bar items — stagger up
             document.querySelectorAll(".trust-item").forEach((el, i) => {
