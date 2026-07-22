@@ -979,6 +979,46 @@
             background: rgba(255, 255, 255, 0.05);
         }
 
+        .qty-stepper {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            margin-top: auto;
+            overflow: hidden;
+        }
+
+        .qty-stepper .qty-btn {
+            flex: 0 0 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            color: #fff;
+            font-size: 1.05rem;
+            font-weight: 700;
+            line-height: 1;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .qty-stepper .qty-btn:hover {
+            background: #ff5e00;
+            color: #fff;
+        }
+
+        .qty-stepper .qty-value {
+            flex: 1;
+            text-align: center;
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: #fff;
+        }
+
         /* ── SECTION HEADER ── */
         .section-header-row {
             display: flex;
@@ -1904,6 +1944,7 @@
                     color: selectedColor || (product.colors && product.colors.length ? product.colors[0] : 'Black')
                 };
                 addToCart(cartProduct);
+                refreshRecCartControl(product.id);
                 showToast(`"${product.name}" has been added to your shopping bag.`);
             } else {
                 showToast(`"${name}" has been added to your shopping bag.`);
@@ -1926,6 +1967,18 @@
                 parent.querySelectorAll('.size-variant-btn').forEach(btn => btn.classList.remove('active'));
             }
             btnEl.classList.add('active');
+            // The recommendations rail's cart control reflects the quantity
+            // for whichever size is currently selected, so it needs to
+            // refresh whenever that selection changes.
+            const card = btnEl.closest('.product-card');
+            if (card && card.closest('#recommendationsGrid')) {
+                const raw = card.dataset.product;
+                try {
+                    const p = JSON.parse(decodeURIComponent(raw));
+                    const wrap = card.querySelector('.cart-control-wrap');
+                    if (wrap) wrap.innerHTML = renderRecCartControl(p, size);
+                } catch {}
+            }
         }
 
         function moveItemToBag(id, btnEl) {
@@ -1948,6 +2001,8 @@
                 // If it was in the wishlist, remove it
                 if (items.some(p => String(p.id) === String(id))) {
                     removeItem(id);
+                } else {
+                    refreshRecCartControl(id);
                 }
             }
         }
@@ -2068,14 +2123,87 @@
                                 <span class="stock-dot ${p.inStock ? 'in-stock' : 'out-of-stock'}"></span>
                                 ${p.inStock ? 'In Stock' : 'Sold Out'}
                             </div>
-                            <button class="btn-move-bag" onclick="moveItemToBag('${p.id}', this)">
-                                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
-                                Add to Cart
-                            </button>
+                            <div class="cart-control-wrap" data-control-id="${p.id}">${renderRecCartControl(p, getRecActiveSize(p, null))}</div>
                         </div>
                     </article>
                 `;
             }).join('');
+        }
+
+        function getRecActiveSize(p, cardEl) {
+            if (cardEl) {
+                const activeBtn = cardEl.querySelector('.size-variant-btn.active');
+                if (activeBtn) return activeBtn.getAttribute('data-size');
+            }
+            const sizes = p.sizes || ["S", "M", "L", "XL"];
+            return sizes[1] || sizes[0] || 'M';
+        }
+
+        function getRecCartQty(p, size) {
+            const color = p.color || (p.colors && p.colors.length > 0 ? p.colors[0] : 'Black');
+            const item = getCart().find(i => String(i.id) === String(p.id) && i.size === size && i.color === color);
+            return item ? item.quantity : 0;
+        }
+
+        // Renders either the Add to Cart button, a quantity +/- stepper (for
+        // the currently-selected size), or a disabled Sold Out state.
+        function renderRecCartControl(p, activeSize) {
+            if (!p.inStock) {
+                return `<button class="btn-move-bag" disabled style="opacity:0.45;cursor:not-allowed;">Sold Out</button>`;
+            }
+            const qty = getRecCartQty(p, activeSize);
+            if (qty > 0) {
+                return `
+                    <div class="qty-stepper" data-id="${p.id}">
+                        <button type="button" class="qty-btn" aria-label="Decrease quantity" onclick="decrementRecCartItem(event, '${p.id}')">−</button>
+                        <span class="qty-value">${qty}</span>
+                        <button type="button" class="qty-btn" aria-label="Increase quantity" onclick="incrementRecCartItem(event, '${p.id}')">+</button>
+                    </div>
+                `;
+            }
+            return `
+                <button class="btn-move-bag" onclick="moveItemToBag('${p.id}', this)">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"></circle><circle cx="20" cy="21" r="1"></circle><path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path></svg>
+                    Add to Cart
+                </button>
+            `;
+        }
+
+        function refreshRecCartControl(id) {
+            const wrap = document.querySelector(`.cart-control-wrap[data-control-id="${id}"]`);
+            if (!wrap) return;
+            const card = wrap.closest('.product-card');
+            const p = RECOMMENDATIONS.find(item => String(item.id) === String(id));
+            if (!p) return;
+            const activeSize = getRecActiveSize(p, card);
+            wrap.innerHTML = renderRecCartControl(p, activeSize);
+            updateCartBadgeCount();
+        }
+
+        function incrementRecCartItem(e, id) {
+            e.stopPropagation();
+            const card = e.currentTarget.closest('.product-card');
+            const p = RECOMMENDATIONS.find(item => String(item.id) === String(id));
+            if (!p) return;
+            const activeSize = getRecActiveSize(p, card);
+            addToCart({ ...p, size: activeSize });
+            refreshRecCartControl(id);
+        }
+
+        function decrementRecCartItem(e, id) {
+            e.stopPropagation();
+            const card = e.currentTarget.closest('.product-card');
+            const p = RECOMMENDATIONS.find(item => String(item.id) === String(id));
+            if (!p) return;
+            const activeSize = getRecActiveSize(p, card);
+            const color = p.color || (p.colors && p.colors.length > 0 ? p.colors[0] : 'Black');
+            const cart = getCart();
+            const idx = cart.findIndex(item => String(item.id) === String(id) && item.size === activeSize && item.color === color);
+            if (idx === -1) return;
+            cart[idx].quantity -= 1;
+            if (cart[idx].quantity <= 0) cart.splice(idx, 1);
+            saveCart(cart);
+            refreshRecCartControl(id);
         }
 
         // Header Scrolled styling

@@ -1495,6 +1495,48 @@
             border: 1px solid rgba(255, 255, 255, 0.4);
         }
 
+        .qty-stepper {
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            height: 38px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: #fff;
+            overflow: hidden;
+        }
+
+        .qty-stepper .qty-btn {
+            flex: 0 0 38px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: transparent;
+            border: none;
+            color: #000;
+            font-size: 1.05rem;
+            font-weight: 700;
+            line-height: 1;
+            cursor: pointer;
+            transition: background-color 0.2s ease, color 0.2s ease;
+        }
+
+        .qty-stepper .qty-btn:hover {
+            background: #ff5e00;
+            color: #fff;
+        }
+
+        .qty-stepper .qty-value {
+            flex: 1;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #000;
+        }
+
         .add-cart {
             margin-top: 10px;
             display: flex;
@@ -3460,22 +3502,10 @@
                         ${starsHtml}
                         <div class="sizes" style="margin-top:8px;">${p.sizes.map(s => `<span class="size">${s}</span>`).join("")}</div>
                         <div class="colors">${p.colors.map(c => `<span class="color" style="background:${c}"></span>`).join("")}</div>
-                        ${p.inStock ? `<button class="add-cart" onclick="addHomeCart(event, '${productData}')">Add to Cart</button>` : `<button class="add-cart" disabled style="opacity:0.45;cursor:not-allowed;">Sold Out</button>`}
+                        <div class="cart-control-wrap" data-control-id="${p.id}">${renderCartControl(p, productData)}</div>
                     </div>
                 </article>
             `;
-        }
-
-        function addHomeCart(e, rawProduct) {
-            e.preventDefault();
-            e.stopPropagation();
-            try {
-                const product = JSON.parse(decodeURIComponent(rawProduct));
-                addToCart(product);
-                showToast(`"${product.name}" added to shopping bag.`);
-            } catch (err) {
-                console.error('Failed to add product from home quick-add', err);
-            }
         }
 
         function renderCollectionCard(col) {
@@ -3531,15 +3561,93 @@
             if (drawerCount) drawerCount.textContent = count;
         }
 
+        function getHomeCartVariant(p) {
+            return {
+                size: p.size || (p.sizes && p.sizes.length > 0 ? p.sizes[0] : 'M'),
+                color: p.color || (p.colors && p.colors.length > 0 ? p.colors[0] : 'default')
+            };
+        }
+
+        function getHomeCartQty(p) {
+            const { size, color } = getHomeCartVariant(p);
+            const item = getCart().find(i => String(i.id) === String(p.id) && i.size === size && i.color === color);
+            return item ? item.quantity : 0;
+        }
+
+        // Renders either the Add to Cart button, a quantity +/- stepper (if
+        // this exact id+size+color is already in the cart), or a disabled
+        // Sold Out state -- used both on initial card render and to refresh
+        // a single card in place after a quantity change.
+        function renderCartControl(p, productData) {
+            if (!p.inStock) {
+                return `<button class="add-cart" disabled style="opacity:0.45;cursor:not-allowed;">Sold Out</button>`;
+            }
+            const qty = getHomeCartQty(p);
+            if (qty > 0) {
+                return `
+                    <div class="qty-stepper" data-id="${p.id}">
+                        <button type="button" class="qty-btn" aria-label="Decrease quantity" onclick="decrementHomeCartItem(event, '${productData}')">−</button>
+                        <span class="qty-value">${qty}</span>
+                        <button type="button" class="qty-btn" aria-label="Increase quantity" onclick="incrementHomeCartItem(event, '${productData}')">+</button>
+                    </div>
+                `;
+            }
+            return `<button class="add-cart" onclick="addHomeCart(event, '${productData}')">Add to Cart</button>`;
+        }
+
+        function findHomeProductById(id) {
+            return newArrivals.find(p => p.id === id) || bestSellers.find(p => p.id === id);
+        }
+
+        function refreshHomeCartControls(id) {
+            const product = findHomeProductById(id);
+            if (!product) return;
+            document.querySelectorAll(`.cart-control-wrap[data-control-id="${id}"]`).forEach(wrap => {
+                wrap.innerHTML = renderCartControl(product, encodeURIComponent(JSON.stringify(product)));
+            });
+            updateCartBadgeCount();
+        }
+
         function addHomeCart(e, rawProduct) {
             e.preventDefault();
             e.stopPropagation();
             try {
                 const product = JSON.parse(decodeURIComponent(rawProduct));
                 addToCart(product);
+                refreshHomeCartControls(product.id);
                 showToast(`"${product.name}" added to shopping bag.`);
             } catch (err) {
                 console.error('Failed to add homepage product to cart', err);
+            }
+        }
+
+        function incrementHomeCartItem(e, rawProduct) {
+            e.preventDefault();
+            e.stopPropagation();
+            try {
+                const product = JSON.parse(decodeURIComponent(rawProduct));
+                addToCart(product);
+                refreshHomeCartControls(product.id);
+            } catch (err) {
+                console.error('Failed to increment homepage cart item', err);
+            }
+        }
+
+        function decrementHomeCartItem(e, rawProduct) {
+            e.preventDefault();
+            e.stopPropagation();
+            try {
+                const product = JSON.parse(decodeURIComponent(rawProduct));
+                const { size, color } = getHomeCartVariant(product);
+                const cart = getCart();
+                const idx = cart.findIndex(item => String(item.id) === String(product.id) && item.size === size && item.color === color);
+                if (idx === -1) return;
+                cart[idx].quantity -= 1;
+                if (cart[idx].quantity <= 0) cart.splice(idx, 1);
+                saveCart(cart);
+                refreshHomeCartControls(product.id);
+            } catch (err) {
+                console.error('Failed to decrement homepage cart item', err);
             }
         }
 
@@ -3897,7 +4005,7 @@
         }
 
         function addModalItemToBag(id, name, price) {
-            const product = EKKVASTRA_PRODUCTS.find(x => String(x.id) === String(id));
+            const product = findHomeProductById(id) || EKKVASTRA_PRODUCTS.find(x => String(x.id) === String(id));
             if (product) {
                 const modal = document.getElementById('productDetailsModal');
                 const selectedSize = modal ? modal.querySelector('.details-size-chip.selected')?.textContent : null;
@@ -3909,6 +4017,7 @@
                     color: selectedColor || (product.colors && product.colors.length ? product.colors[0] : 'default')
                 };
                 addToCart(cartProduct);
+                refreshHomeCartControls(product.id);
                 showToast(`"${product.name}" has been added to your shopping bag.`);
             } else {
                 const badge = document.querySelector('.cart-badge');
